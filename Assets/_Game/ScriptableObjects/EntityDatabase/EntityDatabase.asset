@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ba32b52b260a74e9db58ff3f6447f7, type: 3}
+  m_Name: EntityDatabase
+  m_EditorClassIdentifier: 
+  fruitSprites:
+  - {fileID: 21300000, guid: 9a49eb1a1149c674889d7bee926df960, type: 3}
+  - {fileID: 21300000, guid: e72697a915074c9448f88a170246e4ef, type: 3}
+  - {fileID: 21300000, guid: da9745d2ef3453b4a9ce9164630c655b, type: 3}
+  - {fileID: 21300000, guid: 49ed8e086243fad43ab06a6adf7a1488, type: 3}
+  - {fileID: 21300000, guid: f8db2a15190475847bbc0d80cee2a429, type: 3}
+  - {fileID: 21300000, guid: b22392cc7087d334281e75a37c499e73, type: 3}
+  - {fileID: 21300000, guid: 597237efc87c72e4aacca796db5005c9, type: 3}
+  - {fileID: 21300000, guid: 58af4b5df32e8544c9d6ad22ea6d2f38, type: 3}
+  - {fileID: 21300000, guid: 2d4b74a84d968ba468ae027922b648b8, type: 3}
+  - {fileID: 21300000, guid: 6f1c4c64ff581b748add30d570acf3ef, type: 3}
+  - {fileID: 21300000, guid: 3664502b80c35e5479c73f26bf81cd8b, type: 3}
+  - {fileID: 21300000, guid: 64b3caa2a8d39784891d51d6b59814e7, type: 3}
+  outlineFruitSprites:
+  - {fileID: 21300000, guid: d835d9a6d107a4a45954ea56b8641c41, type: 3}
+  - {fileID: 21300000, guid: d88bb434f8faabd4da49761bd68e401a, type: 3}
+  - {fileID: 21300000, guid: c4e605dc94f1b694aaf9b71bc6d05923, type: 3}
+  - {fileID: 21300000, guid: 6e14a3c9e89f6ca47bcf416e8c99f3d7, type: 3}
+  - {fileID: 21300000, guid: 237bce945b2ee864cb85987d5146161c, type: 3}
+  - {fileID: 21300000, guid: d52fc779a2e8cf04e8cabf31e4f112bc, type: 3}
+  - {fileID: 21300000, guid: 7d8b5b1c4f40ca74a92fb60d8efa994c, type: 3}
+  - {fileID: 21300000, guid: 7e4accd1bfdc269449aff7cbaaba6dfd, type: 3}
+  - {fileID: 21300000, guid: dd8f8fdea06c71647838c3afd13b03b8, type: 3}
+  - {fileID: 21300000, guid: 13fb2870cdab85a4c8013432e17e64c5, type: 3}
+  - {fileID: 21300000, guid: 190c9c639952bf9428bfa3341dd6c3f3, type: 3}
+  - {fileID: 21300000, guid: 288d5a1d9ed9a3f488da4777692b8608, type: 3}
+  fruitCallOutlineSprites:
+  - {fileID: 21300000, guid: 69087fd3d52ccdc4eaddfdda357a8a43, type: 3}
+  - {fileID: 21300000, guid: 9372d6c94bc792c4081869eb331ca8f8, type: 3}
+  - {fileID: 21300000, guid: b9915ee96d6dc3547b033c974524e08c, type: 3}
+  - {fileID: 21300000, guid: 62ac71ccab3bfb54c99d75f5c65d33f8, type: 3}
+  - {fileID: 21300000, guid: e8ac9927d02d8384493491aa50aa1828, type: 3}
+  - {fileID: 21300000, guid: 4b8c3c6f418382c4c8b813b98f66f2c3, type: 3}
+  - {fileID: 21300000, guid: 55a016768c3660a42b039e9149f3db4f, type: 3}
+  - {fileID: 21300000, guid: 76b782d7d76bd9a4d8a16979cf6667a1, type: 3}
+  - {fileID: 21300000, guid: d24819ae94d2f944792df9997767ff12, type: 3}
+  - {fileID: 21300000, guid: 1d6f9829d8e7f1f4f9d7cb0965c4411b, type: 3}
+  - {fileID: 21300000, guid: 1ed754957eeb73a40b89661e9fde0cbe, type: 3}
+  - {fileID: 21300000, guid: c398ec6682a67794da866c2bbb702561, type: 3}
