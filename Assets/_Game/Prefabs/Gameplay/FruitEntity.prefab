@@ -218,7 +218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d386e863bf2a03445b5acd9d363ebd11, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 414065b5b957958458b2d085165d31a5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -482,8 +482,8 @@ MonoBehaviour:
   m_rectTransform: {fileID: 2275893685644286738}
   m_starImage: {fileID: 236838314740518716}
   m_fruitBombImage: {fileID: 3005503257410654688}
-  m_yellowStarImage: {fileID: 21300000, guid: d386e863bf2a03445b5acd9d363ebd11, type: 3}
-  m_redStarImage: {fileID: 21300000, guid: 638c93f8d4ee98542bad5c84807d9d05, type: 3}
+  m_yellowStarImage: {fileID: 21300000, guid: 414065b5b957958458b2d085165d31a5, type: 3}
+  m_redStarImage: {fileID: 21300000, guid: e4b41812d1573704290276e68107e542, type: 3}
   neighbours:
     _serializedList: []
 --- !u!1 &8353216327921138058
