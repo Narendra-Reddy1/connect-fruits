@@ -69,6 +69,6 @@ MonoBehaviour:
   m_fruitToDumpImage: {fileID: 0}
   m_fruitbombInfoStripPanel: {fileID: 0}
   m_fruitDumperInfoStripPanel: {fileID: 0}
-  m_fruitBombSprite: {fileID: 21300000, guid: e124e53abba54a7479f27c7ca4cd90c0, type: 3}
-  m_tripleBombSprite: {fileID: 21300000, guid: 5ae90ddac97da6d41af0c42a6e69aabb, type: 3}
-  m_fruitDumpSprite: {fileID: 21300000, guid: f13af969186262444af0395913923d4e, type: 3}
+  m_fruitBombSprite: {fileID: 21300000, guid: ec2236d7d85fae74682f579b4ce21d7f, type: 3}
+  m_tripleBombSprite: {fileID: 21300000, guid: c3eb6015488473a468186bf8ae688c0b, type: 3}
+  m_fruitDumpSprite: {fileID: 21300000, guid: 3a97813811ab24742ae70f210d2779c1, type: 3}
