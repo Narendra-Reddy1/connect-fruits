@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public class GameplayManager : MonoBehaviour
     {

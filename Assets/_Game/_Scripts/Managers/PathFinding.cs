@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     ///Can make this Script Generic to work with different types
     public class PathFinding : MonoBehaviour

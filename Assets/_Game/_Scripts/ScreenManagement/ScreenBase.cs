@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Deftouch
+namespace BenStudios.ScreenManagement
 {
     public class ScreenBase : WindowBase
     {
@@ -23,4 +23,5 @@ namespace Deftouch
         }
         #endregion PublicMethods
     }
+
 }

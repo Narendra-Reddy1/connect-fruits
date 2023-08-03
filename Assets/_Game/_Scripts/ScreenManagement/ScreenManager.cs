@@ -1,12 +1,10 @@
 ﻿using AYellowpaper.SerializedCollections;
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
-namespace Deftouch.P2
+namespace BenStudios.ScreenManagement
 {
     public class ScreenManager : MonoBehaviour
     {
@@ -14,9 +12,9 @@ namespace Deftouch.P2
         public static Action<Window> OnScreenChange = null;
         [SerializeField] SerializedDictionary<Window, WindowAddressableObject> m_Screens = null;
         [Tooltip("Canvas parent for UI objects")]
-        [SerializeField] Transform uiObjectsParent;
+        [SerializeField] Transform m_uiObjectsParent;
         private Transform m_CanvasParent;
-
+        private Transform m_transform;
         //New Variables
         public List<Window> m_AdditiveScreenStack = new List<Window>();
         private Window m_CurrentReplaceScreenType = Window.None;
@@ -33,6 +31,7 @@ namespace Deftouch.P2
             #region SingletonLogic
             Instance = this;
             #endregion
+            m_transform = transform;
         }
         #endregion
 
@@ -79,7 +78,7 @@ namespace Deftouch.P2
         {
             this.onComplete = onComplete;
             Debug.Log("ChangeScreen   " + newScreen.ToString() + "  ScreenType " + screenType.ToString());
-            m_CanvasParent = isUIObject ? uiObjectsParent : transform;
+            m_CanvasParent = isUIObject ? m_uiObjectsParent : m_transform;
             if (GetCurrentScreen() == newScreen)
             {
                 Debug.LogError("Same active screen is trying to open   " + newScreen.ToString() + " chekout if same screen is already active in screen or not");

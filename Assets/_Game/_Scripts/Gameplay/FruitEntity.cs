@@ -16,7 +16,7 @@ HCost:Distance from currentEntity to EndEntity;
 FCost: Sum of GCost & HCost. (Total Distance b/w Start to End Entites
  */
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public class FruitEntity : MonoBehaviour, IPointerClickHandler
     {

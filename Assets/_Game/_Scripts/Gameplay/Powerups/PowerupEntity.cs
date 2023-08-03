@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public class PowerupEntity : MonoBehaviour
     {

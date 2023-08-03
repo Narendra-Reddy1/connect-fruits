@@ -46,7 +46,7 @@ public class ProjectBranchSettingEditor : Editor
         projectSettingAsset.ENABLE_GAMEPLAY_TESTING = EditorGUILayout.Toggle("ENABLE_GAMEPLAY_TESTING", projectSettingAsset.ENABLE_GAMEPLAY_TESTING);
         GUI.color = Color.white;
         GUI.color = Color.grey;
-        EditorGUILayout.HelpBox("If Gameplay testing needed from Cricketsim scene, Check ENABLE_GAMEPLAY_TESTING  else always uncheck ENABLE_GAMEPLAY_TESTING", MessageType.None);
+        EditorGUILayout.HelpBox("If Gameplay testing needed, Check ENABLE_GAMEPLAY_TESTING  else always uncheck ENABLE_GAMEPLAY_TESTING", MessageType.None);
         GUI.color = Color.white;
 
         GUI.color = Color.green;
@@ -196,11 +196,11 @@ public class ProjectBranchSettingEditor : Editor
             // EditorGUILayout.LabelField("-----------MIXPANEL SETTINGS--------", EditorStyles.boldLabel);
             // GUILayout.BeginHorizontal();
             // GUILayout.Label("MixPanel Debug Token", GUILayout.Width(labelWidth));
-            // EditorGUILayout.HelpBox("" + projectSettingAsset.deftThirdPartySdkKeys.mixpanelSettings.DebugToken, MessageType.None);
+            // EditorGUILayout.HelpBox("" + projectSettingAsset.thirdPartySDKKeys.mixpanelSettings.DebugToken, MessageType.None);
             //GUILayout.EndHorizontal();
             //GUILayout.BeginHorizontal();
             //GUILayout.Label("MixPanel Runtime Token ", GUILayout.Width(labelWidth));
-            // EditorGUILayout.HelpBox("" + projectSettingAsset.deftThirdPartySdkKeys.mixpanelSettings.RuntimeToken, MessageType.None);
+            // EditorGUILayout.HelpBox("" + projectSettingAsset.thirdPartySDKKeys.mixpanelSettings.RuntimeToken, MessageType.None);
             //GUILayout.EndHorizontal();
             //EditorGUILayout.LabelField("-----------IRON  SOURCE  SETTINGS--------", EditorStyles.boldLabel);
             //GUILayout.BeginHorizontal();
@@ -217,10 +217,10 @@ public class ProjectBranchSettingEditor : Editor
 
 
             //if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android){
-            //    EditorGUILayout.HelpBox("" + projectSettingAsset.deftThirdPartySdkKeys.ironSourceMediationSettings.AndroidAppKey, MessageType.None);
+            //    EditorGUILayout.HelpBox("" + projectSettingAsset.thirdPartySDKKeys.ironSourceMediationSettings.AndroidAppKey, MessageType.None);
             //}
             //else if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS){
-            //    EditorGUILayout.HelpBox("" + projectSettingAsset.deftThirdPartySdkKeys.ironSourceMediationSettings.IOSAppKey, MessageType.None);
+            //    EditorGUILayout.HelpBox("" + projectSettingAsset.thirdPartySDKKeys.ironSourceMediationSettings.IOSAppKey, MessageType.None);
             //}
 
 
@@ -359,7 +359,7 @@ public class ProjectBranchSettingEditor : Editor
         PlayerSettings.Android.useCustomKeystore = true;
         PlayerSettings.Android.useCustomKeystore = true;
         PlayerSettings.Android.keystoreName = keyStorePath;
-        PlayerSettings.Android.keyaliasName = "ss";
+        PlayerSettings.Android.keyaliasName = "bs";
         PlayerSettings.Android.keystorePass = "naren137";
         PlayerSettings.Android.keyaliasPass = "naren137";
     }
@@ -414,19 +414,19 @@ public class ProjectBranchSettingEditor : Editor
         SetVersionCode(ref projectSettingAsset);
         UpdateBundleIdentifier(ref projectSettingAsset);
         UpdateScreenOrientation(ref projectSettingAsset);
-        //projectSettingAsset.deftThirdPartySdkKeys.SetUpBranchData(projectSettingAsset.CurrentProjectBranch);
+        //projectSettingAsset.thirdPartySDKKeys.SetUpBranchData(projectSettingAsset.CurrentProjectBranch);
         //SetupManifestFile(ref projectSettingAsset);
-        //projectSettingAsset.deftThirdPartySdkKeys.UpdateIronSourceSettings();
-        //  projectSettingAsset.deftThirdPartySdkKeys.UpdateMixpanelSettings(projectSettingAsset.CurrentProjectBranch);
-        //projectSettingAsset.deftThirdPartySdkKeys.AppsFlyerDebugSettings(projectSettingAsset.CurrentProjectBranch);
+        //projectSettingAsset.thirdPartySDKKeys.UpdateIronSourceSettings();
+        //  projectSettingAsset.thirdPartySDKKeys.UpdateMixpanelSettings(projectSettingAsset.CurrentProjectBranch);
+        //projectSettingAsset.thirdPartySDKKeys.AppsFlyerDebugSettings(projectSettingAsset.CurrentProjectBranch);
 
         if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
         {
             UpdateGooglePlayServicesFile(ref projectSettingAsset);
         }
-        //EditorUtility.SetDirty(projectSettingAsset.deftThirdPartySdkKeys.mixpanelSettings);
-        //EditorUtility.SetDirty(projectSettingAsset.deftThirdPartySdkKeys.ironSourceMediationSettings);
-        //EditorUtility.SetDirty(projectSettingAsset.deftThirdPartySdkKeys.branchData);
+        //EditorUtility.SetDirty(projectSettingAsset.thirdPartySDKKeys.mixpanelSettings);
+        //EditorUtility.SetDirty(projectSettingAsset.thirdPartySDKKeys.ironSourceMediationSettings);
+        //EditorUtility.SetDirty(projectSettingAsset.thirdPartySDKKeys.branchData);
         EditorUtility.SetDirty(projectSettingAsset);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -448,7 +448,7 @@ public class ProjectBranchSettingEditor : Editor
 
     static void UpdateGooglePlayServicesFile(ref ProjectSettingAssets projectSettingAsset)
     {
-        //var thirdPartySdk = projectSettingAsset.deftThirdPartySdkKeys;
+        //var thirdPartySdk = projectSettingAsset.thirdPartySDKKeys;
         //if (projectSettingAsset.CurrentProjectBranch == ProjectBranch.UPLOAD_BUILD)
         //{
         //    File.WriteAllText(AssetDatabase.GetAssetPath(thirdPartySdk.goolgeService), thirdPartySdk.goolgeService_Upload.text);
@@ -607,7 +607,7 @@ public class ProjectBranchSettingEditor : Editor
 
     private static void SetupManifestFile(ref ProjectSettingAssets projectSettingAsset)
     {
-        //var branchData = projectSettingAsset.deftThirdPartySdkKeys.branchData;
+        //var branchData = projectSettingAsset.thirdPartySDKKeys.branchData;
         //if (projectSettingAsset.CurrentProjectBranch == ProjectBranch.UPLOAD_BUILD)
         //{
         //    WriteManifest(ref projectSettingAsset, branchData.testMode, "io.branch.sdk.BranchKey", branchData.liveBranchKey, branchData.liveBranchUri, branchData.liveAppLinks[0], branchData.liveAppLinks[1]);
@@ -621,7 +621,7 @@ public class ProjectBranchSettingEditor : Editor
     private static void WriteManifest(ref ProjectSettingAssets projectSettingAsset, bool mode, string branchKeyName, string branchKey, string branchUri, string branchAppLink1, string branchAppLink2)
     {
         //XmlDocument xmlDoc = new XmlDocument();
-        //var manifestPath = AssetDatabase.GetAssetPath(projectSettingAsset.deftThirdPartySdkKeys.androidManifestFile);
+        //var manifestPath = AssetDatabase.GetAssetPath(projectSettingAsset.thirdPartySDKKeys.androidManifestFile);
         //xmlDoc.Load(manifestPath);
 
         //XmlNodeList aNodes = xmlDoc.SelectNodes("/manifest/application/activity/intent-filter");

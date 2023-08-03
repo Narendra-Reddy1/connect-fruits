@@ -1,5 +1,5 @@
 using DG.Tweening;
-using FruitFrenzy;
+using BenStudios;
 using TMPro;
 using UnityEngine;
 

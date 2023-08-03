@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public class InGameUIManager : MonoBehaviour
     {

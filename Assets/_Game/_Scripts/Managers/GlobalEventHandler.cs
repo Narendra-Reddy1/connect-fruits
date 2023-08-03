@@ -1,6 +1,6 @@
 using System;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public static class GlobalEventHandler
     {

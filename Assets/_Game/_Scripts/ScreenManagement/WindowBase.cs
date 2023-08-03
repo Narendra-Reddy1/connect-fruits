@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Deftouch
+namespace BenStudios.ScreenManagement
 {
     public abstract class WindowBase : MonoBehaviour, IWindowBase
     {

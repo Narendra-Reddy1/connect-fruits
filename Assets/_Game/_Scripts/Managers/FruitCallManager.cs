@@ -3,7 +3,7 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public class FruitCallManager : MonoBehaviour
     {

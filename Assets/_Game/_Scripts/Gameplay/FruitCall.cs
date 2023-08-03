@@ -2,7 +2,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public class FruitCall : MonoBehaviour
     {

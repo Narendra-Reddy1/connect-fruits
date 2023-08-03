@@ -1,4 +1,4 @@
-using FruitFrenzy;
+using BenStudios;
 
 public class TripleBomb : PowerUp
 {

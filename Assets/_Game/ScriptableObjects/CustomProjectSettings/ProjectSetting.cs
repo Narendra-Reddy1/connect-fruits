@@ -67,7 +67,6 @@ public class ProjectSetting
         enableLogWrite = projectAssetManager.projectSettingAssets.ENABLE_LOG_WRITE;
         CurrentProjectBranch = projectAssetManager.projectSettingAssets.CurrentProjectBranch;
         BundleVersionCode = projectAssetManager.projectSettingAssets.GetBundleVersionCode();
-        //  DeftouchUtils.InitUtilityManager(projectAssetManager);
         MyUtils.Log("BundleVersionCode: " + BundleVersionCode);
 
         EnableCoreProjectSetting(enableReporter);
@@ -76,21 +75,11 @@ public class ProjectSetting
         {
             branchIndex = (int)ProjectBranch.DEVELOPMENT_BUILD;
         }
-        //using new Server configuration
-        //GatewayServer = projectAssetManager.serverInformations.GatewayServer[branchIndex];
-        //AnalyticsServer = projectAssetManager.serverInformations.AnalyticsServer[branchIndex];
-        //InfoServer = projectAssetManager.serverInformations.InfoServer[branchIndex];
-        //DeftouchUtils.Log("ProjectSetting.GetgatewayServerInfo().GetAddressName()" + GetgatewayServerInfo().GetAddressName());
-        //DeftouchUtils.Log("ProjectSetting.GetgatewayServerInfo().Port()" + GetgatewayServerInfo().port);
-
+       
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         ///THIRD PARTY SKEY KEY SETTINGS
-        //FaceBookAppId = FacebookSettings.AppId;
-        // MixPaneDebugToken = projectAssetManager.projectSettingAssets.deftThirdPartySdkKeys.mixpanelSettings.DebugToken;
-        // MixPaneRunTimeToken = projectAssetManager.projectSettingAssets.deftThirdPartySdkKeys.mixpanelSettings.RuntimeToken;
-        //IornSourceApiKey = projectAssetManager.projectSettingAssets.deftThirdPartySdkKeys.GetIronSourceApiKey();
-        //SmartLookApi_Key = projectAssetManager.projectSettingAssets.thirdPartySdkKeys.SMART_LOOK_API_KEY;
+        
 
         MyUtils.Log("Device refresh rate: " + Screen.currentResolution.refreshRate);
         Application.targetFrameRate = Math.Min(60, Screen.currentResolution.refreshRate);

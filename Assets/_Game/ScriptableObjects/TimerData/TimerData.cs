@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     [CreateAssetMenu(fileName = "newTimerData", menuName = "ScriptableObjects/TimerData", order = 1)]
     public class TimerData : ScriptableObject

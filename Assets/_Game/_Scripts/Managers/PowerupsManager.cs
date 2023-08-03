@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FruitFrenzy
+namespace BenStudios
 {
     public class PowerupsManager : MonoBehaviour
     {
@@ -136,7 +136,7 @@ namespace FruitFrenzy
             float extraFillAmount = 0;
             if (totalFillAmount > 1f)
                 extraFillAmount = totalFillAmount - 1f;
-            m_powerupFillbar.DOFillAmount((totalFillAmount - extraFillAmount), 0.3f).onComplete += () =>
+            m_powerupFillbar.DOFillAmount(totalFillAmount - extraFillAmount, 0.3f).onComplete += () =>
             {
                 if (extraFillAmount >= 0.1f || m_powerupFillbar.fillAmount >= 0.95)
                 {
