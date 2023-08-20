@@ -13,7 +13,7 @@ public class LevelTimer : MonoBehaviour
 
 
     #region Unity Methods
- 
+
     #endregion Unity Methods
 
 
@@ -46,15 +46,18 @@ public class LevelTimer : MonoBehaviour
         if (m_timerCounter <= 0)
         {
             m_timerCounter = 0;
+            GlobalEventHandler.RequestToPlaySFX(AudioID.TimerCountdownEndSFX);
             StopTimer();
             GlobalEventHandler.OnLevelTimerIsCompleted?.Invoke();
         }
+        if (m_timerCounter <= 10)
+            GlobalEventHandler.RequestToPlaySFX(AudioID.TimerCountdownSFX);
         if (m_timerTxt)
             m_timerTxt.text = MyUtils.GetFormattedSeconds(m_timerCounter);
     }
     #endregion Private Methods 
 
     #region Callbacks
-    
+
     #endregion Callbacks
 }

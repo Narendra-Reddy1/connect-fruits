@@ -1,3 +1,4 @@
+using BenStudios.ScreenManagement;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -65,7 +66,7 @@ namespace BenStudios
         #region Public Methods
         public void OnClickSettingsBtn()
         {
-
+            ScreenManager.Instance.ChangeScreen(Window.SettingsPopup, ScreenType.Additive);
         }
         #endregion Public Methods
 

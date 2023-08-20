@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8094151487517731058}
   - component: {fileID: 3972456327782563706}
   - component: {fileID: 5953344913554162685}
+  - component: {fileID: -2511747972511045753}
   m_Layer: 5
   m_Name: FruitDumper
   m_TagString: Untagged
@@ -146,3 +147,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1081430c3c7a79741b0f45c765ba61b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2511747972511045753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8720787276357362219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 9

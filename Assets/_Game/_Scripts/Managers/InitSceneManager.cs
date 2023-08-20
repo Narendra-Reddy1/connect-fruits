@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BenStudios.ScreenManagement;
+using BenStudios;
 
 public class InitSceneManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class InitSceneManager : MonoBehaviour
         {
             if (handle.isDone)
             {
+                GlobalEventHandler.RequestToPlayBGM?.Invoke(AudioID.DashboardBGM);
                 SceneManager.LoadSceneAsync(Konstants.HOME_SCENE, LoadSceneMode.Additive).completed += (handle1) =>
                 {
 #if DEVLOPMENT_BUILD || DEBUG_DEFINE

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88e2f27e538d5749b78c70567fcac70, type: 3}
+  m_Name: AudioAsset
+  m_EditorClassIdentifier: 
+  m_audioAsset:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 8300000, guid: 0a36ad01c945ba043918a3b7264c07d0, type: 3}
+    - Key: 1
+      Value: {fileID: 8300000, guid: 5533741edfd574b40a5d69bb28c1134f, type: 3}
+    - Key: 2
+      Value: {fileID: 8300000, guid: 6e800a9a8df1bcf47af6ad79eae5209f, type: 3}
+    - Key: 3
+      Value: {fileID: 8300000, guid: 45d8b3a938a0d37408effa40a4375966, type: 3}
+    - Key: 4
+      Value: {fileID: 8300000, guid: bf6b22a83a2b77d4e9a6f00e97e7b5b1, type: 3}
+    - Key: 5
+      Value: {fileID: 8300000, guid: c0573f0a944104645baf166694b624fa, type: 3}
+    - Key: 6
+      Value: {fileID: 8300000, guid: c5d8e00ba95dba34ca18d2fd52100fb3, type: 3}
+    - Key: 7
+      Value: {fileID: 8300000, guid: fcdaf9474b294a948ba2d55042c0075c, type: 3}
+    - Key: 8
+      Value: {fileID: 8300000, guid: ece143aa2dfeedc48b35c59829d79122, type: 3}
+    - Key: 9
+      Value: {fileID: 8300000, guid: 4806b8296cfeccf4d9c4d93c3d2670c3, type: 3}

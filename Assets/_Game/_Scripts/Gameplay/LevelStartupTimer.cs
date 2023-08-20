@@ -53,7 +53,12 @@ public class LevelStartupTimer : MonoBehaviour
         {
             m_timerTxt.text = timerCounter.ToString();
             if (timerCounter == 0)
+            {
+                GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.TimerCountdownEndSFX);
                 m_timerTxt.text = $"GO";
+            }
+            else
+                GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.TimerCountdownSFX);
             m_timerTxt.transform.DOScale(1, .35f);
         };
     }

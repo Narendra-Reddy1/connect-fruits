@@ -10,10 +10,6 @@ namespace BenStudios
     public class GameplayManager : MonoBehaviour
     {
 
-        #region SINGLETON
-        public static GameplayManager instance { get; private set; }
-
-        #endregion SINGLETON
 
         #region Variables
 
@@ -36,11 +32,6 @@ namespace BenStudios
         #endregion Variables
 
         #region Unity Methods
-
-        private void Awake()
-        {
-            instance = this;
-        }
         private void OnEnable()
         {
             GlobalEventHandler.OnFruitEntitySelected += Callback_On_Fruit_Entity_Selected;
@@ -246,6 +237,7 @@ namespace BenStudios
 
         private void _OnMatchFoundWithPath(List<Vector2Int> optimizedPath, FruitEntity entity1, FruitEntity entity2)
         {
+            GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.MatchSuccessSFX);
             _AddAndUpdatePairMatchScore();
             GlobalEventHandler.OnFruitPairMatched?.Invoke(entity1.ID);
             _ShowMatchEffect(optimizedPath, entity1, entity2, () =>
@@ -263,6 +255,7 @@ namespace BenStudios
         }
         private void _ShowFruitPairCantMatchAnimation(FruitEntity entity1, FruitEntity entity2, MatchFailedCause matchFailedCause)
         {
+            GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.MatchFailedSFX);
             entity1.transform.DOShakeRotation(0.3f, 15f);
             entity2.transform.DOShakeRotation(0.3f, 15f);
             GlobalEventHandler.OnFruitPairMatchFailed?.Invoke(matchFailedCause);

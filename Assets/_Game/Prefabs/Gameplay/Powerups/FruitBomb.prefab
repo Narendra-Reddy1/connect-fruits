@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4297515084718378990}
   - component: {fileID: 170333718484476407}
   - component: {fileID: 7505878533171777091}
+  - component: {fileID: -5185177643185010452}
   m_Layer: 5
   m_Name: FruitBomb
   m_TagString: Untagged
@@ -146,3 +147,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a251d2c7215323d459ff84962298f5ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5185177643185010452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3795491245391744708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 9
