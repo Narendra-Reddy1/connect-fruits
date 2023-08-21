@@ -1,3 +1,4 @@
+using BenStudios.ScreenManagement;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,6 +29,11 @@ namespace BenStudios
 
         public override void PerformPowerupAction()
         {
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
+                ScreenManager.Instance.ChangeScreen(Window.GenericPowerupTutorialPopup, ScreenType.Additive, onComplete: () =>
+                {
+                    GenericPowerupInfoPopup.Init(GenericPowerupInfoPopup.PopupType.FruitBomb);
+                });
             GlobalVariables.isFruitBombInAction = true;
             GlobalEventHandler.RequestToActivatePowerUpMode?.Invoke(PowerupType.FruitBomb);
             if (m_myEntity != null)

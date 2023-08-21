@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
 
@@ -28,5 +26,7 @@ namespace BenStudios
         MatchSuccessSFX,
         RewardSparklesSFX,
         PowerupSelectionSFX,
+        ScoreCountSFX,
+        FinalScoreCountSFX,
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace BenStudios
 {
@@ -21,6 +22,7 @@ namespace BenStudios
         public static Action RequestToStartFruitCall = default;
         public static Action OnLevelStartupTimerIsCompleted = default;
         public static Action OnLevelTimerIsCompleted = default;
+        public static Action<bool> RequestToPauseTimer = default;//true will pause false will unpause.
 
         //UI
         public static Action<int> RequestToUpdateScore = default;
@@ -28,5 +30,13 @@ namespace BenStudios
         //Audio
         public static Action<AudioID> RequestToPlayBGM = default;
         public static Action<AudioID> RequestToPlaySFX = default;
+
+        public static Action<bool> OnMusicToggled = default;
+        public static Action<bool> OnSoundToggled = default;
+
+        //ReturnType Callbacks
+        public static Func<int> RequestRemainingTimer = default;
+        public static Func<int> RequestTotalMatchedFruits = default;
+        public static Func<Vector2Int> RequestClearedRowAndColumnCount = default;
     }
 }

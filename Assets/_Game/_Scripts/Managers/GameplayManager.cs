@@ -1,7 +1,9 @@
+using BenStudios.ScreenManagement;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
@@ -26,8 +28,6 @@ namespace BenStudios
         private List<FruitEntity> m_fruitEnityList = new List<FruitEntity>();
         private Stack<FruitEntity> m_selectedEntityStack = new Stack<FruitEntity>();
         private WaitForEndOfFrame _waitForEndOfTheFrame = new WaitForEndOfFrame();
-        private int m_clearedColumnCount = 0;
-        private int m_clearedRowCount = 0;
         private WaitForSeconds delayToShowEntireBoardClearedEffect = new WaitForSeconds(1.5f);
         #endregion Variables
 
@@ -42,6 +42,11 @@ namespace BenStudios
             GlobalEventHandler.RequestToPerformFruitBombPowerupAction += Callback_On_Fruit_Bomb_Action_Requested;
             GlobalEventHandler.RequestToPerformTripleBombPowerupAction += Callback_On_Triple_Bomb_Action_Requested;
             GlobalEventHandler.RequestToFruitDumperPowerupAction += Callback_On_Fruit_Dumper_Action_Requested;
+            GlobalEventHandler.RequestRemainingTimer += _GetRemainingSecondsInLevelTimer;
+            GlobalEventHandler.RequestTotalMatchedFruits += _GetClearedFruitCount;
+            GlobalEventHandler.OnLevelTimerIsCompleted += Callback_On_Level_Timer_Completed;
+            GlobalEventHandler.RequestToPauseTimer += Callback_On_TimePauseRequested;
+            GlobalEventHandler.RequestClearedRowAndColumnCount += GetClearedRowAndColumnCount;
 
         }
         private void OnDisable()
@@ -54,13 +59,18 @@ namespace BenStudios
             GlobalEventHandler.RequestToPerformFruitBombPowerupAction -= Callback_On_Fruit_Bomb_Action_Requested;
             GlobalEventHandler.RequestToPerformTripleBombPowerupAction -= Callback_On_Triple_Bomb_Action_Requested;
             GlobalEventHandler.RequestToFruitDumperPowerupAction -= Callback_On_Fruit_Dumper_Action_Requested;
+            GlobalEventHandler.RequestRemainingTimer -= _GetRemainingSecondsInLevelTimer;
+            GlobalEventHandler.RequestTotalMatchedFruits -= _GetClearedFruitCount;
+            GlobalEventHandler.RequestClearedRowAndColumnCount -= GetClearedRowAndColumnCount;
+            GlobalEventHandler.OnLevelTimerIsCompleted -= Callback_On_Level_Timer_Completed;
+            GlobalEventHandler.RequestToPauseTimer -= Callback_On_TimePauseRequested;
         }
         private IEnumerator Start()
         {
             yield return _waitForEndOfTheFrame;
+            GlobalVariables.currentGameState = GameState.Gameplay;
             _InitLevel();
             m_levelTimer.InitTimer(m_timerData.GetTimerData(TimerType.LevelTimer).timeInSeconds);
-
         }
 
         /* 
@@ -187,29 +197,6 @@ namespace BenStudios
                 // _SetupLinesToLinerender(0, entity1.RectTransform.localPosition);
                 //_SetupLinesToLinerender(1, entity2.RectTransform.localPosition);
             }
-
-            //else if (_CheckIfEntitesAreOnEdgeRowOrColumn(entity1, entity2))
-            //{
-            //    MyUtils.Log($"Edge FRUITS....");
-            //    m_uiLineRenderer.Points = new Vector2[4];
-            //    pathFound = true;
-            //    Vector2 entity1Pose = entity1.RectTransform.localPosition;
-            //    Vector2 entity2Pose = entity2.RectTransform.localPosition;
-            //    _SetupLinesToLinerender(0, entity1Pose);
-            //    _SetupLinesToLinerender(3, entity2Pose);
-
-            //    if (entity1.Column == entity2.Column)
-            //    {
-            //        _SetupLinesToLinerender(1, entity1Pose - new Vector2(entity1Pose.x / 4, 0) * -1);
-            //        _SetupLinesToLinerender(2, entity2Pose - new Vector2(entity2Pose.x / 4, 0) * -1);
-            //    }
-            //    else if (entity1.Row == entity2.Row)
-            //    {
-            //        _SetupLinesToLinerender(1, entity1Pose + new Vector2(0, entity1Pose.y / 4));
-            //        _SetupLinesToLinerender(2, entity2Pose + new Vector2(0, entity2Pose.y / 4));
-            //    }
-            //}
-
             else ///ADD 3 Straight Line Constraint HERE
             {
 
@@ -332,14 +319,33 @@ namespace BenStudios
         }
         private IEnumerator _ShowEntireBoardClearedEffect()
         {
+            GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
+            m_levelTimer.StopTimer();
+            m_fruitCallManager.ActiveFruitCall.PauseTimer();
             yield return delayToShowEntireBoardClearedEffect;
             for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
                 for (int i = 0; i < Konstants.ROW_SIZE; i++)
                 {
                     m_fruitEntityArray[i, j].ShowEntireBoardClearedEffect(0.1f * j);
                 }
+            yield return delayToShowEntireBoardClearedEffect;
+            yield return delayToShowEntireBoardClearedEffect;
+            ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
+            {
+                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.LevelCompleted);
+            });
         }
-
+        private IEnumerator _ShowTimeUpEffect()
+        {
+            GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
+            m_fruitCallManager.ActiveFruitCall.PauseTimer();
+            yield return delayToShowEntireBoardClearedEffect;
+            ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
+            {
+                GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
+                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.GameOver);
+            });
+        }
         private List<FruitEntity> _GetRowEntites(FruitEntity entity)
         {
             List<FruitEntity> rowElements = new List<FruitEntity>();
@@ -404,7 +410,7 @@ namespace BenStudios
                     entity.HighlightForFruitBombSelection(canHighlight);
             }
         }
-        private void CheckForPossibleAutoMatch()
+        private void _CheckForPossibleAutoMatch()
         {
             List<FruitEntity> sameIdEntities = m_fruitEnityList.FindAll(x => x.ID == GlobalVariables.currentFruitCallId);
             Vector2Int startCell = new Vector2Int();
@@ -432,6 +438,23 @@ namespace BenStudios
         ENDOFTHEMETHOD:
             MyUtils.Log(string.Empty);
 
+        }
+
+        private int _GetRemainingSecondsInLevelTimer()
+        {
+            return m_levelTimer.GetRemaingTimeInSeconds();
+        }
+
+        private int _GetClearedFruitCount()
+        {
+            return ((Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) - m_fruitEnityList.Count);
+        }
+        private Vector2Int m_clearedRowAndColumnCount;
+        private Vector2Int GetClearedRowAndColumnCount()
+        {
+            m_clearedRowAndColumnCount.x = clearedRows.Count;
+            m_clearedRowAndColumnCount.y = clearedColumns.Count;
+            return m_clearedRowAndColumnCount;
         }
         #endregion Private Methods
 
@@ -462,7 +485,7 @@ namespace BenStudios
             m_fruitEnityList.Remove(entity1);
             m_fruitEnityList.Remove(entity2);
             _HighlightThePossibleFruitsForFruitBomb(entity1, false);
-            CheckForPossibleAutoMatch();
+            _CheckForPossibleAutoMatch();
             MyUtils.DelayedCallback(1f, () =>
             {
                 GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);
@@ -475,7 +498,7 @@ namespace BenStudios
             m_fruitEnityList.Remove(entity1);
             m_fruitEnityList.Remove(entity2);
             _HighlightThePossibleFruitsForFruitBomb(entity1, false);
-            CheckForPossibleAutoMatch();
+            _CheckForPossibleAutoMatch();
             MyUtils.DelayedCallback(1f, () =>
             {
                 GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);
@@ -524,8 +547,24 @@ namespace BenStudios
                 GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
             });
         }
+        private void Callback_On_Level_Timer_Completed()
+        {
+            StartCoroutine(_ShowTimeUpEffect());
+        }
+        private void Callback_On_TimePauseRequested(bool canPause)
+        {
+            if (canPause)
+            {
+                m_levelTimer.StopTimer();
+                m_fruitCallManager.ActiveFruitCall.PauseTimer();
+            }
+            else
+            {
+                m_levelTimer.StartTimer();
+                m_fruitCallManager.ActiveFruitCall.ResumeTimer();
+            }
+        }
         #endregion Callbacks
-
 
         #region Deug PathFinding LinearAlgo
         //[Space(100)]
@@ -546,12 +585,16 @@ namespace BenStudios
         //    }
         //}
         #endregion Deug PathFinding
-
     }
 
     public enum MatchFailedCause
     {
         FruitIDsAreNotSame,
         PathIsMoreThan3StraightLines,
+    }
+    public enum GameState
+    {
+        HomeScreen,
+        Gameplay,
     }
 }

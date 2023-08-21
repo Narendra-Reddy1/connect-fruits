@@ -16,5 +16,5 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value:
-        timeInSeconds: 120
+        timeInSeconds: 15
         canCache: 0

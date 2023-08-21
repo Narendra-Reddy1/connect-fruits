@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -25,11 +23,15 @@ namespace BenStudios
         {
             GlobalEventHandler.RequestToPlayBGM += _PlayBGM;
             GlobalEventHandler.RequestToPlaySFX += _PlaySFX;
+            GlobalEventHandler.OnMusicToggled += _ToggleMusic;
+            GlobalEventHandler.OnSoundToggled += _ToggleSound;
         }
         private void OnDisable()
         {
             GlobalEventHandler.RequestToPlayBGM -= _PlayBGM;
             GlobalEventHandler.RequestToPlaySFX -= _PlaySFX;
+            GlobalEventHandler.OnMusicToggled -= _ToggleMusic;
+            GlobalEventHandler.OnSoundToggled -= _ToggleSound;
         }
         #endregion Unity Methods
 
@@ -44,6 +46,8 @@ namespace BenStudios
             m_sfxAudioSource.loop = false;
             m_bgmAudioSource.loop = true;
             m_bgmAudioSource.volume = .7f;
+            m_bgmAudioSource.mute = !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.music_toggle, true);
+            m_sfxAudioSource.mute = !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.sound_toggle, true);
         }
         private void _PlaySFX(AudioID audioID)
         {
@@ -63,6 +67,15 @@ namespace BenStudios
             }
             else
                 MyUtils.Log($"_PLAY BGM Null::", LogType.Error);
+        }
+        private void _ToggleMusic(bool value)
+        {
+            m_bgmAudioSource.mute = !value;
+        }
+        private void _ToggleSound(bool value)
+        {
+            m_sfxAudioSource.mute = !value;
+
         }
         #endregion Private Methods
 

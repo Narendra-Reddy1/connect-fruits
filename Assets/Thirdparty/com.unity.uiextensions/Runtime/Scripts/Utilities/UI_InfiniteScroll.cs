@@ -12,7 +12,7 @@ namespace UnityEngine.UI.Extensions
     /// 
     /// Fields
     /// - InitByUSer - in case your scrollrect is populated from code, you can explicitly Initialize the infinite scroll after your scroll is ready
-    /// by calling _Init() method
+    /// by calling Init() method
     /// 
     /// Notes
     /// - does not work in both vertical and horizontal orientation at the same time.
@@ -22,7 +22,7 @@ namespace UnityEngine.UI.Extensions
     [AddComponentMenu("UI/Extensions/UI Infinite Scroll")]
     public class UI_InfiniteScroll : MonoBehaviour
     {
-        //if true user will need to call _Init() method manually (in case the contend of the scrollview is generated from code or requires special initialization)
+        //if true user will need to call Init() method manually (in case the contend of the scrollview is generated from code or requires special initialization)
         [Tooltip("If false, will Init automatically, otherwise you need to call Init() method")]
         public bool InitByUser = false;
         protected ScrollRect _scrollRect;

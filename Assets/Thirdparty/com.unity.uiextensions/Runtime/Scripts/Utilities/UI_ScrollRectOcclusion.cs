@@ -12,7 +12,7 @@ namespace UnityEngine.UI.Extensions
     /// 
     /// Fields
     /// - InitByUSer - in case your scrollrect is populated from code, you can explicitly Initialize the infinite scroll after your scroll is ready
-    /// by calling _Init() method
+    /// by calling Init() method
     /// 
     /// Notes
     /// - In some cases it might create a bit of spikes, especially if you have lots of UI.Text objects in the child's. In that case consider to Add 
@@ -25,7 +25,7 @@ namespace UnityEngine.UI.Extensions
     [AddComponentMenu("UI/Extensions/UI Scrollrect Occlusion")]
     public class UI_ScrollRectOcclusion : MonoBehaviour
     {
-        //if true user will need to call _Init() method manually (in case the contend of the scrollview is generated from code or requires special initialization)
+        //if true user will need to call Init() method manually (in case the contend of the scrollview is generated from code or requires special initialization)
         public bool InitByUser = false;
         private bool _initialised = false;
         private ScrollRect _scrollRect;

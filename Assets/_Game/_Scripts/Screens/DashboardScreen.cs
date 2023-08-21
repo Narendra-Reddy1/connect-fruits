@@ -10,6 +10,10 @@ public class DashboardScreen : ScreenBase
 
 
     #region Unity Methods
+    private void OnEnable()
+    {
+        GlobalVariables.currentGameState = GameState.HomeScreen;
+    }
     #endregion Unity Methods
 
     #region Public Methods

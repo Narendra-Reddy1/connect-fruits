@@ -1,6 +1,5 @@
 using BenStudios;
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ public class LevelTimer : MonoBehaviour
     #region Variables
     [SerializeField] private TextMeshProUGUI m_timerTxt;
     private int m_timerCounter = 0;
+    private int m_timeInSeconds;
     #endregion Variables
 
 
@@ -20,13 +20,13 @@ public class LevelTimer : MonoBehaviour
     #region Public Methods 
     public void InitTimer(int timeInSeconds)
     {
-        m_timerCounter = timeInSeconds;
+        m_timeInSeconds = m_timerCounter = timeInSeconds;
         if (m_timerTxt)
             m_timerTxt.text = MyUtils.GetFormattedSeconds(m_timerCounter);
     }
     public void InitTimerAndStartTimer(int timeInSeconds)
     {
-        m_timerCounter = timeInSeconds;
+        m_timeInSeconds = m_timerCounter = timeInSeconds;
         StartTimer();
     }
     public void StartTimer()
@@ -37,6 +37,10 @@ public class LevelTimer : MonoBehaviour
     {
         CancelInvoke(nameof(_Tick));
     }
+    public int GetRemaingTimeInSeconds()
+    {
+        return (m_timeInSeconds - m_timerCounter);
+    }
     #endregion Public Methods 
 
     #region Private Methods 
@@ -46,10 +50,13 @@ public class LevelTimer : MonoBehaviour
         if (m_timerCounter <= 0)
         {
             m_timerCounter = 0;
+            m_timerTxt.DOKill();
             GlobalEventHandler.RequestToPlaySFX(AudioID.TimerCountdownEndSFX);
             StopTimer();
             GlobalEventHandler.OnLevelTimerIsCompleted?.Invoke();
         }
+        if (m_timerCounter == 10)
+            m_timerTxt.transform.DOPunchScale(Vector3.one * .2f, 1, 0).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
         if (m_timerCounter <= 10)
             GlobalEventHandler.RequestToPlaySFX(AudioID.TimerCountdownSFX);
         if (m_timerTxt)

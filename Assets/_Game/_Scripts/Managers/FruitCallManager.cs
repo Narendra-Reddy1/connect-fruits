@@ -116,7 +116,7 @@ namespace BenStudios
                 go.transform.DOScale(1, .25f);
                 //go.transform.DOMove(m_activeFruitCallHolder.position, .25f);
                 FruitCall call = go.GetComponent<FruitCall>();
-                call.Init(index, m_entityDatabase.fruitSprites[index], m_entityDatabase.fruitCallOutlineSprites[index]);
+                call.Init(index, m_entityDatabase.fruitSprites[index], m_entityDatabase.outlineFruitSprites[index]);
                 m_activeFruitCall = call;
                 call.ActivateEntity();
             }
@@ -177,7 +177,6 @@ namespace BenStudios
 
         private void Callback_On_Deactivate_Powerup_Mode_Requested()
         {
-
             m_activeFruitCall.ResumeTimer();
             if (m_ancientFruitCall)
             {

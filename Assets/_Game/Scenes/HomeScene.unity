@@ -448,6 +448,33 @@ MonoBehaviour:
           m_EditorAssetChanged: 0
         gameObject: {fileID: 0}
         IsObjectExist: 0
+    - Key: 6
+      Value:
+        assetRefObj:
+          m_AssetGUID: 8616dc0bcc6f6b34388606a515bad706
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        gameObject: {fileID: 0}
+        IsObjectExist: 0
+    - Key: 7
+      Value:
+        assetRefObj:
+          m_AssetGUID: 1088b5c99e15c9e4ca9f9791d0b8ef1f
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        gameObject: {fileID: 0}
+        IsObjectExist: 0
+    - Key: 8
+      Value:
+        assetRefObj:
+          m_AssetGUID: caecba84ff9feff449c1236cb924a140
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        gameObject: {fileID: 0}
+        IsObjectExist: 0
   m_uiObjectsParent: {fileID: 369872191}
   m_AdditiveScreenStack: 
 --- !u!4 &580519500
