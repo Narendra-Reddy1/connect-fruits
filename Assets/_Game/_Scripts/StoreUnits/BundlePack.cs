@@ -16,6 +16,7 @@ namespace BenStudios
         [SerializeField] private TextMeshProUGUI m_priceTxt;
         public void Init(BundlePackData packData)
         {
+            transform.localScale = Vector3.one;
             m_bundleNameTxt.SetText(packData.packID);
             foreach (KeyValuePair<ResourceType, int> itemData in packData.resourcesDictionary)
                 SetUp(m_textureDatabase.GetSpriteWithID(itemData.Key), itemData.Value);

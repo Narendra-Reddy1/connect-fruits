@@ -13,6 +13,7 @@ public class SingleItemPack : MonoBehaviour
     [SerializeField] private TextureDatabase m_textureDatabase;
     public void Init(SinglePackData singlePackData)
     {
+        transform.localScale = Vector3.one;
         m_itemIcon.sprite = m_textureDatabase.GetSpriteWithID(singlePackData.resourceType);
         m_itemCount.SetText(singlePackData.itemCount.ToString());
     }

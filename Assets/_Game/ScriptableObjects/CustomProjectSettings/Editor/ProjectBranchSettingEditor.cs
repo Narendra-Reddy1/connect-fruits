@@ -351,12 +351,11 @@ public class ProjectBranchSettingEditor : Editor
     private static void HandleAndroidKeystore(ref ProjectSettingAssets projectSettingAsset)
     {
         string currentPath = Application.dataPath;
-        string keyStorePath = currentPath + "/Keystore/ss.keystore";
+        string keyStorePath = currentPath + "/Keystore/bs.keystore";
         if (!File.Exists(keyStorePath))
         {
             throw new Exception("not found, skipping setup, using Unity's default keystore " + keyStorePath);
         }
-        PlayerSettings.Android.useCustomKeystore = true;
         PlayerSettings.Android.useCustomKeystore = true;
         PlayerSettings.Android.keystoreName = keyStorePath;
         PlayerSettings.Android.keyaliasName = "bs";
@@ -529,7 +528,7 @@ public class ProjectBranchSettingEditor : Editor
         aac |= AndroidArchitecture.ARMv7;
         PlayerSettings.Android.targetArchitectures = aac;
         PlayerSettings.SetManagedStrippingLevel(BuildTargetGroup.Android, ManagedStrippingLevel.Low);
-        PlayerSettings.companyName = "Sovereign Studios";
+        PlayerSettings.companyName = "BEN Studios";
         PlayerSettings.productName = GetProductName(projectSettingAsset.CurrentProjectBranch);
         PlayerSettings.fullScreenMode = FullScreenMode.FullScreenWindow;
         //PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, GetPackageName(projectSettingAsset.CurrentProjectBranch));
@@ -588,9 +587,9 @@ public class ProjectBranchSettingEditor : Editor
         {
             case ProjectBranch.DEVELOPMENT_BUILD:
             case ProjectBranch.UPLOAD_BUILD:
-                return "Tiger_and_Goat";
+                return "Connect_Fruits";
             default:
-                return "Tiger_and_Goat";
+                return "Connect_Fruits";
         }
     }
     private static string GetProductName(ProjectBranch projectBranch)
@@ -599,9 +598,9 @@ public class ProjectBranchSettingEditor : Editor
         {
             case ProjectBranch.DEVELOPMENT_BUILD:
             case ProjectBranch.UPLOAD_BUILD:
-                return "Tiger and Goat";
+                return "Connect Fruits";
             default:
-                return "Tiger and Goat";
+                return "Connect Fruits";
         }
     }
 

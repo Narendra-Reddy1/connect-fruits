@@ -29,11 +29,11 @@ namespace BenStudios
             _Init();
             Invoke(nameof(_EnableCloseBtn), m_delayToEnableCloseBtn);
         }
-        private void OnDisable()
-        {
-            m_textureDatabase.ReleaseAllTextureAssets();
-            ReleaseLoadedPacks();
-        }
+        //private void OnDisable()
+        //{
+        //    //m_textureDatabase.ReleaseAllTextureAssets();
+        //   // ReleaseLoadedPacks();
+        //}
 
         private async void _Init()
         {
@@ -82,6 +82,8 @@ namespace BenStudios
 
         public void OnClickCloseBtn()
         {
+            m_textureDatabase.ReleaseAllTextureAssets();
+            ReleaseLoadedPacks();
             ScreenManager.Instance.CloseLastAdditiveScreen();
         }
     }
