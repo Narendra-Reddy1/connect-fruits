@@ -23,6 +23,10 @@ namespace BenStudios
         [SerializeField] private LevelTimer m_levelTimer;
         [SerializeField] private TimerData m_timerData;
         [SerializeField] private FruitCallManager m_fruitCallManager;
+        [SerializeField] private Transform m_blastEffect_1;
+        [SerializeField] private Transform m_blastEffect_2;
+        [SerializeField] private ParticleSystem m_blastEffectParticleSystem_1;
+        [SerializeField] private ParticleSystem m_blastEffectParticleSystem_2;
         private FruitEntity[,] m_fruitEntityArray;
         [Tooltip("This list contains the fruit entities that are not destroyed only")]
         private List<FruitEntity> m_fruitEnityList = new List<FruitEntity>();
@@ -257,6 +261,10 @@ namespace BenStudios
                 _SetupLinesToLinerender(i, m_fruitEntityArray[optimizedPath[i].x, optimizedPath[i].y].RectTransform.localPosition);
                 m_uiLineRenderer.SetAllDirty();
             }
+            m_blastEffect_1.position = item1.transform.position;
+            m_blastEffect_2.position = item2.transform.position;
+            m_blastEffectParticleSystem_1.Play(true);
+            m_blastEffectParticleSystem_2.Play(true);
             item1.ShowMatchEffect(onComplete: () =>
             {
                 m_fruitEnityList.Remove(item1);
@@ -319,6 +327,7 @@ namespace BenStudios
         }
         private IEnumerator _ShowEntireBoardClearedEffect()
         {
+            GlobalVariables.highestUnlockedLevel++;//next level
             GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
             m_levelTimer.StopTimer();
             m_fruitCallManager.ActiveFruitCall.PauseTimer();
