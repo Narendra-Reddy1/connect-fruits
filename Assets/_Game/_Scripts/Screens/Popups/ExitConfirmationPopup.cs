@@ -13,7 +13,6 @@ namespace BenStudios
                     Application.Quit();
                     break;
                 case GameState.Gameplay:
-                    // ScreenManager.Instance.ChangeScreen(Window.Dashboard);
                     ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
                     {
                         ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.GameOver);

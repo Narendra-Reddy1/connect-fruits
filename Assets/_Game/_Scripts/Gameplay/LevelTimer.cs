@@ -50,7 +50,6 @@ public class LevelTimer : MonoBehaviour
         if (m_timerCounter <= 0)
         {
             m_timerCounter = 0;
-            m_timerTxt.DOKill();
             GlobalEventHandler.RequestToPlaySFX(AudioID.TimerCountdownEndSFX);
             StopTimer();
             GlobalEventHandler.OnLevelTimerIsCompleted?.Invoke();

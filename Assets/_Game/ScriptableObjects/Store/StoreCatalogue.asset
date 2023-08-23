@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e10c1953be9684ead2e9bb6ec71b6d, type: 3}
+  m_Name: StoreCatalogue
+  m_EditorClassIdentifier: 
+  bundlePacks:
+  - packID: Starter Pack
+    bundleType: 0
+    isOfferRunning: 0
+    resourcesDictionary:
+      _serializedList:
+      - Key: 0
+        Value: 100
+      - Key: 1
+        Value: 5
+      - Key: 2
+        Value: 3
+      - Key: 3
+        Value: 5
+  - packID: Master Pack
+    bundleType: 1
+    isOfferRunning: 0
+    resourcesDictionary:
+      _serializedList:
+      - Key: 0
+        Value: 300
+      - Key: 1
+        Value: 15
+      - Key: 2
+        Value: 8
+      - Key: 3
+        Value: 15
+  singlePacks:
+  - bundleType: 3
+    resourceType: 0
+    itemCount: 59
+  - bundleType: 4
+    resourceType: 0
+    itemCount: 100
+  - bundleType: 5
+    resourceType: 0
+    itemCount: 500
+  - bundleType: 6
+    resourceType: 0
+    itemCount: 1000
+  - bundleType: 7
+    resourceType: 0
+    itemCount: 3000
+  - bundleType: 8
+    resourceType: 1
+    itemCount: 15
+  - bundleType: 9
+    resourceType: 2
+    itemCount: 15
+  - bundleType: 10
+    resourceType: 3
+    itemCount: 15

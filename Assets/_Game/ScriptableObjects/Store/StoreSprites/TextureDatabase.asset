@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b00babc208b99d4abcaff6ab9e6592d, type: 3}
+  m_Name: TextureDatabase
+  m_EditorClassIdentifier: 
+  m_spriteDictionary:
+  - resourceType: 0
+    sprite:
+      m_AssetGUID: e25161253cc910a4297d9a62b4899268
+      m_SubObjectName: CF_Store_Coin_Icon
+      m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_EditorAssetChanged: 0
+  - resourceType: 1
+    sprite:
+      m_AssetGUID: ec2236d7d85fae74682f579b4ce21d7f
+      m_SubObjectName: CF_Powerup_Fruitbomb
+      m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_EditorAssetChanged: 1
+  - resourceType: 2
+    sprite:
+      m_AssetGUID: c3eb6015488473a468186bf8ae688c0b
+      m_SubObjectName: CF_Powerup_Triplebomb
+      m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_EditorAssetChanged: 1
+  - resourceType: 3
+    sprite:
+      m_AssetGUID: 3a97813811ab24742ae70f210d2779c1
+      m_SubObjectName: CF_Powerup_Fruitdumper
+      m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_EditorAssetChanged: 1

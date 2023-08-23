@@ -21,7 +21,7 @@ public static class Konstants
     public const short PAIR_MATCH_SCORE = 300;
     public const byte QUICK_MATCH_BONUS = 100;//ranges from 0 to 100
     public const short ROW_CLEAR_BONUS = 300;
-    public const short COLUMN_CLEAR_BONUS = 400; 
+    public const short COLUMN_CLEAR_BONUS = 400;
     public const short ENTIRE_BOARD_CLEAR_BONUS = 1000;
     public const byte REMAINING_TIMER_PER_SECOND_BONUS = 100;
 
@@ -29,6 +29,16 @@ public static class Konstants
     public const string INIT_SCENE = "InitScene";
     public const string PERSISTENT_MANAGERS = "PersistentManagers";
     public const string HOME_SCENE = "HomeScene";
+
+    //ECONOMY
+    public static int DEFAULT_COIN_BALANCE = 10;
+    public static int FRUIT_DUMPER_POWERUP_COST = 10;
+    public static int FRUIT_BOMB_POWERUP_COST = 20;
+    public static int TRIPLE_BOMB_POWERUP_COST = 40;
+    ///Default data
+    public static int DEFAULT_FRUIT_BOMB_POWERUP_BALANCE = 1;
+    public static int DEFAULT_TRIPLE_BOMB_POWERUP_BALANCE = 1;
+    public static int DEFAULT_FRUIT_DUMPER_POWERUP_BALANCE = 1;
 
 
 }

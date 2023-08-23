@@ -3,6 +3,7 @@ using BenStudios.ScreenManagement;
 using TMPro;
 using DG.Tweening;
 using UnityEditor;
+using UnityEngine.UI;
 
 namespace BenStudios
 {
@@ -14,7 +15,7 @@ namespace BenStudios
         [SerializeField] private TextMeshProUGUI m_timeBonusTxt;
         [SerializeField] private TextMeshProUGUI m_finalScoreTxt;
         [SerializeField] private float m_scoreCalculatingTime = .7f;
-        [SerializeField] private Transform m_submitBtn;
+        [SerializeField] private Button m_submitBtn;
         private static PopupType m_popupType;
         private int m_multiClearScore = 0;
         private int m_rowColumnClearScore = 0;
@@ -76,7 +77,8 @@ namespace BenStudios
                             GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.FinalScoreCountSFX);
                             m_finalScoreTxt.DOText(m_finalScore.ToString(), m_scoreCalculatingTime).onComplete += () =>
                             {
-                                m_submitBtn.DOScale(1, .75f);
+                                m_submitBtn.transform.DOScale(1, .35f);
+                                m_submitBtn.interactable = true;
                             };
                         };
                     };

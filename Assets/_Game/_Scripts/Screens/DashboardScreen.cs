@@ -1,11 +1,12 @@
 using BenStudios;
 using BenStudios.ScreenManagement;
+using TMPro;
 using UnityEngine;
 
 public class DashboardScreen : ScreenBase
 {
     #region Variables 
-
+    [SerializeField] private TextMeshProUGUI m_levelTxt;
     #endregion Variables
 
 
@@ -13,6 +14,7 @@ public class DashboardScreen : ScreenBase
     private void OnEnable()
     {
         GlobalVariables.currentGameState = GameState.HomeScreen;
+        _Init();
     }
     #endregion Unity Methods
 
@@ -29,6 +31,10 @@ public class DashboardScreen : ScreenBase
     #endregion Public Methods
 
     #region Private Methods
+    private void _Init()
+    {
+        m_levelTxt.SetText($"LEVEL {GlobalVariables.highestUnlockedLevel}");
+    }
     private void _StartGameplay()
     {
         ScreenManager.Instance.ChangeScreen(Window.GameplayScreen, ScreenType.Replace, onComplete: () =>

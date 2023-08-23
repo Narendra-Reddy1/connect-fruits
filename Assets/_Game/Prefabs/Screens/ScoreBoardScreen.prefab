@@ -570,7 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.07686102, g: 0.06616232, b: 0.1981132, a: 0.8745098}
+  m_Color: {r: 0.07686102, g: 0.06616232, b: 0.1981132, a: 0.8}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1311,7 +1311,7 @@ MonoBehaviour:
   m_timeBonusTxt: {fileID: 6485045730267130482}
   m_finalScoreTxt: {fileID: 4509795852323648866}
   m_scoreCalculatingTime: 0.6
-  m_submitBtn: {fileID: 7949701829072354775}
+  m_submitBtn: {fileID: 3261954279919674318}
 --- !u!1 &6307676506141157792
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,11 +2095,11 @@ RectTransform:
   m_Father: {fileID: 9096699011632417985}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 120}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -458.5}
   m_SizeDelta: {x: 550, y: 143}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6568674955250689331
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2177,7 +2177,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 4193960306710809351}
   m_OnClick:
     m_PersistentCalls:

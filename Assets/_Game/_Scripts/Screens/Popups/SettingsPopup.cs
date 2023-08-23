@@ -36,7 +36,6 @@ public class SettingsPopup : PopupBase
 
     public override void OnCloseClick()
     {
-        GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
         ScreenManager.Instance.CloseLastAdditiveScreen();
     }
     public void OnClickExit()

@@ -10,7 +10,7 @@ namespace BenStudios
         public static int dumpedFruitIndex = -1;
         public static bool isBoardClearedNearToHalf = false;
         public static GameState currentGameState = GameState.HomeScreen;
-
+        public static int highestUnlockedLevel = 1;
         public static void ResetGameplayVariables()
         {
             isBoardClearedNearToHalf = false;
