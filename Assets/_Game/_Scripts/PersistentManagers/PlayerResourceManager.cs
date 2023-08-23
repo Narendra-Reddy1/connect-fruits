@@ -91,6 +91,7 @@ namespace BenStudios.Economy
         /// Returns Current Level for Upgradable
         /// </summary>
         /// <returns>The item balance.</returns>
+        public static int GetCoinsBalance() => StoreInventory[COINS_ITEM_ID].GetBalance();
         public static int GetBalance(string itemId)
         {
             switch (StoreInventory[itemId].virtualItemType)

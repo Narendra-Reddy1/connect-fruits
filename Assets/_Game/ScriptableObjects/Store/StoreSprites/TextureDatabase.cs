@@ -32,14 +32,19 @@ public class TextureDatabase : ScriptableObject
     {
         try
         {
-            foreach (var item in m_loadedSpriteDictionary)
+            foreach (KeyValuePair<ResourceType, AsyncOperationHandle<Sprite>> item in m_loadedSpriteDictionary)
             {
-                Addressables.Release(item.Value);
+                //Addressables.Release(item.Value);
+                AddressableAssetLoader.Instance.Release(item.Value);
             }
         }
         catch (System.Exception e)
         {
-
+            MyUtils.Log($"Exception from release AllTextureAssets::{e}");
+        }
+        finally
+        {
+            m_loadedSpriteDictionary.Clear();
         }
     }
     //public async Task<Sprite> GetSpriteWithID(ResourceType resourceType)
@@ -58,7 +63,8 @@ public class TextureDatabase : ScriptableObject
     {
         if (m_loadedSpriteDictionary.ContainsKey(resourceType))
         {
-            return m_loadedSpriteDictionary[resourceType].Result;
+            if (m_loadedSpriteDictionary[resourceType].IsValid())
+                return m_loadedSpriteDictionary[resourceType].Result;
         }
         return null;
     }

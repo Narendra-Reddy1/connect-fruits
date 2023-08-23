@@ -179,7 +179,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4690380187279864659}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -7799559649230665410}
+        m_TargetAssemblyTypeName: DashboardScreen, Assembly-CSharp
+        m_MethodName: OnClickStoreBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   clickAnimate: 1
 --- !u!114 &5947632360862087221
 MonoBehaviour:
@@ -337,6 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_levelTxt: {fileID: 7092151896440930792}
+  m_coinsTxt: {fileID: 8390115445900521558}
 --- !u!1 &4779165697867968731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectFactor: 0
-  m_Width: 0.081
+  m_Width: 0.045
   m_Rotation: 135
   m_Softness: 1
   m_Brightness: 1

@@ -2,6 +2,7 @@ using BenStudios.ScreenManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -19,15 +20,21 @@ namespace BenStudios
         [SerializeField] private GameObject m_connectingToServerPanel;
         [SerializeField] private StoreCatalogue m_storeCatalogue;
         [SerializeField] private TextureDatabase m_textureDatabase;
+        [SerializeField] private TextMeshProUGUI m_coinsTxt;
+        [SerializeField] private float m_delayToEnableCloseBtn = 3f;
+        private List<AsyncOperationHandle<GameObject>> m_loadedPackHandles = new List<AsyncOperationHandle<GameObject>>();
         private async void Start()
         {
             await m_textureDatabase.LoadAllTextures();
             _Init();
+            Invoke(nameof(_EnableCloseBtn), m_delayToEnableCloseBtn);
         }
-        private void OnDestroy()
+        private void OnDisable()
         {
             m_textureDatabase.ReleaseAllTextureAssets();
+            ReleaseLoadedPacks();
         }
+
         private async void _Init()
         {
             MyUtils.Log($"Store screen initializing....");
@@ -41,6 +48,7 @@ namespace BenStudios
                     GameObject item = handle.Result;
                     item.transform.SetParent(m_contentTransform);
                     item.GetComponent<BundlePack>().Init(bundlePacks[i]);
+                    m_loadedPackHandles.Add(handle);
                 }
             }
             List<SinglePackData> singlePacks = m_storeCatalogue.singlePacks;
@@ -53,6 +61,7 @@ namespace BenStudios
                     var item = handle.Result;
                     item.transform.SetParent(m_contentTransform);
                     item.GetComponent<SingleItemPack>().Init(singlePacks[i]);
+                    m_loadedPackHandles.Add(handle);
                 }
             }
             await Task.Delay(1000);
@@ -60,5 +69,20 @@ namespace BenStudios
             m_scrollRect.normalizedPosition = new Vector2(0, 1);
         }
 
+        private void _EnableCloseBtn() => m_closebtn.SetActive(true);
+
+        private void ReleaseLoadedPacks()
+        {
+            foreach (AsyncOperationHandle<GameObject> item in m_loadedPackHandles)
+            {
+                AddressableAssetLoader.Instance.Release(item.Result);
+                // Addressables.ReleaseInstance(item);
+            }
+        }
+
+        public void OnClickCloseBtn()
+        {
+            ScreenManager.Instance.CloseLastAdditiveScreen();
+        }
     }
 }

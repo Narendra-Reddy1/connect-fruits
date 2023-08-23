@@ -1,4 +1,5 @@
 using BenStudios;
+using BenStudios.Economy;
 using BenStudios.ScreenManagement;
 using TMPro;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class DashboardScreen : ScreenBase
 {
     #region Variables 
     [SerializeField] private TextMeshProUGUI m_levelTxt;
+    [SerializeField] private TextMeshProUGUI m_coinsTxt;
     #endregion Variables
 
 
@@ -24,6 +26,10 @@ public class DashboardScreen : ScreenBase
     {
         ScreenManager.Instance.ChangeScreen(Window.SettingsPopup, ScreenType.Additive);
     }
+    public void OnClickStoreBtn()
+    {
+        ScreenManager.Instance.ChangeScreen(Window.StoreScreen, ScreenType.Additive);
+    }
     public void OnClickPlayButton()
     {
         _StartGameplay();
@@ -34,6 +40,7 @@ public class DashboardScreen : ScreenBase
     private void _Init()
     {
         m_levelTxt.SetText($"LEVEL {GlobalVariables.highestUnlockedLevel}");
+        m_coinsTxt.SetText(PlayerResourceManager.GetCoinsBalance().ToString());
     }
     private void _StartGameplay()
     {

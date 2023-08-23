@@ -179,6 +179,8 @@ MonoBehaviour:
   m_connectingToServerPanel: {fileID: 1081670357755593425}
   m_storeCatalogue: {fileID: 11400000, guid: 7ec5c761b1f275c44be400a94678b6f1, type: 2}
   m_textureDatabase: {fileID: 11400000, guid: 6cb7b0ad350a92a43bbedb463598c2c7, type: 2}
+  m_coinsTxt: {fileID: 4003585211187614730}
+  m_delayToEnableCloseBtn: 3
 --- !u!1 &1081670357755593425
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1975394598582596976
 RectTransform:
   m_ObjectHideFlags: 0
@@ -390,14 +392,14 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 3
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!114 &338008114360955261
 MonoBehaviour:
@@ -411,7 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
+  m_HorizontalFit: 1
   m_VerticalFit: 1
 --- !u!1 &2664906906624882505
 GameObject:
@@ -451,7 +453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -49.84}
+  m_AnchoredPosition: {x: 0, y: -49.840088}
   m_SizeDelta: {x: 0, y: -499.68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5974836747010928874
@@ -505,82 +507,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
---- !u!1 &3038447880470932212
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8040110497558816838}
-  - component: {fileID: 6085835635207152608}
-  - component: {fileID: 1847449451090295891}
-  m_Layer: 5
-  m_Name: PlusImage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &8040110497558816838
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3038447880470932212}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1790023655928704218}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -62.054367, y: -17.19629}
-  m_SizeDelta: {x: 65, y: 65}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &6085835635207152608
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3038447880470932212}
-  m_CullTransparentMesh: 1
---- !u!114 &1847449451090295891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3038447880470932212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 63c2fe18fec86d049b44ef83e497017d, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3625204880116597008
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,8 +861,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 46.534424, y: 0}
-  m_SizeDelta: {x: -150.4911, y: 0}
+  m_AnchoredPosition: {x: 35.644, y: 0}
+  m_SizeDelta: {x: -128.71, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8385726237428733031
 CanvasRenderer:
@@ -1231,13 +1157,14 @@ GameObject:
   - component: {fileID: 6436176863591190900}
   - component: {fileID: 6037645586597223676}
   - component: {fileID: 6009654653040392083}
+  - component: {fileID: 6809846987535271600}
   m_Layer: 5
   m_Name: CloseBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2726064892721971297
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1339,8 +1266,34 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6037645586597223676}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3765708810621749066}
+        m_TargetAssemblyTypeName: BenStudios.StoreScreen, Assembly-CSharp
+        m_MethodName: OnClickCloseBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   clickAnimate: 1
+--- !u!114 &6809846987535271600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747855410376562568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53c994237be8cce4385ef314a4084984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_button: {fileID: 6009654653040392083}
+  m_coolDownTimer: 0.75
 --- !u!1 &7763066735515234452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1372,7 +1325,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4321280879511668663}
-  - {fileID: 8040110497558816838}
   - {fileID: 6629435216830610186}
   m_Father: {fileID: 2611845595210566296}
   m_RootOrder: -1

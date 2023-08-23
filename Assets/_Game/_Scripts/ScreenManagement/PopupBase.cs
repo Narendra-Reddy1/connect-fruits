@@ -8,6 +8,7 @@ namespace BenStudios.ScreenManagement
 {
     public class PopupBase : WindowBase
     {
+        [Header("Popup Content")]
         [SerializeField] private Transform popupPanel;
         [SerializeField] private CanvasGroup transparentBGCanvasGroup;
         [SerializeField] private CanvasGroup popupPanelCanvasGroup;

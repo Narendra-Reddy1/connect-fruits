@@ -16,6 +16,8 @@ namespace BenStudios.ScreenManagement
         ExitConfirmationPopup,
         ScoreBoardScreen,
         GenericPowerupTutorialPopup,
+        StoreScreen,
+        PurchaseStatusScreen,
     }
 
     [System.Serializable]
