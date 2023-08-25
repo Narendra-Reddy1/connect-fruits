@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
+using UnityEngine.Purchasing.Security;
 
 namespace BenStudios.IAP
 {
@@ -90,6 +91,36 @@ namespace BenStudios.IAP
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
             string productID = purchaseEvent.purchasedProduct.definition.id;
+            bool isValidPurchase = false;
+#if (UNITY_ANDROID || UNITY_IOS )&&!UNITY_EDITOR
+            //This validates the purchase 
+            CrossPlatformValidator validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.identifier);
+            try
+            {
+                IPurchaseReceipt[] results = validator.Validate(purchaseEvent.purchasedProduct.receipt);
+                foreach (IPurchaseReceipt receipt in results)
+                {
+                    if (receipt.productID == purchaseEvent.purchasedProduct.definition.id)
+                    {
+                        isValidPurchase = true;
+                        break;
+                    }
+                    else
+                        isValidPurchase = false;
+                }
+            }
+            catch (System.Exception e)
+            {
+                MyUtils.Log("Invalid receipt, not unlocking the content...");
+                isValidPurchase = false;
+            }
+
+            if (!isValidPurchase)
+            {
+                GlobalEventHandler.OnPurchaseFailed?.Invoke(new PurchaseFailureDescription(purchaseEvent.purchasedProduct.definition.id, PurchaseFailureReason.Unknown, "Invalid Purchase"));
+                return PurchaseProcessingResult.Complete;
+            }
+#endif
             GlobalEventHandler.OnPurchaseSuccess?.Invoke(_GetPurchaseData(productID));
             return PurchaseProcessingResult.Complete;
         }

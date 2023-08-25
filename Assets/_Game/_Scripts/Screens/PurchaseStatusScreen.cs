@@ -17,7 +17,7 @@ public class PurchaseStatusScreen : PopupBase
         m_statusTxt.SetText(Konstants.PURCHASE_INITIALIZING_TEXT);
         GlobalEventHandler.OnPurchaseSuccess += Callback_On_Purchase_Success;
         GlobalEventHandler.OnPurchaseFailed += Callback_On_Purchase_Failed;
-        Invoke(nameof(CloseScreen), 4f);
+        Invoke(nameof(CloseScreen), 4f);//To prevent stucking at purchase loading screen.
     }
     public override void OnDisable()
     {
@@ -33,8 +33,10 @@ public class PurchaseStatusScreen : PopupBase
         CancelInvoke(nameof(CloseScreen));
         Invoke(nameof(CloseScreen), 2f);
     }
+
     private void Callback_On_Purchase_Success(PurchaseData purchaseData)
     {
+        MyUtils.Log($"Purchase Success Callback_PurchaseStatusScreen...");
         m_statusTxt.SetText(Konstants.PURCHASE_SUCCESS_TEXT);
         CancelInvoke(nameof(CloseScreen));
         Invoke(nameof(CloseScreen), 2f);
