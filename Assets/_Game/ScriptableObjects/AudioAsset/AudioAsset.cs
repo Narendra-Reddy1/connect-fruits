@@ -28,5 +28,6 @@ namespace BenStudios
         PowerupSelectionSFX,
         ScoreCountSFX,
         FinalScoreCountSFX,
+        FruitTileClickSFX,
     }
 }

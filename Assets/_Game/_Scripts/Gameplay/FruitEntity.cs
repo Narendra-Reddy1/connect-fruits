@@ -100,6 +100,7 @@ namespace BenStudios
                 UnSelectThisFruit();
             else
                 SelectThisFruit();
+            GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.FruitTileClickSFX);
         }
         public void SelectThisFruit()
         {

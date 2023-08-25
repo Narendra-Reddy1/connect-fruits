@@ -263,6 +263,8 @@ namespace BenStudios
             }
             m_blastEffect_1.position = item1.transform.position;
             m_blastEffect_2.position = item2.transform.position;
+            m_blastEffectParticleSystem_1.gameObject.SetActive(true);
+            m_blastEffectParticleSystem_2.gameObject.SetActive(true);
             m_blastEffectParticleSystem_1.Play(true);
             m_blastEffectParticleSystem_2.Play(true);
             item1.ShowMatchEffect(onComplete: () =>

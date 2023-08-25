@@ -15,8 +15,13 @@ public class DashboardScreen : ScreenBase
     #region Unity Methods
     private void OnEnable()
     {
+        PlayerResourceManager.onStoreGiveCallback += Callback_On_ResourcesUpdated;
         GlobalVariables.currentGameState = GameState.HomeScreen;
         _Init();
+    }
+    private void OnDisable()
+    {
+        PlayerResourceManager.onStoreGiveCallback -= Callback_On_ResourcesUpdated;
     }
     #endregion Unity Methods
 
@@ -40,8 +45,9 @@ public class DashboardScreen : ScreenBase
     private void _Init()
     {
         m_levelTxt.SetText($"LEVEL {GlobalVariables.highestUnlockedLevel}");
-        m_coinsTxt.SetText(PlayerResourceManager.GetCoinsBalance().ToString());
+        _SetCoinsText();
     }
+    private void _SetCoinsText() => m_coinsTxt.SetText(PlayerResourceManager.GetCoinsBalance().ToString());
     private void _StartGameplay()
     {
         ScreenManager.Instance.ChangeScreen(Window.GameplayScreen, ScreenType.Replace, onComplete: () =>
@@ -52,6 +58,9 @@ public class DashboardScreen : ScreenBase
     #endregion Private Methods
 
     #region Callbacks
-
+    private void Callback_On_ResourcesUpdated()
+    {
+        _SetCoinsText();
+    }
     #endregion Callbacks
 }

@@ -1,13 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-
-namespace BenStudios
+namespace BenStudios.IAP
 {
-    public class BundlePack : MonoBehaviour
+    public class BundlePack : BasePack
     {
         [SerializeField] private TextureDatabase m_textureDatabase;
         [SerializeField] private ItemUnit m_bundleItemPack;
@@ -17,11 +13,11 @@ namespace BenStudios
         public void Init(BundlePackData packData)
         {
             transform.localScale = Vector3.one;
-            m_bundleNameTxt.SetText(packData.packID);
+            m_bundleNameTxt.SetText(packData.bundleTitle);
+            AssignProductID(packData.bundleType);
+            m_priceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
             foreach (KeyValuePair<ResourceType, int> itemData in packData.resourcesDictionary)
                 SetUp(m_textureDatabase.GetSpriteWithID(itemData.Key), itemData.Value);
-
-
             void SetUp(Sprite sprite, int value)
             {
                 ItemUnit item = Instantiate(m_bundleItemPack, m_contentTransform);
@@ -32,20 +28,14 @@ namespace BenStudios
 
         ///Assigned to IAP
         ///Methods which calls on click IAP button
-        public void Buy()
+        public override void Buy()
         {
-
+            base.Buy();
+        }
+        public override void SetLocalizedPrice()
+        {
         }
 
-
-        private void _AssignProductID()
-        {
-
-        }
-        private void _SetLocalizedPrice()
-        {
-
-        }
 
 
     }

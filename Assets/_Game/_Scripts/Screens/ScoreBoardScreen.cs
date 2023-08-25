@@ -42,6 +42,7 @@ namespace BenStudios
         }
         public void OnClickSubmit()
         {
+            GlobalEventHandler.RequestToPlayBGM?.Invoke(AudioID.DashboardBGM);
             ScreenManager.Instance.ChangeScreen(Window.Dashboard);
         }
 

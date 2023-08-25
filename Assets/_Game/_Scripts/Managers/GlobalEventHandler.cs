@@ -1,5 +1,7 @@
+using BenStudios.IAP;
 using System;
 using UnityEngine;
+using UnityEngine.Purchasing.Extension;
 
 namespace BenStudios
 {
@@ -33,6 +35,25 @@ namespace BenStudios
 
         public static Action<bool> OnMusicToggled = default;
         public static Action<bool> OnSoundToggled = default;
+
+        //IAP
+        public static Action<string> RequestToInitializePurchase = default;
+        public static Action<PurchaseData> OnPurchaseSuccess = default;
+        public static Action<PurchaseFailureDescription> OnPurchaseFailed = default;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //ReturnType Callbacks
         public static Func<int> RequestRemainingTimer = default;

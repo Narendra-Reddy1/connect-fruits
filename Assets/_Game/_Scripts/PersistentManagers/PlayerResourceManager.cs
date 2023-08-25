@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using BenStudios.IAP;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace BenStudios.Economy
 {
-    [System.Serializable]
+
     public class PlayerResourceManager : MonoBehaviour
     {
         public static PlayerResourceManager Instance;
@@ -21,6 +22,14 @@ namespace BenStudios.Economy
             }
             Instance = this;
             //DontDestroyOnLoad (this.gameObject);
+        }
+        private void OnEnable()
+        {
+            GlobalEventHandler.OnPurchaseSuccess += Callback_On_Purchase_Success;
+        }
+        private void OnDisable()
+        {
+            GlobalEventHandler.OnPurchaseSuccess -= Callback_On_Purchase_Success;
         }
 
         void Start()
@@ -397,12 +406,19 @@ namespace BenStudios.Economy
         public static event StoreGiveCallback onStoreGiveCallback;
         public static void invokeStoreGiveCallback()
         {
-            if (onStoreGiveCallback != null)
-            {
-                onStoreGiveCallback();
-            }
+            onStoreGiveCallback?.Invoke();
 
         }
 
+        private void Callback_On_Purchase_Success(PurchaseData purchaseData)
+        {
+            if (purchaseData.productID == Konstants.NO_ADS) return;
+            Give(COINS_ITEM_ID, purchaseData.coins);
+            Give(FRUIT_BOMB_POWERUP_ITEM_ID, purchaseData.fruitBombs);
+            Give(TRIPLE_BOMB_POWERUP_ITEM_ID, purchaseData.tripleBombs);
+            Give(FRUIT_DUMPER_POWERUP_ITEM_ID, purchaseData.fruitDumpers);
+            onStoreGiveCallback?.Invoke();
+
+        }
     }
 }

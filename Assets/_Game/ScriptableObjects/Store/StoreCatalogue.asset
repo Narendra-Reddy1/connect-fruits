@@ -13,54 +13,54 @@ MonoBehaviour:
   m_Name: StoreCatalogue
   m_EditorClassIdentifier: 
   bundlePacks:
-  - packID: Starter Pack
+  - bundleTitle: Starter Bundle
     bundleType: 0
     isOfferRunning: 0
     resourcesDictionary:
       _serializedList:
       - Key: 0
-        Value: 100
+        Value: 500
       - Key: 1
         Value: 5
       - Key: 2
-        Value: 3
-      - Key: 3
         Value: 5
-  - packID: Master Pack
+      - Key: 3
+        Value: 10
+  - bundleTitle: Master Bundle
     bundleType: 1
     isOfferRunning: 0
     resourcesDictionary:
       _serializedList:
       - Key: 0
-        Value: 300
+        Value: 2000
       - Key: 1
-        Value: 15
+        Value: 10
       - Key: 2
-        Value: 8
+        Value: 10
       - Key: 3
         Value: 15
   singlePacks:
   - bundleType: 3
     resourceType: 0
-    itemCount: 59
+    itemCount: 100
   - bundleType: 4
     resourceType: 0
-    itemCount: 100
+    itemCount: 1000
   - bundleType: 5
     resourceType: 0
-    itemCount: 500
+    itemCount: 3000
   - bundleType: 6
     resourceType: 0
-    itemCount: 1000
+    itemCount: 5000
   - bundleType: 7
     resourceType: 0
-    itemCount: 3000
+    itemCount: 8000
   - bundleType: 8
     resourceType: 1
-    itemCount: 15
+    itemCount: 25
   - bundleType: 9
     resourceType: 2
-    itemCount: 15
+    itemCount: 25
   - bundleType: 10
     resourceType: 3
-    itemCount: 15
+    itemCount: 25

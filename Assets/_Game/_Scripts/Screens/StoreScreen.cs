@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using BenStudios.IAP;
+using BenStudios.Economy;
 
 namespace BenStudios
 {
@@ -23,8 +25,19 @@ namespace BenStudios
         [SerializeField] private TextMeshProUGUI m_coinsTxt;
         [SerializeField] private float m_delayToEnableCloseBtn = 3f;
         private List<AsyncOperationHandle<GameObject>> m_loadedPackHandles = new List<AsyncOperationHandle<GameObject>>();
+
+
+        private void OnEnable()
+        {
+            PlayerResourceManager.onStoreGiveCallback += Callback_On_ResourcesUpdated;
+        }
+        private void OnDisable()
+        {
+            PlayerResourceManager.onStoreGiveCallback += Callback_On_ResourcesUpdated;
+        }
         private async void Start()
         {
+            _SetCoinsText();
             await m_textureDatabase.LoadAllTextures();
             _Init();
             Invoke(nameof(_EnableCloseBtn), m_delayToEnableCloseBtn);
@@ -34,6 +47,14 @@ namespace BenStudios
         //    //m_textureDatabase.ReleaseAllTextureAssets();
         //   // ReleaseLoadedPacks();
         //}
+
+
+        public void OnClickCloseBtn()
+        {
+            m_textureDatabase.ReleaseAllTextureAssets();
+            ReleaseLoadedPacks();
+            ScreenManager.Instance.CloseLastAdditiveScreen();
+        }
 
         private async void _Init()
         {
@@ -71,6 +92,7 @@ namespace BenStudios
 
         private void _EnableCloseBtn() => m_closebtn.SetActive(true);
 
+        private void _SetCoinsText() => m_coinsTxt.SetText(PlayerResourceManager.GetCoinsBalance().ToString());
         private void ReleaseLoadedPacks()
         {
             foreach (AsyncOperationHandle<GameObject> item in m_loadedPackHandles)
@@ -79,12 +101,9 @@ namespace BenStudios
                 // Addressables.ReleaseInstance(item);
             }
         }
-
-        public void OnClickCloseBtn()
+        private void Callback_On_ResourcesUpdated()
         {
-            m_textureDatabase.ReleaseAllTextureAssets();
-            ReleaseLoadedPacks();
-            ScreenManager.Instance.CloseLastAdditiveScreen();
+            _SetCoinsText();
         }
     }
 }

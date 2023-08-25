@@ -8,17 +8,27 @@ namespace BenStudios
     [CreateAssetMenu(fileName = "newStoreCatalogue", menuName = "ScriptableObjects/StoreCatalogue", order = 10)]
     public class StoreCatalogue : ScriptableObject
     {
+        [Space(5)]
         public List<BundlePackData> bundlePacks;
+        [Space(10)]
         public List<SinglePackData> singlePacks;
     }
 
     [System.Serializable]
     public class BundlePackData
     {
-        public string packID;
+        public string bundleTitle;
         public BundleType bundleType;
         public bool isOfferRunning;
         public SerializedDictionary<ResourceType, int> resourcesDictionary;
+
+        public int GetResourceCountIfHave(ResourceType resourceType)
+        {
+            int coins = 0;
+            resourcesDictionary.TryGetValue(resourceType, out coins);
+            return coins;
+        }
+
     }
     [System.Serializable]
     public class SinglePackData
@@ -29,6 +39,7 @@ namespace BenStudios
     }
     public enum BundleType
     {
+        //bundles
         Starter,
         Master,
         Monster,
@@ -39,6 +50,7 @@ namespace BenStudios
         CoinPack_3,
         CoinPack_4,
         CoinPack_5,
+        //powerup packs
         FruitBombPack_1,
         TripleBombPack_1,
         FruitDumperPack_1,

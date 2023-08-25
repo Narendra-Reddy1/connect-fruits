@@ -41,7 +41,27 @@ public static class Konstants
     public static int DEFAULT_FRUIT_DUMPER_POWERUP_BALANCE = 1;
 
     //IAP
-    public const string PURCHASE_INTIALIZING_TEXT = "Purchase Initializing...";
+    public const string PURCHASE_INITIALIZING_TEXT = "Purchase Initializing...";
     public const string PURCHASE_SUCCESS_TEXT = "Purchase Success...";
     public const string PURCHASE_FAILED_TEXT = "Purchase Failed...";
+
+    //IAP Product IDs
+
+    //Bundles
+    public const string STARTER_PACK = "starter_pack";
+    public const string MASTER_PACK = "master_pack";
+    public const string MONSTER_PACK = "monster_pack";
+
+    //Single packs
+    public const string COIN_PACK_1 = "coin_pack_1";
+    public const string COIN_PACK_2 = "coin_pack_2";
+    public const string COIN_PACK_3 = "coin_pack_3";
+    public const string COIN_PACK_4 = "coin_pack_4";
+    public const string COIN_PACK_5 = "coin_pack_5";
+
+    public const string FRUIT_BOMB_PACK_1 = "fruit_bomb_pack_1";
+    public const string TRIPLE_BOMB_PACK_1 = "triple_bomb_pack_1";
+    public const string FRUIT_DUMPER_PACK_1 = "fruit_dumper_pack_1";
+    //No Ads
+    public const string NO_ADS = "no_ads";
 }

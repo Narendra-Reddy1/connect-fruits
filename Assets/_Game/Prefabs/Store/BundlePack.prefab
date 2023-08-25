@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeee794d9ee4b2a48b82c8ef9e777ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  productID: 
   m_textureDatabase: {fileID: 11400000, guid: 6cb7b0ad350a92a43bbedb463598c2c7, type: 2}
   m_bundleItemPack: {fileID: 5471734176655674025, guid: 3e13bdbbefb56d648968e5317abc6a3a, type: 3}
   m_contentTransform: {fileID: 800364138427403656}
@@ -417,10 +418,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5714740069337198919}
     m_Modifications:
-    - target: {fileID: 4077461530130070514, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4241775712410025199, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
       propertyPath: m_Name
       value: PackPriceHolder
