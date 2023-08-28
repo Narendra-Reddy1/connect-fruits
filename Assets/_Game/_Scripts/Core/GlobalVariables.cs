@@ -11,6 +11,7 @@ namespace BenStudios
         public static bool isBoardClearedNearToHalf = false;
         public static GameState currentGameState = GameState.HomeScreen;
         public static int highestUnlockedLevel = 1;
+        public static GameplayType currentGameplayMode = GameplayType.LevelMode;
         public static void ResetGameplayVariables()
         {
             isBoardClearedNearToHalf = false;

@@ -36,7 +36,7 @@ namespace BenStudios
             m_timerbarImg.fillAmount = 1;
             transform.DOScale(1, .45f).onComplete += () =>
             {
-                m_timerbarImg.DOFillAmount(0, Konstants.FRUIT_CALL_TIMER).onComplete += () =>
+                m_timerbarImg.DOFillAmount(0, Konstants.FRUIT_CALL_TIMER_IN_SECONDS).onComplete += () =>
                 {
                     m_timerbarImg.gameObject.SetActive(false);
                     GlobalEventHandler.OnFruitCallIsCompleted?.Invoke();

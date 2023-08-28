@@ -25,6 +25,9 @@ namespace BenStudios
         public static Action OnLevelStartupTimerIsCompleted = default;
         public static Action OnLevelTimerIsCompleted = default;
         public static Action<bool> RequestToPauseTimer = default;//true will pause false will unpause.
+        public static Action RequestToShowGoodMatchText = default;
+        public static Action OnColumnCleared = default;
+        public static Action On_Row_Cleared = default;
 
         //UI
         public static Action<int> RequestToUpdateScore = default;

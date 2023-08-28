@@ -24,19 +24,20 @@ namespace BenStudios
         private float m_fillAmount;
         private byte m_fillCounter;
         private Vector3 m_gainedPowerupIconDefaultPose;
+        private const float GRACE_TIME_FOR_POWERUP_FILL_BAR = 1.5f;
         //TipleBomb
         private byte m_tripleBombCounter = 0;
         private void OnEnable()
         {
             m_gainedPowerupIconDefaultPose = m_gainedPowerupIcon.transform.position;
-            GlobalEventHandler.OnFruitPairMatched += Callback_On_Fruit_Pari_Match;
+            GlobalEventHandler.OnFruitPairMatched += Callback_On_Fruit_Pari_Matched;
             GlobalEventHandler.RequestToPerformTripleBombPowerupAction += Callback_On_Triple_Bomb_Action_Requested;
             GlobalEventHandler.RequestToPerformFruitBombPowerupAction += Callback_On_Fruit_Bomb_Action_Requested;
             GlobalEventHandler.RequestToDeactivatePowerUpMode += Callback_On_Deactivate_Powerup_Mode;
         }
         private void OnDisable()
         {
-            GlobalEventHandler.OnFruitPairMatched -= Callback_On_Fruit_Pari_Match;
+            GlobalEventHandler.OnFruitPairMatched -= Callback_On_Fruit_Pari_Matched;
             GlobalEventHandler.RequestToPerformTripleBombPowerupAction -= Callback_On_Triple_Bomb_Action_Requested;
             GlobalEventHandler.RequestToPerformFruitBombPowerupAction -= Callback_On_Fruit_Bomb_Action_Requested;
             GlobalEventHandler.RequestToDeactivatePowerUpMode -= Callback_On_Deactivate_Powerup_Mode;
@@ -44,9 +45,9 @@ namespace BenStudios
         private void _GrantPowerup()
         {
             int powerup = 0;
-            if (!GlobalVariables.isBoardClearedNearToHalf)
+            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
                 powerup = Random.Range(0, 2);
-            else
+            else if (!GlobalVariables.isBoardClearedNearToHalf)
                 powerup = Random.Range(0, 3);
 
             switch (powerup)
@@ -61,7 +62,6 @@ namespace BenStudios
                     break;
                 case 2://FruitDumper
                     ShowPowerupGainAnimation(m_fruitDumpSprite);
-
                     break;
             }
             void ShowPowerupGainAnimation(Sprite powerupSprite)
@@ -122,15 +122,17 @@ namespace BenStudios
             entity1.ShowFruitBombEffect();
             entity2.ShowFruitBombEffect();
         }
-        private void Callback_On_Fruit_Pari_Match(int id)
+        private void Callback_On_Fruit_Pari_Matched(int id)
         {
+            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
+
             if (_CheckIfAllPowerupHoldersAreFull())
             {
                 m_powerupsFullTxt.gameObject.SetActive(true);
                 m_powerupFillbar.fillAmount = 0;
                 return;
             }
-            float remainingTime = m_fruitCallManager.GetActiveFruitCallRemainingTime() * 1.5f;
+            float remainingTime = m_fruitCallManager.GetActiveFruitCallRemainingTime() * GRACE_TIME_FOR_POWERUP_FILL_BAR;
             float currentFillAmount = m_powerupFillbar.fillAmount;
             float totalFillAmount = remainingTime + currentFillAmount;
             float extraFillAmount = 0;
@@ -148,6 +150,7 @@ namespace BenStudios
                 else
                     m_fillCounter++;
             };
+
         }
         private void Callback_On_Triple_Bomb_Action_Requested(FruitEntity entity1, FruitEntity entity2)
         {

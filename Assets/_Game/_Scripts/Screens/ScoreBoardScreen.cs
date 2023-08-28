@@ -55,7 +55,7 @@ namespace BenStudios
             m_rowColumnClearScore += rowAndColumnCount.x * Konstants.ROW_CLEAR_BONUS;
             m_rowColumnClearScore += rowAndColumnCount.y * Konstants.COLUMN_CLEAR_BONUS;
             m_timeBonus = (m_popupType != PopupType.LevelCompleted) ? 0 : (int)GlobalEventHandler.RequestRemainingTimer?.Invoke();
-
+            m_timeBonus *= Konstants.REMAINING_TIMER_PER_SECOND_BONUS;
             m_allClearBonus = (totalMatchedFruitsCount == (Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE)) ? Konstants.ENTIRE_BOARD_CLEAR_BONUS : 0;
             m_finalScore = m_multiClearScore + m_rowColumnClearScore + m_allClearBonus + m_timeBonus;
             _UpdateScoresToUI();

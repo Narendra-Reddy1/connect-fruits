@@ -15,7 +15,8 @@ public static class Konstants
 
     public const byte MIN_FRUITS_TO_MATCH = 2;
     public const byte LEVEL_STARTUP_TIMER_IN_SECONDS = 4;
-    public const byte FRUIT_CALL_TIMER = 4;
+    public const byte FRUIT_CALL_TIMER_IN_SECONDS = 4;
+    public const byte STAR_MULTIPLIER_TIMER_IN_SECONDS = 5;
 
     //SCORE
     public const short PAIR_MATCH_SCORE = 300;

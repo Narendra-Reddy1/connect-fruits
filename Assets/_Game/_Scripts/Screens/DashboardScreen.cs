@@ -50,6 +50,7 @@ public class DashboardScreen : ScreenBase
     private void _SetCoinsText() => m_coinsTxt.SetText(PlayerResourceManager.GetCoinsBalance().ToString());
     private void _StartGameplay()
     {
+        GlobalVariables.currentGameplayMode = GameplayType.LevelMode;
         ScreenManager.Instance.ChangeScreen(Window.GameplayScreen, ScreenType.Replace, onComplete: () =>
         {
             GlobalEventHandler.RequestToPlayBGM?.Invoke(AudioID.GameplayBGM);

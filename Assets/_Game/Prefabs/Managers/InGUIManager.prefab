@@ -54,6 +54,9 @@ MonoBehaviour:
   m_updateScoreEffectTxt: {fileID: 0}
   m_updateScoreReferencePose: {fileID: 0}
   m_scoreEffectTxtCanvasGroup: {fileID: 0}
+  m_goodMatchTxtPrefab: {fileID: 9174964261368647499, guid: 581f571abf3ae184e8a325e5f300db03, type: 3}
+  m_rowColClearedTxtPrefab: {fileID: 8059970961478233308, guid: 6a7db083e2e5c1147a5a4a8ad95d8432, type: 3}
+  m_praiseTxtsParent: {fileID: 0}
   m_topbarUiTransform: {fileID: 0}
   m_powerupsHolderTransform: {fileID: 0}
   m_topbarUiEndPose: {fileID: 0}

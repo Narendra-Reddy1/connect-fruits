@@ -3,8 +3,10 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
 namespace BenStudios
@@ -27,15 +29,26 @@ namespace BenStudios
         [SerializeField] private Transform m_blastEffect_2;
         [SerializeField] private ParticleSystem m_blastEffectParticleSystem_1;
         [SerializeField] private ParticleSystem m_blastEffectParticleSystem_2;
+        [SerializeField] private Image m_streakFillbar;
+        [SerializeField] private TextMeshProUGUI m_streakCounterTxt;
         private FruitEntity[,] m_fruitEntityArray;
         [Tooltip("This list contains the fruit entities that are not destroyed only")]
         private List<FruitEntity> m_fruitEnityList = new List<FruitEntity>();
         private Stack<FruitEntity> m_selectedEntityStack = new Stack<FruitEntity>();
         private WaitForEndOfFrame _waitForEndOfTheFrame = new WaitForEndOfFrame();
         private WaitForSeconds delayToShowEntireBoardClearedEffect = new WaitForSeconds(1.5f);
+        private float m_streakCounterTxtFontSize = 35;
+        private byte _streakCounter = 0;
+
+
+
         #endregion Variables
 
         #region Unity Methods
+        private void Awake()
+        {
+            _Init();
+        }
         private void OnEnable()
         {
             GlobalEventHandler.OnFruitEntitySelected += Callback_On_Fruit_Entity_Selected;
@@ -125,6 +138,16 @@ namespace BenStudios
         #endregion Public Methods
 
         #region Private Methods
+        private void _Init()
+        {
+            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
+            {
+                m_fruitCallManager.gameObject.SetActive(false);
+                m_streakCounterTxt.gameObject.SetActive(true);
+                m_streakCounterTxt.SetText($"X{_streakCounter + 1}");
+                m_streakCounterTxt.fontSize = m_streakCounterTxtFontSize;
+            }
+        }
         private void _InitLevel()//MUST HAVE FRUIT PAIR CHECK
         {
             GlobalVariables.isBoardClearedNearToHalf = false;
@@ -176,21 +199,26 @@ namespace BenStudios
                     GlobalEventHandler.RequestToPerformTripleBombPowerupAction.Invoke(entity1, entity2);
                     return;
                 }
-            if ((entity1.ID != entity2.ID) ||
-                (entity1.ID != GlobalVariables.currentFruitCallId && entity2.ID != GlobalVariables.currentFruitCallId))
+
+            bool areSelectedEntitesAreSame = (entity1.ID == entity2.ID);
+            switch (GlobalVariables.currentGameplayMode)
             {
-                //Same Objects only matched
-                entity1.ResetEntity();
-                entity2.ResetEntity();
-                if (GlobalVariables.isFruitBombInAction || GlobalVariables.isTripleBombInAction)
-                {
-                    _HighlightThePossibleFruitsForFruitBomb(entity1, false);
-                    _HighlightThePossibleFruitsForFruitBomb(entity2, false);
-                }
-                _ShowFruitPairCantMatchAnimation(entity1, entity2, MatchFailedCause.FruitIDsAreNotSame);
-                if (m_selectedEntityStack.Count > 0)
-                    m_selectedEntityStack.Clear();
-                return;
+                case GameplayType.LevelMode:
+                    if (!areSelectedEntitesAreSame)
+                    {
+                        ResetUnMatchedEntites(MatchFailedCause.FruitIDsAreNotSame);
+                        return;
+                    }
+                    break;
+                case GameplayType.ChallengeMode:
+                    if (!areSelectedEntitesAreSame ||
+               (entity1.ID != GlobalVariables.currentFruitCallId && entity2.ID != GlobalVariables.currentFruitCallId))
+                    {
+                        //Same Objects only matched
+                        ResetUnMatchedEntites(MatchFailedCause.FruitIDsAreNotSame);
+                        return;
+                    }
+                    break;
             }
             if (entity1.neighbours.Values.Contains(entity2))//Fruits are side by side
             {
@@ -198,8 +226,6 @@ namespace BenStudios
                 pathFound = true;
                 optimizedPath.Add(new Vector2Int(entity1.Row, entity1.Column));
                 optimizedPath.Add(new Vector2Int(entity2.Row, entity2.Column));
-                // _SetupLinesToLinerender(0, entity1.RectTransform.localPosition);
-                //_SetupLinesToLinerender(1, entity2.RectTransform.localPosition);
             }
             else ///ADD 3 Straight Line Constraint HERE
             {
@@ -212,18 +238,29 @@ namespace BenStudios
                     pathFound = true;
             }
             if (pathFound)
-            {
                 _OnMatchFoundWithPath(optimizedPath, entity1, entity2);
-            }
             else
+                ResetUnMatchedEntites(MatchFailedCause.PathIsMoreThan3StraightLines);
+
+            ClearSelectedStack();
+
+            void ResetUnMatchedEntites(MatchFailedCause failedCause)
             {
+                if (GlobalVariables.isFruitBombInAction || GlobalVariables.isTripleBombInAction)
+                {
+                    _HighlightThePossibleFruitsForFruitBomb(entity1, false);
+                    _HighlightThePossibleFruitsForFruitBomb(entity2, false);
+                }
                 entity1.ResetEntity();
                 entity2.ResetEntity();
                 _ShowFruitPairCantMatchAnimation(entity1, entity2, MatchFailedCause.PathIsMoreThan3StraightLines);
-                m_selectedEntityStack.Clear();
+                ClearSelectedStack();
             }
-            if (m_selectedEntityStack.Count > 0)
-                m_selectedEntityStack.Clear();
+            void ClearSelectedStack()
+            {
+                if (m_selectedEntityStack.Count > 0)
+                    m_selectedEntityStack.Clear();
+            }
         }
 
         private void _OnMatchFoundWithPath(List<Vector2Int> optimizedPath, FruitEntity entity1, FruitEntity entity2)
@@ -231,6 +268,8 @@ namespace BenStudios
             GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.MatchSuccessSFX);
             _AddAndUpdatePairMatchScore();
             GlobalEventHandler.OnFruitPairMatched?.Invoke(entity1.ID);
+            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
+                _OnNewMatchMade();//to show star multiplier fill effect;
             _ShowMatchEffect(optimizedPath, entity1, entity2, () =>
             {
                 ResetLineRenderer();
@@ -240,7 +279,8 @@ namespace BenStudios
         private void _AddAndUpdatePairMatchScore()
         {
             int score = 0;
-            score += m_fruitCallManager.GetQuickMatchBonusScore();
+            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                score += m_fruitCallManager.GetQuickMatchBonusScore();
             score += Konstants.PAIR_MATCH_SCORE;
             GlobalEventHandler.RequestToUpdateScore?.Invoke(score);
         }
@@ -302,7 +342,7 @@ namespace BenStudios
                 ShowEffectOnEntity(rowList);
                 GlobalEventHandler.RequestToUpdateScore(Konstants.ROW_CLEAR_BONUS);
                 clearedRows.Add(rowList[0].Row);
-                MyUtils.Log($"Row:: Clear Row effect:: {delayCounter}");
+                GlobalEventHandler.On_Row_Cleared?.Invoke();
             }
             if (columnList.FindAll(x => x.IsDestroyed).Count == columnList.Count)
             {
@@ -311,13 +351,13 @@ namespace BenStudios
                 ShowEffectOnEntity(columnList);
                 GlobalEventHandler.RequestToUpdateScore(Konstants.COLUMN_CLEAR_BONUS);
                 clearedColumns.Add(columnList[0].Column);
-                MyUtils.Log($"Column:: Clear Column effect:: {delayCounter}");
+                GlobalEventHandler.OnColumnCleared?.Invoke();
             }
-            if (m_fruitEnityList.Count <= 0)
+            MyUtils.Log($"## Total Fruit count On the board::{m_fruitEnityList.Count}:: ClearedColumns:{clearedColumns.Count} ==> ClearedRowCount::{clearedRows.Count}");
+            if ((m_fruitEnityList.Count <= 0) || (clearedRows.Count == Konstants.REAL_ROW_SIZE && clearedColumns.Count == Konstants.REAL_COLUMN_SIZE))
             {
                 StartCoroutine(_ShowEntireBoardClearedEffect());
             }
-
             void ShowEffectOnEntity(List<FruitEntity> entityList)
             {
                 entityList.ForEach(x =>
@@ -332,7 +372,8 @@ namespace BenStudios
             GlobalVariables.highestUnlockedLevel++;//next level
             GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
             m_levelTimer.StopTimer();
-            m_fruitCallManager.ActiveFruitCall.PauseTimer();
+            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                m_fruitCallManager.ActiveFruitCall.PauseTimer();
             yield return delayToShowEntireBoardClearedEffect;
             for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
                 for (int i = 0; i < Konstants.ROW_SIZE; i++)
@@ -349,7 +390,8 @@ namespace BenStudios
         private IEnumerator _ShowTimeUpEffect()
         {
             GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
-            m_fruitCallManager.ActiveFruitCall.PauseTimer();
+            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                m_fruitCallManager.ActiveFruitCall.PauseTimer();
             yield return delayToShowEntireBoardClearedEffect;
             ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
             {
@@ -467,6 +509,38 @@ namespace BenStudios
             m_clearedRowAndColumnCount.y = clearedColumns.Count;
             return m_clearedRowAndColumnCount;
         }
+
+
+        private void _StartFillingDown()
+        {
+            DOTween.Kill(m_streakFillbar);
+            float remainingFillbar = m_streakFillbar.fillAmount * 100;
+            if (remainingFillbar >= 65)
+                GlobalEventHandler.RequestToShowGoodMatchText?.Invoke();
+            m_streakFillbar.DOFillAmount(1, 0.15f).onComplete += () =>
+            {
+                m_streakCounterTxt.transform.DOPunchScale(Vector3.one * .2f, .2f, 1).SetEase(Ease.Linear);
+                m_streakFillbar.DOFillAmount(0, Konstants.STAR_MULTIPLIER_TIMER_IN_SECONDS).SetUpdate(true).onComplete += () =>
+                {
+                    _ResetMatchMultiplier();
+                };
+            };
+            m_streakCounterTxt.SetText($"X{_streakCounter + 1}");
+        }
+
+        private void _ResetMatchMultiplier()
+        {
+            _streakCounter = 0;
+            DOTween.Kill(m_streakFillbar);
+            m_streakFillbar.fillAmount = 0;
+            m_streakCounterTxt.SetText($"X{_streakCounter + 1}");
+        }
+        private void _OnNewMatchMade()
+        {
+            _streakCounter++;
+            _StartFillingDown();
+        }
+
         #endregion Private Methods
 
 
@@ -567,12 +641,14 @@ namespace BenStudios
             if (canPause)
             {
                 m_levelTimer.StopTimer();
-                m_fruitCallManager.ActiveFruitCall.PauseTimer();
+                if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                    m_fruitCallManager.ActiveFruitCall.PauseTimer();
             }
             else
             {
                 m_levelTimer.StartTimer();
-                m_fruitCallManager.ActiveFruitCall.ResumeTimer();
+                if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                    m_fruitCallManager.ActiveFruitCall.ResumeTimer();
             }
         }
         #endregion Callbacks
@@ -596,7 +672,13 @@ namespace BenStudios
         //    }
         //}
         #endregion Deug PathFinding
+
+
+
+
     }
+
+
 
     public enum MatchFailedCause
     {
@@ -608,4 +690,10 @@ namespace BenStudios
         HomeScreen,
         Gameplay,
     }
+    public enum GameplayType
+    {
+        LevelMode,
+        ChallengeMode
+    }
+
 }

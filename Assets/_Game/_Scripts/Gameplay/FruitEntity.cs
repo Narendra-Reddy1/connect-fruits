@@ -196,6 +196,7 @@ namespace BenStudios
         public void ShowEntireBoardClearedEffect(float delay = 0)
         {
             if (m_isInVisibleEntity) return;
+            m_starImage.sprite = m_redStarImage;
             m_starImage.rectTransform.DOAnchorPos(Vector3.zero, 1f).SetDelay(delay);
             m_starImage.transform.DOScale(Vector3.one, 1f).SetDelay(delay);
         }
