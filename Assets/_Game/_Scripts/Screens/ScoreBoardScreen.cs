@@ -9,6 +9,7 @@ namespace BenStudios
 {
     public class ScoreBoardScreen : ScreenBase
     {
+        [SerializeField] private TextMeshProUGUI m_headerTxt;
         [SerializeField] private TextMeshProUGUI m_multiClearScoreTxt;
         [SerializeField] private TextMeshProUGUI m_rowColumnClearScoreTxt;
         [SerializeField] private TextMeshProUGUI m_allClearBonusTxt;
@@ -16,6 +17,8 @@ namespace BenStudios
         [SerializeField] private TextMeshProUGUI m_finalScoreTxt;
         [SerializeField] private float m_scoreCalculatingTime = .7f;
         [SerializeField] private Button m_submitBtn;
+
+
         private static PopupType m_popupType;
         private int m_multiClearScore = 0;
         private int m_rowColumnClearScore = 0;
@@ -24,14 +27,19 @@ namespace BenStudios
         private int m_finalScore = 0;
         private static System.Action OnPopupInitalized = default;
 
+        private const string LEVEL_COMPLETED_TEXT = "LEVEL COMPLETED";
+        private const string GAME_OVER_TEXT = "GAME OVER";
+        private const string TIME_UP_TEXT = "TIME'S UP";
 
         private void OnEnable()
         {
             OnPopupInitalized += _CalculateScores;
+            OnPopupInitalized += _SetupPopup;
         }
         private void OnDisable()
         {
             OnPopupInitalized -= _CalculateScores;
+            OnPopupInitalized -= _SetupPopup;
         }
 
 
@@ -46,7 +54,21 @@ namespace BenStudios
             ScreenManager.Instance.ChangeScreen(Window.Dashboard);
         }
 
-
+        private void _SetupPopup()
+        {
+            switch (m_popupType)
+            {
+                case PopupType.LevelCompleted:
+                    m_headerTxt.SetText(LEVEL_COMPLETED_TEXT);
+                    break;
+                case PopupType.GameOver:
+                    m_headerTxt.SetText(GAME_OVER_TEXT);
+                    break;
+                case PopupType.TimeUp:
+                    m_headerTxt.SetText(TIME_UP_TEXT);
+                    break;
+            }
+        }
         private void _CalculateScores()
         {
             int totalMatchedFruitsCount = (int)(GlobalEventHandler.RequestTotalMatchedFruits?.Invoke());
@@ -91,6 +113,7 @@ namespace BenStudios
         {
             LevelCompleted,//all the level is cleared.
             GameOver,//exit or timeup.
+            TimeUp,
         }
     }
 

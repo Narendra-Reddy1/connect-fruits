@@ -396,7 +396,7 @@ namespace BenStudios
             ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
             {
                 GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
-                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.GameOver);
+                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.TimeUp);
             });
         }
         private List<FruitEntity> _GetRowEntites(FruitEntity entity)

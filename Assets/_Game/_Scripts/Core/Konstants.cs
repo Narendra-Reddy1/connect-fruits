@@ -41,10 +41,8 @@ public static class Konstants
     public static int DEFAULT_TRIPLE_BOMB_POWERUP_BALANCE = 1;
     public static int DEFAULT_FRUIT_DUMPER_POWERUP_BALANCE = 1;
 
-    //IAP
-    public const string PURCHASE_INITIALIZING_TEXT = "Purchase Initializing...";
-    public const string PURCHASE_SUCCESS_TEXT = "Purchase Success...";
-    public const string PURCHASE_FAILED_TEXT = "Purchase Failed...";
+
+
 
     //IAP Product IDs
 

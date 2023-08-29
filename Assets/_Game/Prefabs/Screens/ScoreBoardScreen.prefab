@@ -1305,6 +1305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc12473d9e4cca4db0c7ca52a6fe2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_headerTxt: {fileID: 1823956991320438383}
   m_multiClearScoreTxt: {fileID: 1199461442997119694}
   m_rowColumnClearScoreTxt: {fileID: 4319388083671702172}
   m_allClearBonusTxt: {fileID: 3400670261413521481}
