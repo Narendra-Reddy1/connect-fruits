@@ -129,5 +129,12 @@ namespace BenStudios
         music_toggle,
         is_fruit_bomb_tutorial_shown,
         is_triple_bomb_tutorial_shown,
+        is_hint_powerup_tutorial_shown,
+        last_level_reward_level,
+        last_level_reward_index,
+        last_star_chest_reward_index,
+        is_level_chest_opened_but_not_claimed,
+        is_star_chest_opened_but_not_claimed,
+        collected_stars,
     }
 }

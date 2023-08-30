@@ -17,7 +17,7 @@ namespace BenStudios.IAP
             AssignProductID(packData.bundleType);
             m_priceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
             foreach (KeyValuePair<ResourceType, int> itemData in packData.resourcesDictionary)
-                SetUp(m_textureDatabase.GetSpriteWithID(itemData.Key), itemData.Value);
+                SetUp(m_textureDatabase.GetSpriteWithID(itemData.Key).Result, itemData.Value);
             void SetUp(Sprite sprite, int value)
             {
                 ItemUnit item = Instantiate(m_bundleItemPack, m_contentTransform);

@@ -1,3 +1,4 @@
+using BenStudios.Economy;
 using BenStudios.ScreenManagement;
 using DG.Tweening;
 using System.Collections;
@@ -11,13 +12,14 @@ namespace BenStudios
 
         #region Variables
         private PowerupEntity m_myEntity;
+        private int m_powerupBalance;
         #endregion Variables
 
 
         #region Unity Methods
         private void OnEnable()
         {
-            m_myEntity = GetComponentInParent<PowerupEntity>();
+            Init();
         }
         #endregion Unity Methods
 
@@ -25,28 +27,81 @@ namespace BenStudios
         #region Public Methods
         public override void Init()
         {
+            m_myEntity = GetComponentInParent<PowerupEntity>();
+            _HandlePowerupCount();
         }
 
         public override void PerformPowerupAction()
         {
+
             if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
                 ScreenManager.Instance.ChangeScreen(Window.GenericPowerupTutorialPopup, ScreenType.Additive, onComplete: () =>
                 {
                     GenericPowerupInfoPopup.Init(GenericPowerupInfoPopup.PopupType.FruitBomb);
                 });
-            GlobalVariables.isFruitBombInAction = true;
-            GlobalEventHandler.RequestToActivatePowerUpMode?.Invoke(PowerupType.FruitBomb);
-            if (m_myEntity != null)
+            switch (GlobalVariables.currentGameplayMode)
             {
-                m_myEntity.isOccupied = false;
+                case GameplayType.LevelMode:
+                    if (_DeductPowerup())
+                    {
+                        GlobalVariables.isFruitBombInAction = true;
+                        GlobalEventHandler.RequestToActivatePowerUpMode?.Invoke(PowerupType.FruitBomb);
+                    }
+                    else
+                    {
+                        //Out of Powerups...
+                        //Show ShopScreen...
+                    }
+                    break;
+                case GameplayType.ChallengeMode:
+                    GlobalVariables.isFruitBombInAction = true;
+                    GlobalEventHandler.RequestToActivatePowerUpMode?.Invoke(PowerupType.FruitBomb);
+                    if (m_myEntity != null)
+                    {
+                        m_myEntity.isOccupied = false;
+                    }
+                    gameObject.SetActive(false);
+                    break;
             }
-            gameObject.SetActive(false);
         }
         #endregion Public Methods
 
         #region Private Methods
 
-
+        private void _HandlePowerupCount()
+        {
+            switch (GlobalVariables.currentGameplayMode)
+            {
+                case GameplayType.LevelMode:
+                    m_powerupBalance = PlayerResourceManager.GetBalance(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID);
+                    if (m_powerupBalance > 0)
+                    {
+                        powerupHolderImage.sprite = powerupCountHolderSprite;
+                        powerupCountTxt.SetText(m_powerupBalance.ToString());
+                    }
+                    else
+                    {
+                        powerupHolderImage.sprite = plusIconSprite;
+                        powerupCountTxt.gameObject.SetActive(false);
+                    }
+                    break;
+                case GameplayType.ChallengeMode:
+                    powerupHolderImage.gameObject.SetActive(false);
+                    break;
+            }
+        }
+        private bool _DeductPowerup()
+        {
+            bool deducted = false;
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown)) return true;
+            if (PlayerResourceManager.GetBalance(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID) > 0)
+            {
+                PlayerResourceManager.Take(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID);
+                deducted = true;
+            }
+            _HandlePowerupCount();
+            return deducted;
+        }
 
         #endregion Private Methods
 

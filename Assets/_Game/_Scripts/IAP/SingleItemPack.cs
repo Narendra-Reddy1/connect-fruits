@@ -16,7 +16,7 @@ namespace BenStudios.IAP
         public void Init(SinglePackData singlePackData)
         {
             transform.localScale = Vector3.one;
-            m_itemIcon.sprite = m_textureDatabase.GetSpriteWithID(singlePackData.resourceType);
+            m_itemIcon.sprite = m_textureDatabase.GetSpriteWithID(singlePackData.resourceType).Result;
             AssignProductID(singlePackData.bundleType);
             m_itemPriceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
             m_itemCount.SetText(singlePackData.itemCount.ToString());

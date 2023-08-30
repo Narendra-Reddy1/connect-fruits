@@ -60,6 +60,12 @@ namespace BenStudios
             {
                 case PopupType.LevelCompleted:
                     m_headerTxt.SetText(LEVEL_COMPLETED_TEXT);
+                    if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
+                    {
+                        GlobalVariables.CollectedStars += GameplayManager.CollectedStars;
+                        GlobalVariables.isLevelCompletedSuccessfully = true;
+                        PlayerDataManager.instance.SaveData();
+                    }
                     break;
                 case PopupType.GameOver:
                     m_headerTxt.SetText(GAME_OVER_TEXT);

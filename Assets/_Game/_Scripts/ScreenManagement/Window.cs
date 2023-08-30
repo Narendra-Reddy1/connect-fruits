@@ -18,6 +18,7 @@ namespace BenStudios.ScreenManagement
         GenericPowerupTutorialPopup,
         StoreScreen,
         PurchaseStatusScreen,
+        ChestRewardScreen,
     }
 
     [System.Serializable]

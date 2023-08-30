@@ -45,7 +45,7 @@ namespace BenStudios.IAP
             builder.AddProduct(Konstants.COIN_PACK_5, ProductType.Consumable);
             builder.AddProduct(Konstants.FRUIT_BOMB_PACK_1, ProductType.Consumable);
             builder.AddProduct(Konstants.TRIPLE_BOMB_PACK_1, ProductType.Consumable);
-            builder.AddProduct(Konstants.FRUIT_DUMPER_PACK_1, ProductType.Consumable);
+            builder.AddProduct(Konstants.HINT_POWERUP_PACK_1, ProductType.Consumable);
             builder.AddProduct(Konstants.NO_ADS, ProductType.NonConsumable);
 
             builder.Configure<IGooglePlayConfiguration>().SetServiceDisconnectAtInitializeListener(_OnGooglePlayServiceDisconnected);
@@ -152,7 +152,7 @@ namespace BenStudios.IAP
                 {Konstants.COIN_PACK_5,GetSinglePackData(BundleType.CoinPack_5)},
                 {Konstants.FRUIT_BOMB_PACK_1,GetSinglePackData(BundleType.FruitBombPack_1)},
                 {Konstants.TRIPLE_BOMB_PACK_1,GetSinglePackData(BundleType.TripleBombPack_1)},
-                {Konstants.FRUIT_DUMPER_PACK_1,GetSinglePackData(BundleType.FruitDumperPack_1)},
+                {Konstants.HINT_POWERUP_PACK_1,GetSinglePackData(BundleType.HindPowerupPack_1)},
             };
 
             SinglePackData GetSinglePackData(BundleType bundleType)
@@ -191,7 +191,7 @@ namespace BenStudios.IAP
                         purchasedData.tripleBombs = pack.itemCount;
                         break;
                     case ResourceType.FruitDumper:
-                        purchasedData.fruitDumpers = pack.itemCount;
+                        purchasedData.hintPowerups = pack.itemCount;
                         break;
                 }
             }
@@ -225,15 +225,15 @@ namespace BenStudios.IAP
         public int coins;
         public int fruitBombs;
         public int tripleBombs;
-        public int fruitDumpers;
+        public int hintPowerups;
         public bool isNoAds;
-        public PurchaseData(string productID, int coins = 0, int fruitBombs = 0, int tripleBombs = 0, int fruitDumpers = 0, bool isNoAds = false)
+        public PurchaseData(string productID, int coins = 0, int fruitBombs = 0, int tripleBombs = 0, int hintPowerups = 0, bool isNoAds = false)
         {
             this.productID = productID;
             this.coins = coins;
             this.fruitBombs = fruitBombs;
             this.tripleBombs = tripleBombs;
-            this.fruitDumpers = fruitDumpers;
+            this.hintPowerups = hintPowerups;
             this.isNoAds = isNoAds;
         }
     }

@@ -16,7 +16,7 @@ namespace BenStudios
         #region Variables
 
         private PlayerData m_playerData;
-        public PlayerData playerData => m_playerData;
+        public PlayerData PlayerData => m_playerData;
 
         private static bool m_isPlayerDataLoaded = false;
         //public string levelKey { get; private set; }
@@ -82,7 +82,8 @@ namespace BenStudios
         {
             m_playerData.storeInventory = PlayerResourceManager.StoreInventory;
             m_playerData.levelIndex = GlobalVariables.highestUnlockedLevel;
-            DataSerializer.Save<PlayerData>("playerData.dat", m_playerData);
+            m_playerData.collectedStars = GlobalVariables.CollectedStars;
+            DataSerializer.Save("playerData.dat", m_playerData);
         }
 
         /// <summary>
@@ -96,13 +97,13 @@ namespace BenStudios
             {
                 Debug.Log(" Error with Loading..");
                 m_playerData = new PlayerData();
-                //_AddDefaultData();
                 _AddFirstStartData();
                 SaveData();
                 return;
             }
             PlayerResourceManager.StoreInventory = m_playerData.storeInventory;
             GlobalVariables.highestUnlockedLevel = m_playerData.levelIndex;
+            GlobalVariables.CollectedStars = m_playerData.collectedStars;
             Debug.Log("Done with Loading");
         }
 
@@ -137,8 +138,8 @@ namespace BenStudios
             PlayerResourceManager.Give(PlayerResourceManager.TRIPLE_BOMB_POWERUP_ITEM_ID, Konstants.DEFAULT_TRIPLE_BOMB_POWERUP_BALANCE);
             PlayerResourceManager.UpdateToPlayerData(PlayerResourceManager.TRIPLE_BOMB_POWERUP_ITEM_ID);
 
-            PlayerResourceManager.Give(PlayerResourceManager.FRUIT_DUMPER_POWERUP_ITEM_ID, Konstants.DEFAULT_FRUIT_DUMPER_POWERUP_BALANCE);
-            PlayerResourceManager.UpdateToPlayerData(PlayerResourceManager.FRUIT_DUMPER_POWERUP_ITEM_ID);
+            PlayerResourceManager.Give(PlayerResourceManager.HINT_POWERUP_ITEM_ID, Konstants.DEFAULT_HINT_POWERUP_BALANCE);
+            PlayerResourceManager.UpdateToPlayerData(PlayerResourceManager.HINT_POWERUP_ITEM_ID);
             m_playerData.levelIndex = 0;
         }
 
@@ -153,7 +154,7 @@ namespace BenStudios
     {
         public string levelKey;
         public int levelIndex;
-
+        public short collectedStars;
         public Dictionary<string, VirtualItem> storeInventory;
 
 

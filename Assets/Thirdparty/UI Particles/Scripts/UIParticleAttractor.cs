@@ -2,6 +2,7 @@
 using Coffee.UIParticleExtensions;
 using UnityEngine.Events;
 using System;
+using System.Collections.Generic;
 
 namespace Coffee.UIExtensions
 {
@@ -15,8 +16,8 @@ namespace Coffee.UIExtensions
             Sphere,
         }
 
-        [SerializeField]
-        private ParticleSystem m_ParticleSystem;
+
+        public List<ParticleSystem> particleSystems;
 
         [Range(0.1f, 10f)]
         [SerializeField]
@@ -74,40 +75,71 @@ namespace Coffee.UIExtensions
 
         private UIParticle _uiParticle;
 
-        private void OnEnable()
+        internal virtual void OnEnable()
         {
-            if (m_ParticleSystem == null)
+            if (particleSystems.Count <= 0)
             {
                 Debug.LogError("No particle system attached to particle attractor script", this);
                 enabled = false;
                 return;
             }
-
-            _uiParticle = m_ParticleSystem.GetComponentInParent<UIParticle>();
-            if (_uiParticle && !_uiParticle.particles.Contains(m_ParticleSystem))
+            foreach (ParticleSystem ps in particleSystems)
             {
-                _uiParticle = null;
+                _uiParticle = ps.GetComponentInParent<UIParticle>();
+                if (_uiParticle && !_uiParticle.particles.Contains(ps))
+                {
+                    _uiParticle = null;
+                }
+
             }
             UIParticleUpdater.Register(this);
         }
 
-        private void OnDisable()
+        internal virtual void OnDisable()
         {
             _uiParticle = null;
             UIParticleUpdater.Unregister(this);
         }
 
-        internal void Attract()
+        public void AddListnerToOnPartilceAttracted(UnityAction action)
         {
-            if (m_ParticleSystem == null) return;
+            m_OnAttracted.AddListener(action);
+        }
+        public void RemoveListenerToOnParticleAttracted(UnityAction action)
+        {
+            m_OnAttracted.RemoveListener(action);
+        }
 
-            var count = m_ParticleSystem.particleCount;
+
+        //public void AddListenerOnLastParticleAttracted(UnityAction action)
+        //{
+        //    m_OnFirstParticleAttracted.AddListener(action);
+
+
+        //}
+        //public void RemoveListenerOnLastParticleAttracted(UnityAction action)
+        //{
+        //    m_OnFirstParticleAttracted.RemoveListener(action);
+        //}
+        public void Attract()
+        {
+            foreach (ParticleSystem ps in particleSystems)
+            {
+                AttractParticles(ps);
+            }
+        }
+        internal void AttractParticles(ParticleSystem particleSystem)
+        {
+
+            if (particleSystem == null) return;
+
+            var count = particleSystem.particleCount;
             if (count == 0) return;
 
             var particles = ParticleSystemExtensions.GetParticleArray(count);
-            m_ParticleSystem.GetParticles(particles, count);
+            particleSystem.GetParticles(particles, count);
 
-            var dstPos = GetDestinationPosition();
+            var dstPos = GetDestinationPosition(particleSystem);
             for (var i = 0; i < count; i++)
             {
                 // Attracted
@@ -116,18 +148,7 @@ namespace Coffee.UIExtensions
                 {
                     p.remainingLifetime = 0f;
                     particles[i] = p;
-
-                    if (m_OnAttracted != null)
-                    {
-                        try
-                        {
-                            m_OnAttracted.Invoke();
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.LogException(e);
-                        }
-                    }
+                    m_OnAttracted?.Invoke();
                     continue;
                 }
 
@@ -144,19 +165,18 @@ namespace Coffee.UIExtensions
                 p.velocity *= 0.5f;
                 particles[i] = p;
             }
-
-            m_ParticleSystem.SetParticles(particles, count);
+            particleSystem.SetParticles(particles, count);
         }
 
-        private Vector3 GetDestinationPosition()
+        private Vector3 GetDestinationPosition(ParticleSystem particleSystem)
         {
             var isUI = _uiParticle && _uiParticle.enabled;
-            var psPos = m_ParticleSystem.transform.position;
+            var psPos = particleSystem.transform.position;
             var attractorPos = transform.position;
             var dstPos = attractorPos;
-            if (m_ParticleSystem.main.simulationSpace == ParticleSystemSimulationSpace.Local)
+            if (particleSystem.main.simulationSpace == ParticleSystemSimulationSpace.Local)
             {
-                dstPos = m_ParticleSystem.transform.InverseTransformPoint(dstPos);
+                dstPos = particleSystem.transform.InverseTransformPoint(dstPos);
                 if (isUI)
                 {
                     dstPos = dstPos.GetScaled(_uiParticle.transform.localScale, _uiParticle.scale3D.Inverse());

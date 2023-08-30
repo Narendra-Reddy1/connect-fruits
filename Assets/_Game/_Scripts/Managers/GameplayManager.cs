@@ -1,4 +1,5 @@
 using BenStudios.ScreenManagement;
+using Coffee.UIExtensions;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +31,9 @@ namespace BenStudios
         [SerializeField] private ParticleSystem m_blastEffectParticleSystem_1;
         [SerializeField] private ParticleSystem m_blastEffectParticleSystem_2;
         [SerializeField] private Image m_streakFillbar;
+        [SerializeField] private UIParticleAttractor m_particleAttractor;
         [SerializeField] private TextMeshProUGUI m_streakCounterTxt;
+        [SerializeField] private StarsParticleSystemManager m_starsParticleSystemManager;
         private FruitEntity[,] m_fruitEntityArray;
         [Tooltip("This list contains the fruit entities that are not destroyed only")]
         private List<FruitEntity> m_fruitEnityList = new List<FruitEntity>();
@@ -39,8 +42,9 @@ namespace BenStudios
         private WaitForSeconds delayToShowEntireBoardClearedEffect = new WaitForSeconds(1.5f);
         private float m_streakCounterTxtFontSize = 35;
         private byte _streakCounter = 0;
+        private static short m_collectedStars;
 
-
+        public static short CollectedStars => m_collectedStars;
 
         #endregion Variables
 
@@ -51,6 +55,7 @@ namespace BenStudios
         }
         private void OnEnable()
         {
+            m_particleAttractor.AddListnerToOnPartilceAttracted(Callback_On_Star_Particle_Attracted);
             GlobalEventHandler.OnFruitEntitySelected += Callback_On_Fruit_Entity_Selected;
             GlobalEventHandler.OnFruitEntityUnSelected += Callback_On_Unselected_Fruit_Entity;
             GlobalEventHandler.OnLevelStartupTimerIsCompleted += Callback_On_LevelStartup_Timer_Completed;
@@ -64,10 +69,12 @@ namespace BenStudios
             GlobalEventHandler.OnLevelTimerIsCompleted += Callback_On_Level_Timer_Completed;
             GlobalEventHandler.RequestToPauseTimer += Callback_On_TimePauseRequested;
             GlobalEventHandler.RequestClearedRowAndColumnCount += GetClearedRowAndColumnCount;
+            GlobalEventHandler.HintPowerupActionRequested += Callback_On_Hint_Action_Requested;
 
         }
         private void OnDisable()
         {
+            m_particleAttractor.RemoveListenerToOnParticleAttracted(Callback_On_Star_Particle_Attracted);
             GlobalEventHandler.OnFruitEntitySelected -= Callback_On_Fruit_Entity_Selected;
             GlobalEventHandler.OnFruitEntityUnSelected -= Callback_On_Unselected_Fruit_Entity;
             GlobalEventHandler.OnLevelStartupTimerIsCompleted -= Callback_On_LevelStartup_Timer_Completed;
@@ -81,50 +88,16 @@ namespace BenStudios
             GlobalEventHandler.RequestClearedRowAndColumnCount -= GetClearedRowAndColumnCount;
             GlobalEventHandler.OnLevelTimerIsCompleted -= Callback_On_Level_Timer_Completed;
             GlobalEventHandler.RequestToPauseTimer -= Callback_On_TimePauseRequested;
+            GlobalEventHandler.HintPowerupActionRequested -= Callback_On_Hint_Action_Requested;
         }
         private IEnumerator Start()
         {
             yield return _waitForEndOfTheFrame;
             GlobalVariables.currentGameState = GameState.Gameplay;
+            GlobalVariables.isLevelCompletedSuccessfully = false;
             _InitLevel();
             m_levelTimer.InitTimer(m_timerData.GetTimerData(TimerType.LevelTimer).timeInSeconds);
         }
-
-        /* 
-         //Debug Board Clear Effect....
-          private void Update()
-         {
-             if (Input.GetKeyUp(KeyCode.L))
-             {
-                 for (int i = 0; i < Konstants.ROW_SIZE; i++)
-                 {
-                     for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
-                     {
-                         m_fruitEntityArray[i, j].ShrinkAndDestroy();
-                     }
-                 }
-             }
-             if (Input.GetKeyUp(KeyCode.O))
-             {
-                 for (int i = 0; i < Konstants.ROW_SIZE; i++)
-                 {
-                     for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
-                     {
-                         m_fruitEntityArray[i, j].ShowRowOrColumnGotClearedEffect();
-                     }
-                 }
-             }
-             if (Input.GetKeyUp(KeyCode.P))
-             {
-                 for (int i = 0; i < Konstants.ROW_SIZE; i++)
-                 {
-                     for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
-                     {
-                         m_fruitEntityArray[i, j].ShowEntireBoardClearedEffect();
-                     }
-                 }
-             }
-         }*/
 
         #endregion Unity Methods
 
@@ -339,19 +312,19 @@ namespace BenStudios
             {
                 if (clearedRows.Contains(rowList[0].Row)) return;
                 delayCounter = 0;
-                ShowEffectOnEntity(rowList);
-                GlobalEventHandler.RequestToUpdateScore(Konstants.ROW_CLEAR_BONUS);
                 clearedRows.Add(rowList[0].Row);
-                GlobalEventHandler.On_Row_Cleared?.Invoke();
+                GlobalEventHandler.OnRowCleared?.Invoke();
+                GlobalEventHandler.RequestToUpdateScore(Konstants.ROW_CLEAR_BONUS);
+                ShowEffectOnEntity(rowList);
             }
             if (columnList.FindAll(x => x.IsDestroyed).Count == columnList.Count)
             {
                 if (clearedColumns.Contains(rowList[0].Column)) return;
                 delayCounter = 0;
-                ShowEffectOnEntity(columnList);
                 GlobalEventHandler.RequestToUpdateScore(Konstants.COLUMN_CLEAR_BONUS);
                 clearedColumns.Add(columnList[0].Column);
                 GlobalEventHandler.OnColumnCleared?.Invoke();
+                ShowEffectOnEntity(columnList);
             }
             MyUtils.Log($"## Total Fruit count On the board::{m_fruitEnityList.Count}:: ClearedColumns:{clearedColumns.Count} ==> ClearedRowCount::{clearedRows.Count}");
             if ((m_fruitEnityList.Count <= 0) || (clearedRows.Count == Konstants.REAL_ROW_SIZE && clearedColumns.Count == Konstants.REAL_COLUMN_SIZE))
@@ -465,11 +438,10 @@ namespace BenStudios
         }
         private void _CheckForPossibleAutoMatch()
         {
+            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
             List<FruitEntity> sameIdEntities = m_fruitEnityList.FindAll(x => x.ID == GlobalVariables.currentFruitCallId);
             Vector2Int startCell = new Vector2Int();
             Vector2Int endCell = new Vector2Int();
-            //FruitEntity possibleMatchEntity1 = null;
-            //FruitEntity possibleMatchEntity2 = null;
             for (int i = 0, count = sameIdEntities.Count; i < count; i++)
             {
                 for (int j = 0; j < count; j++)
@@ -481,8 +453,6 @@ namespace BenStudios
                     List<Vector2Int> optimizedPath = _GetValidAndEfficientPath(PathFinding.FindPossiblePathsLinearAlgo(startCell, endCell), startCell, endCell);
                     if (optimizedPath != null)
                     {
-                        //possibleMatchEntity1 = sameIdEntities[i];
-                        //possibleMatchEntity2 = sameIdEntities[j];
                         _OnMatchFoundWithPath(optimizedPath, sameIdEntities[i], sameIdEntities[j]);
                         goto ENDOFTHEMETHOD;
                     }
@@ -520,7 +490,7 @@ namespace BenStudios
             m_streakFillbar.DOFillAmount(1, 0.15f).onComplete += () =>
             {
                 m_streakCounterTxt.transform.DOPunchScale(Vector3.one * .2f, .2f, 1).SetEase(Ease.Linear);
-                m_streakFillbar.DOFillAmount(0, Konstants.STAR_MULTIPLIER_TIMER_IN_SECONDS).SetUpdate(true).onComplete += () =>
+                m_streakFillbar.DOFillAmount(0, Konstants.DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS).SetUpdate(true).onComplete += () =>
                 {
                     _ResetMatchMultiplier();
                 };
@@ -538,7 +508,37 @@ namespace BenStudios
         private void _OnNewMatchMade()
         {
             _streakCounter++;
+            m_starsParticleSystemManager.SetupAndEmitParticles(_streakCounter);
             _StartFillingDown();
+        }
+        private void _PerformHintPowerupAction()
+        {
+            MyUtils.Log($"Hint Powerup Action From gameplayMAnager");
+            //OnComplete.....
+            GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
+
+
+            //    List<FruitEntity> sameIdEntities = m_fruitEnityList.FindAll(x => x.ID == GlobalVariables.currentFruitCallId);
+            //    Vector2Int startCell = new Vector2Int();
+            //    Vector2Int endCell = new Vector2Int();
+            //    for (int i = 0, count = sameIdEntities.Count; i < count; i++)
+            //    {
+            //        for (int j = 0; j < count; j++)
+            //        {
+            //            if (i == j) continue;
+            //            startCell = new Vector2Int(sameIdEntities[i].Row, sameIdEntities[i].Column);
+            //            endCell = new Vector2Int(sameIdEntities[j].Row, sameIdEntities[j].Column);
+
+            //            List<Vector2Int> optimizedPath = _GetValidAndEfficientPath(PathFinding.FindPossiblePathsLinearAlgo(startCell, endCell), startCell, endCell);
+            //            if (optimizedPath != null)
+            //            {
+            //                _OnMatchFoundWithPath(optimizedPath, sameIdEntities[i], sameIdEntities[j]);
+            //                goto ENDOFTHEMETHOD;
+            //            }
+            //        }
+            //    }
+            //ENDOFTHEMETHOD:
+            //    MyUtils.Log(string.Empty);
         }
 
         #endregion Private Methods
@@ -650,6 +650,15 @@ namespace BenStudios
                 if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
                     m_fruitCallManager.ActiveFruitCall.ResumeTimer();
             }
+        }
+        private void Callback_On_Star_Particle_Attracted()
+        {
+            m_collectedStars++;
+            GlobalEventHandler.EventOnStarParticleAttracted?.Invoke(m_collectedStars);
+        }
+        private void Callback_On_Hint_Action_Requested()
+        {
+            _PerformHintPowerupAction();
         }
         #endregion Callbacks
 

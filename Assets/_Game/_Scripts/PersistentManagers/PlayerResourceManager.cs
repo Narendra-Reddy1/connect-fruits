@@ -39,9 +39,10 @@ namespace BenStudios.Economy
         }
 
         public static string COINS_ITEM_ID = "COIN_CURRENCY";
-        public static string FRUIT_BOMB_POWERUP_ITEM_ID = "UNDO_POWERUP";
-        public static string TRIPLE_BOMB_POWERUP_ITEM_ID = "RETUR3_POWERUP";
-        public static string FRUIT_DUMPER_POWERUP_ITEM_ID = "SHUFFLE_POWERUP";
+        public static string FRUIT_BOMB_POWERUP_ITEM_ID = "FRUIT_BOMB_POWERUP";
+        public static string TRIPLE_BOMB_POWERUP_ITEM_ID = "TRIPLE_BOMB_POWERUP";
+        //public static string FRUIT_DUMPER_POWERUP_ITEM_ID = "FRUIT_DUMPER_POWERUP";
+        public static string HINT_POWERUP_ITEM_ID = "HINT_POWERUP";
 
 
         [SerializeField]
@@ -51,7 +52,7 @@ namespace BenStudios.Economy
         public Currency coins;
         public PowerUp fruitBombPowerup;
         public PowerUp tripleBombPowerUp;
-        public PowerUp fruitDumperPowerUp;
+        public PowerUp hintPowerUp;
 
         public void updateValueStoreItems()
         {
@@ -74,12 +75,12 @@ namespace BenStudios.Economy
             coins = new Currency(COINS_ITEM_ID);
             fruitBombPowerup = new PowerUp(FRUIT_BOMB_POWERUP_ITEM_ID, COINS_ITEM_ID, Konstants.FRUIT_BOMB_POWERUP_COST);
             tripleBombPowerUp = new PowerUp(TRIPLE_BOMB_POWERUP_ITEM_ID, COINS_ITEM_ID, Konstants.TRIPLE_BOMB_POWERUP_COST);
-            fruitDumperPowerUp = new PowerUp(FRUIT_DUMPER_POWERUP_ITEM_ID, COINS_ITEM_ID, Konstants.FRUIT_DUMPER_POWERUP_COST);
+            hintPowerUp = new PowerUp(HINT_POWERUP_ITEM_ID, COINS_ITEM_ID, Konstants.HINT_POWERUP_COST);
             //Add the item to the inventory.
             addItemToStoreInventory(coins);
             addItemToStoreInventory(fruitBombPowerup);
             addItemToStoreInventory(tripleBombPowerUp);
-            addItemToStoreInventory(fruitDumperPowerUp);
+            addItemToStoreInventory(hintPowerUp);
         }
 
         void addItemToStoreInventory(VirtualItem item)
@@ -416,7 +417,7 @@ namespace BenStudios.Economy
             Give(COINS_ITEM_ID, purchaseData.coins);
             Give(FRUIT_BOMB_POWERUP_ITEM_ID, purchaseData.fruitBombs);
             Give(TRIPLE_BOMB_POWERUP_ITEM_ID, purchaseData.tripleBombs);
-            Give(FRUIT_DUMPER_POWERUP_ITEM_ID, purchaseData.fruitDumpers);
+            Give(HINT_POWERUP_ITEM_ID, purchaseData.hintPowerups);
             onStoreGiveCallback?.Invoke();
 
         }

@@ -45,8 +45,8 @@ namespace BenStudios.IAP
                 case BundleType.TripleBombPack_1:
                     productID = Konstants.TRIPLE_BOMB_PACK_1;
                     break;
-                case BundleType.FruitDumperPack_1:
-                    productID = Konstants.FRUIT_DUMPER_PACK_1;
+                case BundleType.HindPowerupPack_1:
+                    productID = Konstants.HINT_POWERUP_PACK_1;
                     break;
             }
         }

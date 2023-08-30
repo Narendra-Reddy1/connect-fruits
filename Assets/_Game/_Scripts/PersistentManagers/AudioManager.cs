@@ -32,7 +32,7 @@ namespace BenStudios
             GlobalEventHandler.RequestToPlaySFX -= _PlaySFX;
             GlobalEventHandler.OnMusicToggled -= _ToggleMusic;
             GlobalEventHandler.OnSoundToggled -= _ToggleSound;
-        }
+        } 
         #endregion Unity Methods
 
         #region Private Methods

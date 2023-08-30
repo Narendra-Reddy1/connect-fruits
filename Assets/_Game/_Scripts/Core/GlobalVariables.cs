@@ -12,6 +12,12 @@ namespace BenStudios
         public static GameState currentGameState = GameState.HomeScreen;
         public static int highestUnlockedLevel = 1;
         public static GameplayType currentGameplayMode = GameplayType.LevelMode;
+        //public static int currentSelectedLevel;
+        public static int levelChestRewardOccurence = 5;
+        public static int lastLevelChestRewardDefinedAt = 5;
+        public static short CollectedStars;
+        internal static bool isLevelCompletedSuccessfully;
+
         public static void ResetGameplayVariables()
         {
             isBoardClearedNearToHalf = false;

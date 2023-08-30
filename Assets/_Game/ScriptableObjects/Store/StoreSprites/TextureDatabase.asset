@@ -41,3 +41,13 @@ MonoBehaviour:
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       m_EditorAssetChanged: 1
+  m_resourceSprites:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 21300000, guid: e25161253cc910a4297d9a62b4899268, type: 3}
+    - Key: 1
+      Value: {fileID: 21300000, guid: ec2236d7d85fae74682f579b4ce21d7f, type: 3}
+    - Key: 2
+      Value: {fileID: 21300000, guid: c3eb6015488473a468186bf8ae688c0b, type: 3}
+    - Key: 3
+      Value: {fileID: 21300000, guid: 3a97813811ab24742ae70f210d2779c1, type: 3}

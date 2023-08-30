@@ -27,7 +27,17 @@ namespace BenStudios
         public static Action<bool> RequestToPauseTimer = default;//true will pause false will unpause.
         public static Action RequestToShowGoodMatchText = default;
         public static Action OnColumnCleared = default;
-        public static Action On_Row_Cleared = default;
+        public static Action OnRowCleared = default;
+        public static Action<short> EventOnStarParticleAttracted = default;
+
+        //POWERUP 
+        public static Action HintPowerupActionRequested = default;
+
+        //Chest
+        public static Action EventOnStarChestClaimed = default;
+        public static Action EventOnLevelChestClaimed = default;
+        public static Action EventOnLevelChestOpenedButNotClaimed = default;
+        public static Action EventOnStarChestOpenedButNotClaimed = default;
 
         //UI
         public static Action<int> RequestToUpdateScore = default;

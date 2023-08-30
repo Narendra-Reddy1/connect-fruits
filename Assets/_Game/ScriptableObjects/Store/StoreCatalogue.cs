@@ -24,11 +24,10 @@ namespace BenStudios
 
         public int GetResourceCountIfHave(ResourceType resourceType)
         {
-            int coins = 0;
-            resourcesDictionary.TryGetValue(resourceType, out coins);
-            return coins;
+            int resourceCount = 0;
+            resourcesDictionary.TryGetValue(resourceType, out resourceCount);
+            return resourceCount;
         }
-
     }
     [System.Serializable]
     public class SinglePackData
@@ -53,6 +52,6 @@ namespace BenStudios
         //powerup packs
         FruitBombPack_1,
         TripleBombPack_1,
-        FruitDumperPack_1,
+        HindPowerupPack_1,
     }
 }

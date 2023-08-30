@@ -18,6 +18,7 @@ namespace BenStudios
         [SerializeField] private GameObject m_goodMatchTxtPrefab;
         [SerializeField] private GameObject m_rowColClearedTxtPrefab;
         [SerializeField] private Transform m_praiseTxtsParent;
+        [SerializeField] private TextMeshProUGUI m_starCountTxt;
 
         //PowerupMode
         [SerializeField] private Transform m_topbarUiTransform;
@@ -77,7 +78,8 @@ namespace BenStudios
             GlobalEventHandler.RequestToDeactivatePowerUpMode += Callback_On_Deactivate_Powerup_Mode_Requested;
             GlobalEventHandler.RequestToShowGoodMatchText += Callback_On_Show_Match_Text_Requested;
             GlobalEventHandler.OnColumnCleared += Callback_On_Column_Cleared;
-            GlobalEventHandler.On_Row_Cleared += Callback_On_Row_Cleared;
+            GlobalEventHandler.OnRowCleared += Callback_On_Row_Cleared;
+            GlobalEventHandler.EventOnStarParticleAttracted += Callback_On_Star_particleAttracted;
         }
         private void OnDisable()
         {
@@ -86,7 +88,10 @@ namespace BenStudios
             GlobalEventHandler.RequestToDeactivatePowerUpMode -= Callback_On_Deactivate_Powerup_Mode_Requested;
             GlobalEventHandler.RequestToShowGoodMatchText -= Callback_On_Show_Match_Text_Requested;
             GlobalEventHandler.OnColumnCleared -= Callback_On_Column_Cleared;
-            GlobalEventHandler.On_Row_Cleared -= Callback_On_Row_Cleared;
+            GlobalEventHandler.OnRowCleared -= Callback_On_Row_Cleared;
+            GlobalEventHandler.EventOnStarParticleAttracted -= Callback_On_Star_particleAttracted;
+            ObjectPoolManager.instance.RemovePool(GOOD_MATCH_TEXT_POOL);
+            ObjectPoolManager.instance.RemovePool(ROW_COL_CLEARED_TEXT_POOL);
         }
         #endregion Unity Methods
 
@@ -207,6 +212,10 @@ namespace BenStudios
             };
             cg.DOFade(0, 1f);
         }
+        private void _UpdateStarsCountText(short totalStars)
+        {
+            m_starCountTxt.DOText(totalStars.ToString(), .2f, scrambleMode: ScrambleMode.Numerals);
+        }
         #endregion Private Methods
 
         #region Callbacks
@@ -241,6 +250,10 @@ namespace BenStudios
             GameObject item = ObjectPoolManager.instance.GetObjectFromPool(ROW_COL_CLEARED_TEXT_POOL);
             item.SetActive(true);
             _AnimateTxt(item, COLUMN_CLEARED);
+        }
+        private void Callback_On_Star_particleAttracted(short totalCollectedStars)
+        {
+            _UpdateStarsCountText(totalCollectedStars);
         }
         #endregion Callbacks
 

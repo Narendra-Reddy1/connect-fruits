@@ -493,6 +493,15 @@ MonoBehaviour:
           m_EditorAssetChanged: 0
         gameObject: {fileID: 0}
         IsObjectExist: 0
+    - Key: 11
+      Value:
+        assetRefObj:
+          m_AssetGUID: 6a3202164944c284fbbd67251d4e8377
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        gameObject: {fileID: 0}
+        IsObjectExist: 0
   m_uiObjectsParent: {fileID: 369872191}
   m_AdditiveScreenStack: 
 --- !u!4 &580519500

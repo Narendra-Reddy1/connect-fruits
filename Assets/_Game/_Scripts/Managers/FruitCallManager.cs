@@ -21,7 +21,7 @@ namespace BenStudios
         public List<int> fruitCallIndices;
 
         private const byte MINIMUM_POOL_OBJECTS_COUNT = 4;
-        private const string POOL_NAME = "fruit_call_pool";
+        private const string FRUIT_CALL_POOL = "fruit_call_pool";
         private FruitCall m_activeFruitCall;
         private FruitCall m_previousFruitCall;
         private FruitCall m_ancientFruitCall;
@@ -43,7 +43,7 @@ namespace BenStudios
 
         private void OnDisable()
         {
-            ObjectPoolManager.instance.RemovePool(POOL_NAME);
+            ObjectPoolManager.instance.RemovePool(FRUIT_CALL_POOL);
             GlobalEventHandler.OnFruitCallIsCompleted -= Callback_On_Fruit_Timer_Completed;
             GlobalEventHandler.OnLevelStartupTimerIsCompleted -= Callback_On_Level_Startup_Timer_Completed;
             GlobalEventHandler.OnFruitPairMatched -= Callback_On_Fruit_Pair_Matched;
@@ -78,7 +78,7 @@ namespace BenStudios
                 if (!fruitCallIndices.Contains(index))
                     fruitCallIndices.Add(index);
             }
-            ObjectPoolManager.instance.InitializePool(POOL_NAME, m_fruitCallTemplate, MINIMUM_POOL_OBJECTS_COUNT, transform);
+            ObjectPoolManager.instance.InitializePool(FRUIT_CALL_POOL, m_fruitCallTemplate, MINIMUM_POOL_OBJECTS_COUNT, transform);
         }
         /// <summary>
         /// This method will return a random index for fruit calls.
@@ -107,7 +107,7 @@ namespace BenStudios
         {
             int index = _GetRandomFruitCallIndex();
             GlobalVariables.currentFruitCallId = index;
-            GameObject go = ObjectPoolManager.instance.GetObjectFromPool(POOL_NAME);
+            GameObject go = ObjectPoolManager.instance.GetObjectFromPool(FRUIT_CALL_POOL);
             if (go != null)
             {
                 go.SetActive(true);

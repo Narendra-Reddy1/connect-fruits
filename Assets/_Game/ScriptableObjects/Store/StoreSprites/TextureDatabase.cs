@@ -13,9 +13,10 @@ public class TextureDatabase : ScriptableObject
     [SerializeField] private List<SpriteDitctionary> m_spriteDictionary;
     private ConcurrentDictionary<ResourceType, AsyncOperationHandle<Sprite>> m_loadedSpriteDictionary = new ConcurrentDictionary<ResourceType, AsyncOperationHandle<Sprite>>();
     // [SerializeField] private SerializedDictionary<ResourceType, AssetReferenceSprite> m_textureDatabase;
-
+    private bool m_areAllTexturesLoaded = false;
     public async Task LoadAllTextures()
     {
+        if (m_areAllTexturesLoaded) return;
         foreach (SpriteDitctionary item in m_spriteDictionary)
         {
             AssetReferenceSprite sprite = item.sprite;
@@ -26,6 +27,7 @@ public class TextureDatabase : ScriptableObject
                 m_loadedSpriteDictionary.TryAdd(item.resourceType, handle1);
             }
         }
+        m_areAllTexturesLoaded = true;
         MyUtils.Log($"All textured Loaded:: {m_loadedSpriteDictionary.Count} {m_spriteDictionary.Count}");
     }
     public void ReleaseAllTextureAssets()
@@ -40,27 +42,18 @@ public class TextureDatabase : ScriptableObject
         }
         catch (System.Exception e)
         {
-            MyUtils.Log($"Exception from release AllTextureAssets::{e}");
+            MyUtils.Log($"Exception from release AllTextureAssets::{e}", LogType.Exception);
         }
         finally
         {
             m_loadedSpriteDictionary.Clear();
+            m_areAllTexturesLoaded = false;
         }
     }
-    //public async Task<Sprite> GetSpriteWithID(ResourceType resourceType)
-    //{
-    //    AssetReferenceSprite spriteReference = m_spriteDictionary.Find(x => x.resourceType == resourceType).sprite;
-    //    AsyncOperationHandle<Sprite> handle1 = spriteReference.LoadAssetAsync<Sprite>();
-    //    await handle1.Task;
-    //    if (handle1.Status == AsyncOperationStatus.Succeeded)
-    //    {
-    //        m_loadedSpriteDictionary.TryAdd(resourceType, handle1);
-    //        return handle1.Result;
-    //    }
-    //    return null;
-    //}
-    public Sprite GetSpriteWithID(ResourceType resourceType)
+
+    public async Task<Sprite> GetSpriteWithID(ResourceType resourceType)
     {
+        await LoadAllTextures();
         if (m_loadedSpriteDictionary.ContainsKey(resourceType))
         {
             if (m_loadedSpriteDictionary[resourceType].IsValid())
@@ -69,6 +62,8 @@ public class TextureDatabase : ScriptableObject
         return null;
     }
 
+    [SerializeField] private SerializedDictionary<ResourceType, Sprite> m_resourceSprites;
+    public Sprite GetSprite(ResourceType resourceType) => m_resourceSprites[resourceType];
 }
 
 
@@ -85,4 +80,5 @@ public enum ResourceType
     FruitBomb,
     TripleBomb,
     FruitDumper,
+    HintPowerup,
 }
