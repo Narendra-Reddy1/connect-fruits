@@ -73,7 +73,8 @@ namespace BenStudios
 
         private void _Init()
         {
-            foreach (int index in LevelData.leveldata)
+            int[,] leveldata = LevelData.GetLevelDataByIndex(GlobalVariables.highestUnlockedLevel);
+            foreach (int index in leveldata)
             {
                 if (!fruitCallIndices.Contains(index))
                     fruitCallIndices.Add(index);

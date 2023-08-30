@@ -48,9 +48,6 @@ public class LevelChest : MonoBehaviour
 
     private void UpdateUI()
     {
-#if DEBUG_DEFINE
-        GlobalVariables.CurrentSelectedLevel = PlayerPrefsWrapper.GetPlayerPrefsInt(PlayerPrefKeys.debug_current_level, GlobalVariables.CurrentSelectedLevel);
-#endif
         int last_level = PlayerPrefsWrapper.GetPlayerPrefsInt(PlayerPrefKeys.last_level_reward_level, 0);
         int expectedRewardLevel = PlayerPrefsWrapper.GetPlayerPrefsInt(PlayerPrefKeys.last_level_reward_level, 0) + GlobalVariables.levelChestRewardOccurence;
         expectedRewardLevel = expectedRewardLevel % 5 == 0 ? expectedRewardLevel : expectedRewardLevel + 1;

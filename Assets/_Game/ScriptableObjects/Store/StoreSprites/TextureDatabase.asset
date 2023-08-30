@@ -41,6 +41,13 @@ MonoBehaviour:
       m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       m_EditorAssetChanged: 1
+  - resourceType: 4
+    sprite:
+      m_AssetGUID: ec2887915f23d944195f4d869d42e490
+      m_SubObjectName: CF_Common_Clock
+      m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      m_EditorAssetChanged: 1
   m_resourceSprites:
     _serializedList:
     - Key: 0
@@ -51,3 +58,5 @@ MonoBehaviour:
       Value: {fileID: 21300000, guid: c3eb6015488473a468186bf8ae688c0b, type: 3}
     - Key: 3
       Value: {fileID: 21300000, guid: 3a97813811ab24742ae70f210d2779c1, type: 3}
+    - Key: 4
+      Value: {fileID: 21300000, guid: ec2887915f23d944195f4d869d42e490, type: 3}

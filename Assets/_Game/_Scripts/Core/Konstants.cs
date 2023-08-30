@@ -27,6 +27,9 @@ public static class Konstants
     public const byte REMAINING_TIMER_PER_SECOND_BONUS = 100;
 
     //Powerup Tutorial
+    public const byte HINT_POWERUP_UNLOCK_LEVEL = 8;//3
+    public const byte FRUIT_BOMB_UNLOCK_LEVEL = 3;//6
+    public const byte TRIPLE_BOMB_UNLOCK_LEVEL = 4;//8
     public const string HINT_POWERUP_MESSAGE = "Auto match a random pair.";
     public const string TRIPLE_BOMB_POWERUP_MESSAGE = "Eliminate 3 fruit pairs of your wish.";
     public const string FRUIT_BOMB_POWERUP_MESSAGE = "Eliminate a fruit pair of your wish.";

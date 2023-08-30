@@ -127,9 +127,14 @@ namespace BenStudios
     {
         sound_toggle,
         music_toggle,
+        //levelMode
         is_fruit_bomb_tutorial_shown,
         is_triple_bomb_tutorial_shown,
         is_hint_powerup_tutorial_shown,
+        //ChallengeMode
+        is_fruit_bomb_tutorial_shown_ChallengeMode,
+        is_triple_bomb_tutorial_shown_ChallengeMode,
+        //..
         last_level_reward_level,
         last_level_reward_index,
         last_star_chest_reward_index,

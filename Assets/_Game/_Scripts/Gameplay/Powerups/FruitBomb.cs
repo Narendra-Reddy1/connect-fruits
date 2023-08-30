@@ -33,12 +33,6 @@ namespace BenStudios
 
         public override void PerformPowerupAction()
         {
-
-            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
-                ScreenManager.Instance.ChangeScreen(Window.GenericPowerupTutorialPopup, ScreenType.Additive, onComplete: () =>
-                {
-                    GenericPowerupInfoPopup.Init(GenericPowerupInfoPopup.PopupType.FruitBomb);
-                });
             switch (GlobalVariables.currentGameplayMode)
             {
                 case GameplayType.LevelMode:
@@ -54,6 +48,11 @@ namespace BenStudios
                     }
                     break;
                 case GameplayType.ChallengeMode:
+                    if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown_ChallengeMode))
+                        ScreenManager.Instance.ChangeScreen(Window.GenericPowerupTutorialPopup, ScreenType.Additive, onComplete: () =>
+                        {
+                            GenericPowerupInfoPopup.Init(GenericPowerupInfoPopup.PopupType.FruitBomb);
+                        });
                     GlobalVariables.isFruitBombInAction = true;
                     GlobalEventHandler.RequestToActivatePowerUpMode?.Invoke(PowerupType.FruitBomb);
                     if (m_myEntity != null)
@@ -78,6 +77,7 @@ namespace BenStudios
                     {
                         powerupHolderImage.sprite = powerupCountHolderSprite;
                         powerupCountTxt.SetText(m_powerupBalance.ToString());
+                        MyUtils.Log($"FRUITBOMB IS SET...");
                     }
                     else
                     {
@@ -93,7 +93,12 @@ namespace BenStudios
         private bool _DeductPowerup()
         {
             bool deducted = false;
-            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown)) return true;
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
+            {
+                GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
+                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown, true);
+                return true;
+            }
             if (PlayerResourceManager.GetBalance(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID) > 0)
             {
                 PlayerResourceManager.Take(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID);

@@ -40,9 +40,9 @@ namespace BenStudios
         public void OnClickSubmit()
         {
             if (m_popupType == PopupType.FruitBomb)
-                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown, true);
+                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown_ChallengeMode, true);
             else
-                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown, true);
+                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown_ChallengeMode, true);
             ScreenManager.Instance.CloseLastAdditiveScreen();
         }
         private void _OnPopupInitialized()

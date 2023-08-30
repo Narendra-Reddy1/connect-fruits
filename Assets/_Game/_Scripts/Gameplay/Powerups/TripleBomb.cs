@@ -15,7 +15,7 @@ namespace BenStudios
 
         private void OnEnable()
         {
-            m_myEntity = GetComponentInParent<PowerupEntity>();
+            Init();
         }
         #endregion Unity Methods
 
@@ -23,17 +23,12 @@ namespace BenStudios
         #region Public Methods
         public override void Init()
         {
+            m_myEntity = GetComponentInParent<PowerupEntity>();
+            _HandlePowerupCount();
         }
 
         public override void PerformPowerupAction()
         {
-            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown))
-                ScreenManager.Instance.ChangeScreen(Window.GenericPowerupTutorialPopup, ScreenType.Additive, onComplete: () =>
-                {
-                    GenericPowerupInfoPopup.Init(GenericPowerupInfoPopup.PopupType.TripleBomb);
-                });
-
-
             switch (GlobalVariables.currentGameplayMode)
             {
                 case GameplayType.LevelMode:
@@ -50,6 +45,13 @@ namespace BenStudios
                     }
                     break;
                 case GameplayType.ChallengeMode:
+
+                    if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown_ChallengeMode))
+                        ScreenManager.Instance.ChangeScreen(Window.GenericPowerupTutorialPopup, ScreenType.Additive, onComplete: () =>
+                        {
+                            GenericPowerupInfoPopup.Init(GenericPowerupInfoPopup.PopupType.TripleBomb);
+                        });
+
                     GlobalVariables.isTripleBombInAction = true;
                     GlobalEventHandler.RequestToActivatePowerUpMode?.Invoke(PowerupType.TripleBomb);
                     if (m_myEntity != null)
@@ -89,7 +91,12 @@ namespace BenStudios
         private bool _DeductPowerup()
         {
             bool deducted = false;
-            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown)) return true;
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown))
+            {
+                GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
+                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown, true);
+                return true;
+            }
             if (PlayerResourceManager.GetBalance(PlayerResourceManager.TRIPLE_BOMB_POWERUP_ITEM_ID) > 0)
             {
                 PlayerResourceManager.Take(PlayerResourceManager.TRIPLE_BOMB_POWERUP_ITEM_ID);

@@ -141,15 +141,15 @@ namespace BenStudios
             m_isDestroyed = true;
             m_fruitImage.transform.DOScale(0, .65f).onComplete += () =>
             {
-                onComplete?.Invoke();
                 m_fruitImage.gameObject.SetActive(false);
                 CanShowSelectedEffect(false);
+                onComplete?.Invoke();
             };
             ShowFruitOutline();
         }
         public void ShowFruitOutline(Action onComplete = null)
         {
-            m_fruitOutline.transform.DOScale(Vector3.one, .175f).onComplete += () => { onComplete?.Invoke(); };
+            m_fruitOutline.transform.DOScale(Vector3.one, .65f).onComplete += () => { onComplete?.Invoke(); };
         }
         public void ShowRowOrColumnGotClearedEffect(float delay = 0)
         {

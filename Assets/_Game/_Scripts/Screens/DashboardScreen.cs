@@ -19,13 +19,13 @@ public class DashboardScreen : ScreenBase
         GlobalVariables.currentGameState = GameState.HomeScreen;
         _Init();
     }
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.P))
-        {
-            GlobalVariables.CollectedStars += 100;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyUp(KeyCode.P))
+    //    {
+    //        GlobalVariables.CollectedStars += 100;
+    //    }
+    //}
     private void OnDisable()
     {
         PlayerResourceManager.onStoreGiveCallback -= Callback_On_ResourcesUpdated;

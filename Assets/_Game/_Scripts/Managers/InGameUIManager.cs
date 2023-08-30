@@ -19,6 +19,9 @@ namespace BenStudios
         [SerializeField] private GameObject m_rowColClearedTxtPrefab;
         [SerializeField] private Transform m_praiseTxtsParent;
         [SerializeField] private TextMeshProUGUI m_starCountTxt;
+        [SerializeField] private TextMeshProUGUI m_levelTxt;
+        [SerializeField] private GameObject m_levelHolder;
+        [SerializeField] private GameObject m_scoreHolder;
 
         //PowerupMode
         [SerializeField] private Transform m_topbarUiTransform;
@@ -110,6 +113,8 @@ namespace BenStudios
             m_updateScoreInitialPose = m_updateScoreEffectTxt.transform.position;
             m_powerupHolderInitialPose = m_powerupsHolderTransform.position;
             m_topbarUiInitialPose = m_topbarUiTransform.position;
+            m_levelTxt.SetText($"Level : {GlobalVariables.highestUnlockedLevel}");
+            m_levelHolder.SetActive(GlobalVariables.currentGameplayMode == GameplayType.LevelMode);
             ObjectPoolManager.instance.InitializePool(GOOD_MATCH_TEXT_POOL, m_goodMatchTxtPrefab, 5, m_praiseTxtsParent);
             ObjectPoolManager.instance.InitializePool(ROW_COL_CLEARED_TEXT_POOL, m_rowColClearedTxtPrefab, 5, m_praiseTxtsParent);
         }

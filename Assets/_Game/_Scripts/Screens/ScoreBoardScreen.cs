@@ -33,8 +33,8 @@ namespace BenStudios
 
         private void OnEnable()
         {
-            OnPopupInitalized += _CalculateScores;
             OnPopupInitalized += _SetupPopup;
+            OnPopupInitalized += _CalculateScores;
         }
         private void OnDisable()
         {
@@ -50,6 +50,11 @@ namespace BenStudios
         }
         public void OnClickSubmit()
         {
+            if (m_popupType == PopupType.LevelCompleted && GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
+            {
+                ScreenManager.Instance.ChangeScreen(Window.LevelCompleteScreeen, ScreenType.Replace);
+                return;
+            }
             GlobalEventHandler.RequestToPlayBGM?.Invoke(AudioID.DashboardBGM);
             ScreenManager.Instance.ChangeScreen(Window.Dashboard);
         }
@@ -63,7 +68,6 @@ namespace BenStudios
                     if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
                     {
                         GlobalVariables.CollectedStars += GameplayManager.CollectedStars;
-                        GlobalVariables.isLevelCompletedSuccessfully = true;
                         PlayerDataManager.instance.SaveData();
                     }
                     break;

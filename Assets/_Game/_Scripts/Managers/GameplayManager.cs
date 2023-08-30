@@ -34,6 +34,7 @@ namespace BenStudios
         [SerializeField] private UIParticleAttractor m_particleAttractor;
         [SerializeField] private TextMeshProUGUI m_streakCounterTxt;
         [SerializeField] private StarsParticleSystemManager m_starsParticleSystemManager;
+        [SerializeField] private TutorialHandler m_tutorialHandler;
         private FruitEntity[,] m_fruitEntityArray;
         [Tooltip("This list contains the fruit entities that are not destroyed only")]
         private List<FruitEntity> m_fruitEnityList = new List<FruitEntity>();
@@ -42,7 +43,7 @@ namespace BenStudios
         private WaitForSeconds delayToShowEntireBoardClearedEffect = new WaitForSeconds(1.5f);
         private float m_streakCounterTxtFontSize = 35;
         private byte _streakCounter = 0;
-        private static short m_collectedStars;
+        private static short m_collectedStars = 0;
 
         public static short CollectedStars => m_collectedStars;
 
@@ -70,6 +71,7 @@ namespace BenStudios
             GlobalEventHandler.RequestToPauseTimer += Callback_On_TimePauseRequested;
             GlobalEventHandler.RequestClearedRowAndColumnCount += GetClearedRowAndColumnCount;
             GlobalEventHandler.HintPowerupActionRequested += Callback_On_Hint_Action_Requested;
+            GlobalEventHandler.OnPowerupTutorialCompleted += Callback_On_Powerup_Tutorial_Completed;
 
         }
         private void OnDisable()
@@ -89,6 +91,7 @@ namespace BenStudios
             GlobalEventHandler.OnLevelTimerIsCompleted -= Callback_On_Level_Timer_Completed;
             GlobalEventHandler.RequestToPauseTimer -= Callback_On_TimePauseRequested;
             GlobalEventHandler.HintPowerupActionRequested -= Callback_On_Hint_Action_Requested;
+            GlobalEventHandler.OnPowerupTutorialCompleted -= Callback_On_Powerup_Tutorial_Completed;
         }
         private IEnumerator Start()
         {
@@ -98,7 +101,13 @@ namespace BenStudios
             _InitLevel();
             m_levelTimer.InitTimer(m_timerData.GetTimerData(TimerType.LevelTimer).timeInSeconds);
         }
-
+        private void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.O))
+            {
+                StartCoroutine(_ShowEntireBoardClearedEffect());
+            }
+        }
         #endregion Unity Methods
 
         #region Public Methods
@@ -113,24 +122,26 @@ namespace BenStudios
         #region Private Methods
         private void _Init()
         {
-            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
-            {
-                m_fruitCallManager.gameObject.SetActive(false);
-                m_streakCounterTxt.gameObject.SetActive(true);
-                m_streakCounterTxt.SetText($"X{_streakCounter + 1}");
-                m_streakCounterTxt.fontSize = m_streakCounterTxtFontSize;
-            }
+            if (GlobalVariables.currentGameplayMode != GameplayType.LevelMode) return;
+            m_collectedStars = 0;
+            _streakCounter = 0;
+            m_fruitCallManager.gameObject.SetActive(false);
+            m_streakCounterTxt.gameObject.SetActive(true);
+            m_streakCounterTxt.SetText($"X{_streakCounter + 1}");
+            m_streakCounterTxt.fontSize = m_streakCounterTxtFontSize;
         }
+        int[,] m_currentLevelData;
         private void _InitLevel()//MUST HAVE FRUIT PAIR CHECK
         {
             GlobalVariables.isBoardClearedNearToHalf = false;
             m_fruitEntityArray = null;
             m_fruitEntityArray = new FruitEntity[Konstants.ROW_SIZE, Konstants.COLUMN_SIZE];
+            m_currentLevelData = LevelData.GetLevelDataByIndex(GlobalVariables.highestUnlockedLevel);
             for (int i = 0; i < Konstants.ROW_SIZE; i++)
                 for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
                 {
                     FruitEntity item = Instantiate(m_fruitEntityTemplate, m_gridParent);
-                    int index = IsInvisibleCell(i, j) ? 0 : LevelData.leveldata[i - 1, j - 1];
+                    int index = IsInvisibleCell(i, j) ? 0 : m_currentLevelData[i - 1, j - 1];
                     item.Init(m_entityDatabase.fruitSprites[index], m_entityDatabase.outlineFruitSprites[index], index, i, j, IsInvisibleCell(i, j));
                     item.name = $"Fruit_{i}_{j}";
                     m_fruitEntityArray[i, j] = item;
@@ -236,6 +247,14 @@ namespace BenStudios
             }
         }
 
+        private void _CheckForPowerupUnlockAndShowTutorial()
+        {
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.HINT_POWERUP_UNLOCK_LEVEL) && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown)) m_tutorialHandler.ShowPowerupTutorial(PowerupType.Hint);
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.FRUIT_BOMB_UNLOCK_LEVEL) && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
+                m_tutorialHandler.ShowPowerupTutorial(PowerupType.FruitBomb);
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.TRIPLE_BOMB_UNLOCK_LEVEL) && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown))
+                m_tutorialHandler.ShowPowerupTutorial(PowerupType.TripleBomb);
+        }
         private void _OnMatchFoundWithPath(List<Vector2Int> optimizedPath, FruitEntity entity1, FruitEntity entity2)
         {
             GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.MatchSuccessSFX);
@@ -243,17 +262,14 @@ namespace BenStudios
             GlobalEventHandler.OnFruitPairMatched?.Invoke(entity1.ID);
             if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
                 _OnNewMatchMade();//to show star multiplier fill effect;
-            _ShowMatchEffect(optimizedPath, entity1, entity2, () =>
-            {
-                ResetLineRenderer();
-            });
+            _ShowMatchEffect(optimizedPath, entity1, entity2);
         }
 
         private void _AddAndUpdatePairMatchScore()
         {
+            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
             int score = 0;
-            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
-                score += m_fruitCallManager.GetQuickMatchBonusScore();
+            score += m_fruitCallManager.GetQuickMatchBonusScore();
             score += Konstants.PAIR_MATCH_SCORE;
             GlobalEventHandler.RequestToUpdateScore?.Invoke(score);
         }
@@ -280,19 +296,22 @@ namespace BenStudios
             m_blastEffectParticleSystem_2.gameObject.SetActive(true);
             m_blastEffectParticleSystem_1.Play(true);
             m_blastEffectParticleSystem_2.Play(true);
+
+            //Removing items
+            m_fruitEnityList.Remove(item1);
+            m_fruitEnityList.Remove(item2);
+
             item1.ShowMatchEffect(onComplete: () =>
             {
-                m_fruitEnityList.Remove(item1);
                 _CheckIfEntireRowOrColumnIsCleared(item1);
                 ResetLineRenderer();
-                onComplete?.Invoke();
             });
             item2.ShowMatchEffect(onComplete: () =>
             {
-                m_fruitEnityList.Remove(item2);
                 _CheckIfEntireRowOrColumnIsCleared(item2);
+                onComplete?.Invoke();
             });
-            if (m_fruitEnityList.Count <= LevelData.leveldata.Length / 3)
+            if (m_fruitEnityList.Count <= (Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) / 3)
                 GlobalVariables.isBoardClearedNearToHalf = true;
         }
         private bool _CheckIfEntitesAreOnEdgeRowOrColumn(FruitEntity entity1, FruitEntity entity2)
@@ -342,6 +361,8 @@ namespace BenStudios
         }
         private IEnumerator _ShowEntireBoardClearedEffect()
         {
+            if (GlobalVariables.isLevelCompletedSuccessfully) yield break;
+            GlobalVariables.isLevelCompletedSuccessfully = true;
             GlobalVariables.highestUnlockedLevel++;//next level
             GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
             m_levelTimer.StopTimer();
@@ -592,13 +613,19 @@ namespace BenStudios
             });
         }
 
-
-        private void Callback_On_LevelStartup_Timer_Completed()
+        private void Callback_On_Powerup_Tutorial_Completed()
         {
             m_levelTimer.StartTimer();
         }
+        private void Callback_On_LevelStartup_Timer_Completed()
+        {
+            m_levelTimer.StartTimer();
+            _CheckForPowerupUnlockAndShowTutorial();
+
+        }
         private void Callback_On_Activate_Powerup_Mode_Requested(PowerupType powerupType)
         {
+            m_tutorialHandler.ClosePowerUpTutorial();
             m_levelTimer.StopTimer();
         }
         private void Callback_On_Deactivate_Powerup_Mode_Requested()

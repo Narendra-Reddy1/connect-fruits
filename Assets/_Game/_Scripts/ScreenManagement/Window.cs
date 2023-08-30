@@ -19,6 +19,7 @@ namespace BenStudios.ScreenManagement
         StoreScreen,
         PurchaseStatusScreen,
         ChestRewardScreen,
+        LevelCompleteScreeen,
     }
 
     [System.Serializable]

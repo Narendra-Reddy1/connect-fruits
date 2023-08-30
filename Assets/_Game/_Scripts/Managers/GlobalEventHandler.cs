@@ -29,7 +29,7 @@ namespace BenStudios
         public static Action OnColumnCleared = default;
         public static Action OnRowCleared = default;
         public static Action<short> EventOnStarParticleAttracted = default;
-
+        public static Action OnPowerupTutorialCompleted = default;
         //POWERUP 
         public static Action HintPowerupActionRequested = default;
 

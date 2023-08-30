@@ -95,14 +95,15 @@ namespace BenStudios
         }
         private void _FruitBombAction(FruitEntity entity1, FruitEntity entity2)
         {
+            entity1.ShowFruitBombEffect();
+            entity2.ShowFruitBombEffect();
+            
             entity1.ShrinkAndDestroy();
             entity2.ShrinkAndDestroy(() =>
             {
                 GlobalVariables.isFruitBombInAction = false;
                 GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
             });
-            entity1.ShowFruitBombEffect();
-            entity2.ShowFruitBombEffect();
         }
 
         private void _TipleBombAction(FruitEntity entity1, FruitEntity entity2)
