@@ -96,7 +96,6 @@ public class StarChest : MonoBehaviour
         object_To_Disable_Enable[2].SetActive(!isActive);
     }
 
-
     IEnumerator WaitForStarAnimation()
     {
         GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);

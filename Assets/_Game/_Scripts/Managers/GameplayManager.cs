@@ -72,6 +72,7 @@ namespace BenStudios
             GlobalEventHandler.RequestClearedRowAndColumnCount += GetClearedRowAndColumnCount;
             GlobalEventHandler.HintPowerupActionRequested += Callback_On_Hint_Action_Requested;
             GlobalEventHandler.OnPowerupTutorialCompleted += Callback_On_Powerup_Tutorial_Completed;
+            GlobalEventHandler.RequestToCheckForPairIsAvailableForAutoMatch += Callback_On_Check_For_Auto_Match_Pair_Availability_Requested;
 
         }
         private void OnDisable()
@@ -92,6 +93,7 @@ namespace BenStudios
             GlobalEventHandler.RequestToPauseTimer -= Callback_On_TimePauseRequested;
             GlobalEventHandler.HintPowerupActionRequested -= Callback_On_Hint_Action_Requested;
             GlobalEventHandler.OnPowerupTutorialCompleted -= Callback_On_Powerup_Tutorial_Completed;
+            GlobalEventHandler.RequestToCheckForPairIsAvailableForAutoMatch -= Callback_On_Check_For_Auto_Match_Pair_Availability_Requested;
         }
         private IEnumerator Start()
         {
@@ -249,10 +251,10 @@ namespace BenStudios
 
         private void _CheckForPowerupUnlockAndShowTutorial()
         {
-            if ((GlobalVariables.highestUnlockedLevel >= Konstants.HINT_POWERUP_UNLOCK_LEVEL) && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown)) m_tutorialHandler.ShowPowerupTutorial(PowerupType.Hint);
-            if ((GlobalVariables.highestUnlockedLevel >= Konstants.FRUIT_BOMB_UNLOCK_LEVEL) && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.HINT_POWERUP_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown)) m_tutorialHandler.ShowPowerupTutorial(PowerupType.Hint);
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.FRUIT_BOMB_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
                 m_tutorialHandler.ShowPowerupTutorial(PowerupType.FruitBomb);
-            if ((GlobalVariables.highestUnlockedLevel >= Konstants.TRIPLE_BOMB_UNLOCK_LEVEL) && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown))
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.TRIPLE_BOMB_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown))
                 m_tutorialHandler.ShowPowerupTutorial(PowerupType.TripleBomb);
         }
         private void _OnMatchFoundWithPath(List<Vector2Int> optimizedPath, FruitEntity entity1, FruitEntity entity2)
@@ -267,9 +269,9 @@ namespace BenStudios
 
         private void _AddAndUpdatePairMatchScore()
         {
-            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
             int score = 0;
-            score += m_fruitCallManager.GetQuickMatchBonusScore();
+            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                score += m_fruitCallManager.GetQuickMatchBonusScore();
             score += Konstants.PAIR_MATCH_SCORE;
             GlobalEventHandler.RequestToUpdateScore?.Invoke(score);
         }
@@ -311,6 +313,7 @@ namespace BenStudios
                 _CheckIfEntireRowOrColumnIsCleared(item2);
                 onComplete?.Invoke();
             });
+            GlobalEventHandler.RequestToCheckForPairIsAvailableForAutoMatch?.Invoke();
             if (m_fruitEnityList.Count <= (Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) / 3)
                 GlobalVariables.isBoardClearedNearToHalf = true;
         }
@@ -460,28 +463,9 @@ namespace BenStudios
         private void _CheckForPossibleAutoMatch()
         {
             if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
-            List<FruitEntity> sameIdEntities = m_fruitEnityList.FindAll(x => x.ID == GlobalVariables.currentFruitCallId);
-            Vector2Int startCell = new Vector2Int();
-            Vector2Int endCell = new Vector2Int();
-            for (int i = 0, count = sameIdEntities.Count; i < count; i++)
-            {
-                for (int j = 0; j < count; j++)
-                {
-                    if (i == j) continue;
-                    startCell = new Vector2Int(sameIdEntities[i].Row, sameIdEntities[i].Column);
-                    endCell = new Vector2Int(sameIdEntities[j].Row, sameIdEntities[j].Column);
-
-                    List<Vector2Int> optimizedPath = _GetValidAndEfficientPath(PathFinding.FindPossiblePathsLinearAlgo(startCell, endCell), startCell, endCell);
-                    if (optimizedPath != null)
-                    {
-                        _OnMatchFoundWithPath(optimizedPath, sameIdEntities[i], sameIdEntities[j]);
-                        goto ENDOFTHEMETHOD;
-                    }
-                }
-            }
-        ENDOFTHEMETHOD:
-            MyUtils.Log(string.Empty);
-
+            AutoMatchData autoMatchData = _GetAutoMatchDataIfAvailable(GlobalVariables.currentFruitCallId);
+            if (!autoMatchData.Equals(default(AutoMatchData)))
+                _OnMatchFoundWithPath(autoMatchData.path, autoMatchData.startCell, autoMatchData.endCell);
         }
 
         private int _GetRemainingSecondsInLevelTimer()
@@ -511,12 +495,21 @@ namespace BenStudios
             m_streakFillbar.DOFillAmount(1, 0.15f).onComplete += () =>
             {
                 m_streakCounterTxt.transform.DOPunchScale(Vector3.one * .2f, .2f, 1).SetEase(Ease.Linear);
-                m_streakFillbar.DOFillAmount(0, Konstants.DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS).SetUpdate(true).onComplete += () =>
+                m_streakFillbar.DOFillAmount(0, _GetStreakTimer(_streakCounter)).SetUpdate(true).onComplete += () =>
                 {
                     _ResetMatchMultiplier();
                 };
             };
             m_streakCounterTxt.SetText($"X{_streakCounter + 1}");
+        }
+        //Hardcoded values for faster shipping 
+        //Replace it with appropriate formula later!!
+        private float _GetStreakTimer(byte streakCounter)
+        {
+            if (streakCounter <= 5) return Konstants.DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS;
+            if (streakCounter <= 10) return Konstants.DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS - Konstants.STAR_MULTIPLIER_DECAY_RATE;
+            else
+                return Konstants.STAR_MULTIPLIER_LOW_CAP_TIMER;
         }
 
         private void _ResetMatchMultiplier()
@@ -537,31 +530,59 @@ namespace BenStudios
             MyUtils.Log($"Hint Powerup Action From gameplayMAnager");
             //OnComplete.....
             GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
-
-
-            //    List<FruitEntity> sameIdEntities = m_fruitEnityList.FindAll(x => x.ID == GlobalVariables.currentFruitCallId);
-            //    Vector2Int startCell = new Vector2Int();
-            //    Vector2Int endCell = new Vector2Int();
-            //    for (int i = 0, count = sameIdEntities.Count; i < count; i++)
-            //    {
-            //        for (int j = 0; j < count; j++)
-            //        {
-            //            if (i == j) continue;
-            //            startCell = new Vector2Int(sameIdEntities[i].Row, sameIdEntities[i].Column);
-            //            endCell = new Vector2Int(sameIdEntities[j].Row, sameIdEntities[j].Column);
-
-            //            List<Vector2Int> optimizedPath = _GetValidAndEfficientPath(PathFinding.FindPossiblePathsLinearAlgo(startCell, endCell), startCell, endCell);
-            //            if (optimizedPath != null)
-            //            {
-            //                _OnMatchFoundWithPath(optimizedPath, sameIdEntities[i], sameIdEntities[j]);
-            //                goto ENDOFTHEMETHOD;
-            //            }
-            //        }
-            //    }
-            //ENDOFTHEMETHOD:
-            //    MyUtils.Log(string.Empty);
+            AutoMatchData autoMatchData = _CheckOnEachFruitEntityForAutoMatchPairAvailability();
+            if (!autoMatchData.Equals(default(AutoMatchData)))
+                _OnMatchFoundWithPath(autoMatchData.path, autoMatchData.startCell, autoMatchData.endCell);
         }
+        private AutoMatchData _CheckOnEachFruitEntityForAutoMatchPairAvailability()
+        {
+            int id;
+            AutoMatchData autoMatchData = default;
+            for (int i = 0, count = m_fruitEnityList.Count; i < count; i++)
+            {
+                id = m_fruitEnityList[i].ID;
+                autoMatchData = _GetAutoMatchDataIfAvailable(id);
+                if (!autoMatchData.Equals(default(AutoMatchData)))
+                    break;
+            }
+            return autoMatchData;
+        }
+        private AutoMatchData _GetAutoMatchDataIfAvailable(int id)
+        {
+            AutoMatchData autoMatchData = default;
+            List<FruitEntity> sameIdEntities = m_fruitEnityList.FindAll(x => x.ID == id);
+            Vector2Int startCell = new Vector2Int();
+            Vector2Int endCell = new Vector2Int();
+            for (int i = 0, count = sameIdEntities.Count; i < count; i++)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    if (i == j) continue;
+                    startCell = new Vector2Int(sameIdEntities[i].Row, sameIdEntities[i].Column);
+                    endCell = new Vector2Int(sameIdEntities[j].Row, sameIdEntities[j].Column);
 
+                    List<Vector2Int> optimizedPath = _GetValidAndEfficientPath(PathFinding.FindPossiblePathsLinearAlgo(startCell, endCell), startCell, endCell);
+                    if (optimizedPath != null)
+                    {
+                        autoMatchData.path = optimizedPath;
+                        autoMatchData.startCell = sameIdEntities[i];
+                        autoMatchData.endCell = sameIdEntities[j];
+                        GlobalEventHandler.EventOnPairIsAvailableForHintPowerup?.Invoke();
+                        goto ENDOFTHEMETHOD;
+                    }
+                }
+            }
+            MyUtils.Log($"NO PAIR IS AVAILABLE FOR AUTO MATCH");
+            GlobalEventHandler.EventOnNoPairIsAvailableForHintPowerup?.Invoke();
+        ENDOFTHEMETHOD:
+            return autoMatchData;
+        }
+        public struct AutoMatchData
+        {
+            public List<Vector2Int> path;
+            public FruitEntity startCell;
+            public FruitEntity endCell;
+        }
         #endregion Private Methods
 
 
@@ -621,11 +642,14 @@ namespace BenStudios
         {
             m_levelTimer.StartTimer();
             _CheckForPowerupUnlockAndShowTutorial();
-
+        }
+        private void Callback_On_Check_For_Auto_Match_Pair_Availability_Requested()
+        {
+            _CheckOnEachFruitEntityForAutoMatchPairAvailability();
         }
         private void Callback_On_Activate_Powerup_Mode_Requested(PowerupType powerupType)
         {
-            m_tutorialHandler.ClosePowerUpTutorial();
+            // m_tutorialHandler.ClosePowerUpTutorial();
             m_levelTimer.StopTimer();
         }
         private void Callback_On_Deactivate_Powerup_Mode_Requested()

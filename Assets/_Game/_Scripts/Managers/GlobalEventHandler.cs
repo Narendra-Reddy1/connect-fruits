@@ -32,6 +32,9 @@ namespace BenStudios
         public static Action OnPowerupTutorialCompleted = default;
         //POWERUP 
         public static Action HintPowerupActionRequested = default;
+        public static Action RequestToCheckForPairIsAvailableForAutoMatch = default;
+        public static Action EventOnPairIsAvailableForHintPowerup = default;
+        public static Action EventOnNoPairIsAvailableForHintPowerup = default;
 
         //Chest
         public static Action EventOnStarChestClaimed = default;

@@ -33,22 +33,12 @@ namespace BenStudios
 
         private Canvas m_powerupCanvas;
         private GraphicRaycaster m_powerupCanvasRaycaster;
-        public static TutorialHandler Instance { get; private set; }
-
-        public bool isHintPowerupTutorialShown { private set; get; }
-        public bool isTripleBombPowerupTutorialShown { private set; get; }
-        public bool isFruitBombPowerupTutorialShown { private set; get; }
 
         #region Unity Methods
 
         private void Awake()
         {
-            Instance = this;
             _SetTutorialStates();
-        }
-        private void OnDestroy()
-        {
-            Instance = null;
         }
 
         #endregion Unity Methods
@@ -79,13 +69,15 @@ namespace BenStudios
             powerupMessagePanel.gameObject.SetActive(false);
             // AppLovinManager.appLovinManager.ShowBannerAds();
         }
-
         #endregion Public Methods
 
         #region Private Methods
         private void _UnlockPowerup(PowerupType powerupType)
         {
             m_powerupTypeUiEffectsDict[powerupType].ForEach(x => x.effectMode = EffectMode.None);
+            Button powerUpButton = m_powerupTypeUiEffectsDict[powerupType][1].GetComponent<Button>();
+            powerUpButton.onClick.AddListener(ClosePowerUpTutorial);
+            powerUpButton.interactable = true;
             m_powerupUnlockObjects[powerupType].SetActive(false);
         }
         private void _LockPowerup(PowerupType powerupType)
@@ -96,27 +88,25 @@ namespace BenStudios
         }
         private void _SetTutorialStates()
         {
-            isHintPowerupTutorialShown = PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown, false);
-            isTripleBombPowerupTutorialShown = PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown, false);
-            isFruitBombPowerupTutorialShown = PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown);
-
-            if (!isHintPowerupTutorialShown)
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown, false))
             {
                 _LockPowerup(PowerupType.Hint);
                 m_unlockTexts[PowerupType.Hint].SetText($"Unlocks at Level {Konstants.HINT_POWERUP_UNLOCK_LEVEL}");
             }
-            if (!isTripleBombPowerupTutorialShown)
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown, false))
             {
                 _LockPowerup(PowerupType.TripleBomb);
                 m_unlockTexts[PowerupType.TripleBomb].SetText($"Unlocks at Level {Konstants.TRIPLE_BOMB_UNLOCK_LEVEL}");
             }
-            if (!isFruitBombPowerupTutorialShown)
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
             {
                 _LockPowerup(PowerupType.FruitBomb);
                 m_unlockTexts[PowerupType.FruitBomb].SetText($"Unlocks at Level {Konstants.FRUIT_BOMB_UNLOCK_LEVEL}");
             }
         }
 
+        ///LOT OF REPEATED CODE HERE
+        ///SHIFT TO A METHOD LATER.......
         private void _RearrangeOrderAndUpdateMessage(PowerupType powerUpType)
         {
             float handImgWidth = handRectTransfrom.sizeDelta.x / 2;

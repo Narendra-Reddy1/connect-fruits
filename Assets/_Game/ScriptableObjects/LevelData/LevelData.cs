@@ -40,14 +40,6 @@ public static class LevelData
         2,6,11,10,11,5,
 
         } },
-        {3,new List<int>
-        {
-
-        } },
-        {4,new List<int>
-        {
-
-        } },
     };
 
     public static int[,] GetLevelDataByIndex(int level)
@@ -58,7 +50,7 @@ public static class LevelData
             leveldata = GetConvertedListOfLevelData(LEveldata[level]);
         }
         else
-            leveldata = GetConvertedListOfLevelData(LEveldata[0]);
+            leveldata = GetConvertedListOfLevelData(LEveldata[1]);//Mapping Logic should be here
         return leveldata;
     }
     private static int[,] GetConvertedListOfLevelData(List<int> leveldata)
@@ -69,8 +61,8 @@ public static class LevelData
         {
             for (int j = 0, count1 = Konstants.REAL_COLUMN_SIZE; j < count1; j++)
             {
-                index++;
                 data[i, j] = leveldata[index];
+                index++;
             }
         }
         return data;

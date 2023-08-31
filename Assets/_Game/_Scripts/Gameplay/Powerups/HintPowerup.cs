@@ -1,5 +1,6 @@
 using BenStudios.Economy;
 using BenStudios.ScreenManagement;
+using Coffee.UIEffects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace BenStudios
     {
 
         #region Variables
-        private PowerupEntity m_myEntity;
+        [SerializeField] private List<UIEffect> m_grayScaleEffects;
         #endregion Variables
 
 
@@ -19,6 +20,11 @@ namespace BenStudios
         private void OnEnable()
         {
             Init();
+            GlobalEventHandler.EventOnNoPairIsAvailableForHintPowerup += Callback_On_Auto_Match_Is_Not_Available;
+        }
+        private void OnDisable()
+        {
+            GlobalEventHandler.EventOnNoPairIsAvailableForHintPowerup -= Callback_On_Auto_Match_Is_Not_Available;
         }
         #endregion Unity Methods
 
@@ -26,14 +32,21 @@ namespace BenStudios
         #region Public Methods
         public override void Init()
         {
-            m_myEntity = GetComponentInParent<PowerupEntity>();
             _HandlePowerupCount();
         }
 
         public override void PerformPowerupAction()
         {
-            GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
-            GlobalEventHandler.HintPowerupActionRequested?.Invoke();
+            if (_DeductPowerup())
+            {
+                GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
+                GlobalEventHandler.HintPowerupActionRequested?.Invoke();
+            }
+            else
+            {
+                //Out Of Powerups
+                //Show Store.....
+            }
         }
         #endregion Public Methods
 
@@ -64,7 +77,11 @@ namespace BenStudios
         private bool _DeductPowerup()
         {
             bool deducted = false;
-            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown)) return true;
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown))
+            {
+                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown, true);
+                return true;
+            }
             if (PlayerResourceManager.GetBalance(PlayerResourceManager.HINT_POWERUP_ITEM_ID) > 0)
             {
                 PlayerResourceManager.Take(PlayerResourceManager.HINT_POWERUP_ITEM_ID);
@@ -77,7 +94,13 @@ namespace BenStudios
         #endregion Private Methods
 
         #region Callbacks
-
+        private void Callback_On_Auto_Match_Is_Not_Available()
+        {
+            for (int i = 0, count = m_grayScaleEffects.Count; i < count; i++)
+            {
+                m_grayScaleEffects[i].effectMode = EffectMode.Grayscale;
+            }
+        }
 
         #endregion Callbacks
     }
