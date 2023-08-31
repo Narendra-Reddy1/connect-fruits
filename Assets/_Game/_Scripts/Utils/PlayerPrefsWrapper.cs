@@ -141,5 +141,6 @@ namespace BenStudios
         is_level_chest_opened_but_not_claimed,
         is_star_chest_opened_but_not_claimed,
         collected_stars,
+        is_no_ads_purchased,
     }
 }

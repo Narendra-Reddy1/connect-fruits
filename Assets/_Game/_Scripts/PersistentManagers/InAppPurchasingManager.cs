@@ -176,6 +176,10 @@ namespace BenStudios.IAP
                 BundlePackData pack = m_bundlePacksDict[productID];
                 purchasedData = new PurchaseData(productID, pack.GetResourceCountIfHave(ResourceType.Coin), pack.GetResourceCountIfHave(ResourceType.FruitBomb), pack.GetResourceCountIfHave(ResourceType.TripleBomb), pack.GetResourceCountIfHave(ResourceType.FruitDumper), false);
             }
+            else if (productID == Konstants.NO_ADS)
+            {
+                purchasedData.isNoAds = true;
+            }
             else if (m_singlePacksDict.ContainsKey(productID))
             {
                 SinglePackData pack = m_singlePacksDict[productID];
@@ -194,10 +198,6 @@ namespace BenStudios.IAP
                         purchasedData.hintPowerups = pack.itemCount;
                         break;
                 }
-            }
-            else if (productID == Konstants.NO_ADS)
-            {
-                purchasedData.isNoAds = true;
             }
             return purchasedData;
         }

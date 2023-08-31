@@ -48,6 +48,12 @@ namespace BenStudios.IAP
                 case BundleType.HindPowerupPack_1:
                     productID = Konstants.HINT_POWERUP_PACK_1;
                     break;
+                case BundleType.No_Ads:
+                    productID = Konstants.NO_ADS;
+                    break;
+                default:
+                    MyUtils.Log($"Bundle type undefined:::AssignBundleID::BasePack:: {bundleType}", LogType.Exception);
+                    break;
             }
         }
         public virtual void SetLocalizedPrice()

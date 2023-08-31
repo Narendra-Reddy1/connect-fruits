@@ -413,7 +413,12 @@ namespace BenStudios.Economy
 
         private void Callback_On_Purchase_Success(PurchaseData purchaseData)
         {
-            if (purchaseData.productID == Konstants.NO_ADS) return;
+            if (purchaseData.productID == Konstants.NO_ADS)
+            {
+                MyUtils.Log($"NO ADS PURCHASED.....");
+                PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_no_ads_purchased, true);
+                return;
+            }
             Give(COINS_ITEM_ID, purchaseData.coins);
             Give(FRUIT_BOMB_POWERUP_ITEM_ID, purchaseData.fruitBombs);
             Give(TRIPLE_BOMB_POWERUP_ITEM_ID, purchaseData.tripleBombs);

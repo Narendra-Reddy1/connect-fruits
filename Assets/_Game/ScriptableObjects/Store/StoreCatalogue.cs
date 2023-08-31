@@ -53,5 +53,7 @@ namespace BenStudios
         FruitBombPack_1,
         TripleBombPack_1,
         HindPowerupPack_1,
+        No_Ads,
+
     }
 }

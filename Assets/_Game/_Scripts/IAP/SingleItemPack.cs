@@ -16,10 +16,13 @@ namespace BenStudios.IAP
         public void Init(SinglePackData singlePackData)
         {
             transform.localScale = Vector3.one;
-            m_itemIcon.sprite = m_textureDatabase.GetSpriteWithID(singlePackData.resourceType).Result;
+            m_itemIcon.sprite = m_textureDatabase.GetSprite(singlePackData.resourceType);
             AssignProductID(singlePackData.bundleType);
-            m_itemPriceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
-            m_itemCount.SetText(singlePackData.itemCount.ToString());
+            SetLocalizedPrice();
+            if (singlePackData.bundleType == BundleType.No_Ads)
+                m_itemCount.transform.parent.gameObject.SetActive(false);
+            else
+                m_itemCount.SetText(singlePackData.itemCount.ToString());
         }
 
         public override void Buy()
@@ -28,6 +31,7 @@ namespace BenStudios.IAP
         }
         public override void SetLocalizedPrice()
         {
+            m_itemPriceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
         }
 
     }

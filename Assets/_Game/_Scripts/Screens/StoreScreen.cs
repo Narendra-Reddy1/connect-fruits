@@ -16,6 +16,7 @@ namespace BenStudios
     {
         [SerializeField] private AssetReference m_bundlePack;
         [SerializeField] private AssetReference m_singleItemPack;
+        [SerializeField] private AssetReference m_noAdsItemPack;
         [SerializeField] private Transform m_contentTransform;
         [SerializeField] private ScrollRect m_scrollRect;
         [SerializeField] private GameObject m_closebtn;
@@ -35,10 +36,9 @@ namespace BenStudios
         {
             PlayerResourceManager.onStoreGiveCallback += Callback_On_ResourcesUpdated;
         }
-        private async void Start()
+        private void Start()
         {
             _SetCoinsText();
-            await m_textureDatabase.LoadAllTextures();
             _Init();
             Invoke(nameof(_EnableCloseBtn), m_delayToEnableCloseBtn);
         }
@@ -51,7 +51,6 @@ namespace BenStudios
 
         public void OnClickCloseBtn()
         {
-            m_textureDatabase.ReleaseAllTextureAssets();
             ReleaseLoadedPacks();
             ScreenManager.Instance.CloseLastAdditiveScreen();
         }
@@ -60,9 +59,10 @@ namespace BenStudios
         {
             MyUtils.Log($"Store screen initializing....");
             List<BundlePackData> bundlePacks = m_storeCatalogue.bundlePacks;
+            AsyncOperationHandle<GameObject> handle = default;
             for (int i = 0, count = bundlePacks.Count; i < count; i++)
             {
-                AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(m_bundlePack);
+                handle = Addressables.InstantiateAsync(m_bundlePack);
                 await handle.Task;
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
@@ -75,17 +75,28 @@ namespace BenStudios
             List<SinglePackData> singlePacks = m_storeCatalogue.singlePacks;
             for (int i = 0, count = singlePacks.Count; i < count; i++)
             {
-                AsyncOperationHandle<GameObject> handle = Addressables.InstantiateAsync(m_singleItemPack);
+                handle = Addressables.InstantiateAsync(m_singleItemPack);
                 await handle.Task;
                 if (handle.Status == AsyncOperationStatus.Succeeded)
                 {
-                    var item = handle.Result;
+                    GameObject item = handle.Result;
                     item.transform.SetParent(m_contentTransform);
                     item.GetComponent<SingleItemPack>().Init(singlePacks[i]);
                     m_loadedPackHandles.Add(handle);
                 }
             }
-            await Task.Delay(1000);
+            if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_no_ads_purchased))
+            {
+                handle = Addressables.InstantiateAsync(m_noAdsItemPack);
+                await handle.Task;
+                if (handle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    GameObject item = handle.Result;
+                    item.transform.SetParent(m_contentTransform);
+                    item.transform.SetAsLastSibling();
+                    m_loadedPackHandles.Add(handle);
+                }
+            }
             m_connectingToServerPanel.SetActive(false);
             m_scrollRect.normalizedPosition = new Vector2(0, 1);
         }

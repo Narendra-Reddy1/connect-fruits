@@ -15,9 +15,9 @@ namespace BenStudios.IAP
             transform.localScale = Vector3.one;
             m_bundleNameTxt.SetText(packData.bundleTitle);
             AssignProductID(packData.bundleType);
-            m_priceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
+            SetLocalizedPrice();
             foreach (KeyValuePair<ResourceType, int> itemData in packData.resourcesDictionary)
-                SetUp(m_textureDatabase.GetSpriteWithID(itemData.Key).Result, itemData.Value);
+                SetUp(m_textureDatabase.GetSprite(itemData.Key), itemData.Value);
             void SetUp(Sprite sprite, int value)
             {
                 ItemUnit item = Instantiate(m_bundleItemPack, m_contentTransform);
@@ -34,6 +34,7 @@ namespace BenStudios.IAP
         }
         public override void SetLocalizedPrice()
         {
+            m_priceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
         }
 
 

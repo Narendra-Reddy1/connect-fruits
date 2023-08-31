@@ -46,6 +46,7 @@ public class DashboardScreen : ScreenBase
     {
         _StartGameplay();
     }
+   
     public void OnClickStarChest()
     {
         ChestManager.Instance.StarChestReward();
