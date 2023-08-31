@@ -8,7 +8,7 @@ public class LevelTimer : MonoBehaviour
     #region Variables
     [SerializeField] private TextMeshProUGUI m_timerTxt;
     private int m_timerCounter = 0;
-    private int m_timeInSeconds;
+    private int m_totalTimeInSeconds;
     #endregion Variables
 
 
@@ -20,13 +20,13 @@ public class LevelTimer : MonoBehaviour
     #region Public Methods 
     public void InitTimer(int timeInSeconds)
     {
-        m_timeInSeconds = m_timerCounter = timeInSeconds;
+        m_totalTimeInSeconds = m_timerCounter = timeInSeconds;
         if (m_timerTxt)
             m_timerTxt.text = MyUtils.GetFormattedSeconds(m_timerCounter);
     }
     public void InitTimerAndStartTimer(int timeInSeconds)
     {
-        m_timeInSeconds = m_timerCounter = timeInSeconds;
+        m_totalTimeInSeconds = m_timerCounter = timeInSeconds;
         StartTimer();
     }
     public void StartTimer()
@@ -39,8 +39,9 @@ public class LevelTimer : MonoBehaviour
     }
     public int GetRemaingTimeInSeconds()
     {
-        return (m_timeInSeconds - m_timerCounter);
+        return m_timerCounter;
     }
+    public int GetElapsedTimeInSeconds() => m_totalTimeInSeconds - m_timerCounter;
     #endregion Public Methods 
 
     #region Private Methods 

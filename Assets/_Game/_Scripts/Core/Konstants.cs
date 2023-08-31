@@ -3,7 +3,6 @@ using UnityEngine;
 
 public static class Konstants
 {
-
     //FOR LEVELDATA
     public const byte REAL_COLUMN_SIZE = 6;
     public const byte REAL_ROW_SIZE = 8;
@@ -16,7 +15,11 @@ public static class Konstants
     public const byte MIN_FRUITS_TO_MATCH = 2;
     public const byte LEVEL_STARTUP_TIMER_IN_SECONDS = 4;
     public const byte FRUIT_CALL_TIMER_IN_SECONDS = 4;
-    public const byte DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS = 4;
+
+    public const float DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS = 4;
+    public const float STAR_MULTIPLIER_DECAY_RATE = 0.5f;//how much the timer should be reduced.
+    public const byte STAR_MULTIPLIER_DECAY_FREQUENCY = 5;//frequency to reduce the star multiplier timer
+    public const float STAR_MULTIPLIER_LOW_CAP_TIMER = 2.75f;//Lowest time for star multiplier.
 
     //SCORE
     public const short PAIR_MATCH_SCORE = 300;
@@ -24,12 +27,12 @@ public static class Konstants
     public const short ROW_CLEAR_BONUS = 300;
     public const short COLUMN_CLEAR_BONUS = 400;
     public const short ENTIRE_BOARD_CLEAR_BONUS = 1000;
-    public const byte REMAINING_TIMER_PER_SECOND_BONUS = 100;
+    public const short REMAINING_TIMER_PER_SECOND_BONUS = 100;
 
     //Powerup Tutorial
-    public const byte HINT_POWERUP_UNLOCK_LEVEL = 8;//3
-    public const byte FRUIT_BOMB_UNLOCK_LEVEL = 3;//6
-    public const byte TRIPLE_BOMB_UNLOCK_LEVEL = 4;//8
+    public const byte HINT_POWERUP_UNLOCK_LEVEL = 3;//3
+    public const byte FRUIT_BOMB_UNLOCK_LEVEL = 6;//6
+    public const byte TRIPLE_BOMB_UNLOCK_LEVEL = 8;//8
     public const string HINT_POWERUP_MESSAGE = "Auto match a random pair.";
     public const string TRIPLE_BOMB_POWERUP_MESSAGE = "Eliminate 3 fruit pairs of your wish.";
     public const string FRUIT_BOMB_POWERUP_MESSAGE = "Eliminate a fruit pair of your wish.";
