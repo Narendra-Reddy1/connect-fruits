@@ -81,22 +81,20 @@ namespace BenStudios
         }
         private void _CalculateScores()
         {
-            if (m_popupType != PopupType.GameOver)
+            if (m_popupType == PopupType.LevelCompleted)
             {
                 int totalMatchedFruitsCount = (int)(GlobalEventHandler.RequestTotalMatchedFruits?.Invoke());
-                
-                m_multiClearScore = totalMatchedFruitsCount * Konstants.PAIR_MATCH_SCORE / 2;
-                Vector2Int rowAndColumnCount = (Vector2Int)GlobalEventHandler.RequestClearedRowAndColumnCount?.Invoke();
-                
-                m_rowColumnClearScore += rowAndColumnCount.x * Konstants.ROW_CLEAR_BONUS;
-                m_rowColumnClearScore += rowAndColumnCount.y * Konstants.COLUMN_CLEAR_BONUS;
-                
-                m_timeBonus = (int)((m_popupType != PopupType.LevelCompleted) ? 0 : GlobalEventHandler.RequestRemainingTimer?.Invoke());
-                
+
+                m_multiClearScore = (Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) * Konstants.PAIR_MATCH_SCORE / 2;
+
+                m_rowColumnClearScore += Konstants.REAL_ROW_SIZE * Konstants.ROW_CLEAR_BONUS;
+                m_rowColumnClearScore += Konstants.REAL_COLUMN_SIZE * Konstants.COLUMN_CLEAR_BONUS;
+
+                m_timeBonus = (int)GlobalEventHandler.RequestRemainingTimer?.Invoke();
                 m_timeBonus *= Konstants.REMAINING_TIMER_PER_SECOND_BONUS;
-                
-                m_allClearBonus = (totalMatchedFruitsCount == (Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE)) ? Konstants.ENTIRE_BOARD_CLEAR_BONUS : 0;
-             
+
+                m_allClearBonus = Konstants.ENTIRE_BOARD_CLEAR_BONUS;
+
                 m_finalScore = m_multiClearScore + m_rowColumnClearScore + m_allClearBonus + m_timeBonus;
             }
             _UpdateScoresToUI();
