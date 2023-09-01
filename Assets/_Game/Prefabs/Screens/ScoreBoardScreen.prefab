@@ -1313,6 +1313,7 @@ MonoBehaviour:
   m_finalScoreTxt: {fileID: 4509795852323648866}
   m_scoreCalculatingTime: 0.6
   m_submitBtn: {fileID: 3261954279919674318}
+  m_timeBonusParent: {fileID: 1057771956762641003}
 --- !u!1 &6307676506141157792
 GameObject:
   m_ObjectHideFlags: 0

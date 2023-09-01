@@ -76,7 +76,7 @@ namespace BenStudios
             int[,] leveldata = LevelData.GetLevelDataByIndex(GlobalVariables.highestUnlockedLevel);
             foreach (int index in leveldata)
             {
-                if (!fruitCallIndices.Contains(index))
+                if (!fruitCallIndices.Contains(index) && index != -1)
                     fruitCallIndices.Add(index);
             }
             ObjectPoolManager.instance.InitializePool(FRUIT_CALL_POOL, m_fruitCallTemplate, MINIMUM_POOL_OBJECTS_COUNT, transform);
@@ -117,7 +117,7 @@ namespace BenStudios
                 go.transform.DOScale(1, .25f);
                 //go.transform.DOMove(m_activeFruitCallHolder.position, .25f);
                 FruitCall call = go.GetComponent<FruitCall>();
-                call.Init(index, m_entityDatabase.fruitSprites[index], m_entityDatabase.outlineFruitSprites[index]);
+                call.Init(index, m_entityDatabase.GetFruitSprite(index), m_entityDatabase.GetFruitOutlineSprite(index));
                 m_activeFruitCall = call;
                 call.ActivateEntity();
             }

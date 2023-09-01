@@ -37,6 +37,17 @@ public class LevelTimer : MonoBehaviour
     {
         CancelInvoke(nameof(_Tick));
     }
+    public void RestartTimer()
+    {
+        StopTimer();
+        InitTimerAndStartTimer(m_totalTimeInSeconds);
+    }
+    public void RestartTimer(int newTimeInSeconds)
+    {
+        m_totalTimeInSeconds = newTimeInSeconds;
+        StopTimer();
+        InitTimerAndStartTimer(m_totalTimeInSeconds);
+    }
     public int GetRemaingTimeInSeconds()
     {
         return m_timerCounter;

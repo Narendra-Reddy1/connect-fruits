@@ -42,7 +42,7 @@ public class StarChest : MonoBehaviour
 
     private void Init()
     {
-        if (GlobalVariables.isLevelCompletedSuccessfully && GlobalVariables.CollectedStars < Konstants.MAXIMUM_STARS_REQUIRED_FOR_STAR_CHEST)
+        if ((GlobalVariables.isLevelCompletedSuccessfully && GlobalVariables.CollectedStars < Konstants.MAX_STARS_REQUIRED_FOR_STAR_CHEST) && GlobalVariables.highestUnlockedLevel >= Konstants.MIN_LEVEL_FOR_STREAK)
         {
             StartCoroutine(WaitForStarAnimation());
             GlobalVariables.isLevelCompletedSuccessfully = false;
@@ -69,12 +69,12 @@ public class StarChest : MonoBehaviour
     private void UpdateUI()
     {
         progressBar.minValue = 0;
-        progressBar.maxValue = Konstants.MAXIMUM_STARS_REQUIRED_FOR_STAR_CHEST;
+        progressBar.maxValue = Konstants.MAX_STARS_REQUIRED_FOR_STAR_CHEST;
         progressBar.value = GlobalVariables.CollectedStars;
-        progressText.DOText($"{GlobalVariables.CollectedStars}/{Konstants.MAXIMUM_STARS_REQUIRED_FOR_STAR_CHEST}", .2f, scrambleMode: ScrambleMode.Numerals);
+        progressText.DOText($"{GlobalVariables.CollectedStars}/{Konstants.MAX_STARS_REQUIRED_FOR_STAR_CHEST}", .2f, scrambleMode: ScrambleMode.Numerals);
 
 
-        if (GlobalVariables.CollectedStars < Konstants.MAXIMUM_STARS_REQUIRED_FOR_STAR_CHEST)
+        if (GlobalVariables.CollectedStars < Konstants.MAX_STARS_REQUIRED_FOR_STAR_CHEST)
         {
             ChestImageHolder.sprite = Open_Close_Chest[0];
 

@@ -17,6 +17,7 @@ namespace BenStudios
         [SerializeField] private float m_scoreCalculatingTime = .7f;
         [SerializeField] private Button m_submitBtn;
 
+        [SerializeField] private GameObject m_timeBonusParent;
 
         private static PopupType m_popupType;
         private int m_multiClearScore = 0;
@@ -77,6 +78,7 @@ namespace BenStudios
                     m_headerTxt.SetText(TIME_UP_TEXT);
                     break;
             }
+            m_timeBonusParent.SetActive((GlobalVariables.highestUnlockedLevel >= Konstants.MIN_LEVEL_FOR_TIMER) || GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode);
         }
         private void _CalculateScores()
         {
@@ -91,7 +93,8 @@ namespace BenStudios
 
                 m_timeBonus = (int)GlobalEventHandler.RequestRemainingTimer?.Invoke();
                 m_timeBonus *= Konstants.REMAINING_TIMER_PER_SECOND_BONUS;
-
+                if ((GlobalVariables.highestUnlockedLevel <= Konstants.MIN_LEVEL_FOR_TIMER) && GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
+                    m_timeBonus = 0;
                 m_allClearBonus = Konstants.ENTIRE_BOARD_CLEAR_BONUS;
 
                 m_finalScore = m_multiClearScore + m_rowColumnClearScore + m_allClearBonus + m_timeBonus;

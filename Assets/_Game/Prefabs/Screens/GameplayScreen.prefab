@@ -2353,7 +2353,6 @@ GameObject:
   - component: {fileID: 2160914951303801461}
   - component: {fileID: 3285923156990816788}
   - component: {fileID: 377820823289112160}
-  - component: {fileID: 3469841461590831412}
   m_Layer: 5
   m_Name: Timer_Text (TMP)
   m_TagString: Untagged
@@ -2478,19 +2477,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3469841461590831412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332230239561518448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d5c192e41fc07448dd33c28f106ec6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_timerTxt: {fileID: 377820823289112160}
 --- !u!1 &500169368423758008
 GameObject:
   m_ObjectHideFlags: 0
@@ -8137,7 +8123,6 @@ GameObject:
   - component: {fileID: 4022687017607931044}
   - component: {fileID: 4677237263731337466}
   - component: {fileID: 1060042926165962650}
-  - component: {fileID: 5418596105746379543}
   m_Layer: 5
   m_Name: StarCount_Text (TMP)
   m_TagString: Untagged
@@ -8262,19 +8247,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5418596105746379543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529607198421624128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d5c192e41fc07448dd33c28f106ec6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_timerTxt: {fileID: 1060042926165962650}
 --- !u!1 &1536681269979136924
 GameObject:
   m_ObjectHideFlags: 0
@@ -19375,8 +19347,8 @@ RectTransform:
   m_Father: {fileID: 1112348259530102644}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.03671706}
-  m_AnchorMax: {x: 1, y: 0.9492441}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -24622,13 +24594,14 @@ GameObject:
   - component: {fileID: 4666628604300779854}
   - component: {fileID: 2833388364460836536}
   - component: {fileID: 5151062791899137505}
+  - component: {fileID: 5441761556149907358}
   m_Layer: 5
   m_Name: LevelTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4666628604300779854
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24689,6 +24662,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2.5
+--- !u!114 &5441761556149907358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4830351570811944849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d5c192e41fc07448dd33c28f106ec6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_timerTxt: {fileID: 377820823289112160}
 --- !u!1 &4840877561748437600
 GameObject:
   m_ObjectHideFlags: 0
@@ -39652,7 +39638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1029103999781302209
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39701,7 +39687,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FULL
+  m_text: Unlocks at Level 5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b38486f65da71754b94846027d01b305, type: 2}
   m_sharedMaterial: {fileID: 4869210550822006723, guid: b38486f65da71754b94846027d01b305, type: 2}
@@ -39728,12 +39714,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 50
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 50
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -48585,7 +48571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6812841423371323823
 RectTransform:
   m_ObjectHideFlags: 0
@@ -49946,7 +49932,7 @@ PrefabInstance:
     - target: {fileID: 2919438409209194369, guid: f9c7af2a8029fdb419e71f967c3338e0, type: 3}
       propertyPath: m_levelTimer
       value: 
-      objectReference: {fileID: 3469841461590831412}
+      objectReference: {fileID: 5441761556149907358}
     - target: {fileID: 2919438409209194369, guid: f9c7af2a8029fdb419e71f967c3338e0, type: 3}
       propertyPath: m_blastEffect_1
       value: 

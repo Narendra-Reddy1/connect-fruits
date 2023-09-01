@@ -15,6 +15,11 @@ public static class Konstants
     public const byte MIN_FRUITS_TO_MATCH = 2;
     public const byte LEVEL_STARTUP_TIMER_IN_SECONDS = 4;
     public const byte FRUIT_CALL_TIMER_IN_SECONDS = 4;
+    public const byte TIME_TO_WAIT_TO_SHOW_AVAILABLE_PAIR_TO_MATCH = 12;
+
+    public const byte MIN_LEVEL_FOR_TIMER = 6;
+    public const byte MIN_LEVEL_FOR_STREAK = 6;
+    public const byte MAX_LEVEL_TO_SHOW_PAIR_HINT = 3;
 
     public const float DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS = 4;
     public const float STAR_MULTIPLIER_DECAY_RATE = 0.5f;//how much the timer should be reduced.
@@ -30,14 +35,14 @@ public static class Konstants
     public const short REMAINING_TIMER_PER_SECOND_BONUS = 100;
 
     //Powerup Tutorial
-    public const byte HINT_POWERUP_UNLOCK_LEVEL = 3;//3
+    public const byte HINT_POWERUP_UNLOCK_LEVEL = 4;//3
     public const byte FRUIT_BOMB_UNLOCK_LEVEL = 6;//6
     public const byte TRIPLE_BOMB_UNLOCK_LEVEL = 8;//8
     public const string HINT_POWERUP_MESSAGE = "Auto match a random pair.";
     public const string TRIPLE_BOMB_POWERUP_MESSAGE = "Eliminate 3 fruit pairs of your wish.";
     public const string FRUIT_BOMB_POWERUP_MESSAGE = "Eliminate a fruit pair of your wish.";
     ///CHEST
-    public const short MAXIMUM_STARS_REQUIRED_FOR_STAR_CHEST = 1000;
+    public const short MAX_STARS_REQUIRED_FOR_STAR_CHEST = 1000;
 
 
 

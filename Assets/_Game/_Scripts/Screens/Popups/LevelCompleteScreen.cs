@@ -41,7 +41,7 @@ namespace BenStudios
             int expectedRewardLevel = PlayerPrefsWrapper.GetPlayerPrefsInt(PlayerPrefKeys.last_level_reward_level, 0) + GlobalVariables.levelChestRewardOccurence;
             expectedRewardLevel = expectedRewardLevel % 5 == 0 ? expectedRewardLevel : expectedRewardLevel + 1;
 
-            return !((GlobalVariables.CollectedStars >= Konstants.MAXIMUM_STARS_REQUIRED_FOR_STAR_CHEST) || (GlobalVariables.highestUnlockedLevel >= expectedRewardLevel));
+            return !((GlobalVariables.CollectedStars >= Konstants.MAX_STARS_REQUIRED_FOR_STAR_CHEST) || (GlobalVariables.highestUnlockedLevel >= expectedRewardLevel));
         }
     }
 }

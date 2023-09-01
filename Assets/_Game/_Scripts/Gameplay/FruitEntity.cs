@@ -29,7 +29,7 @@ namespace BenStudios
         [SerializeField] private RectTransform m_rectTransform;
         [SerializeField] private Image m_starImage;
         [SerializeField] private Transform m_fruitBombImage;
-
+        [SerializeField] private CanvasGroup m_entityCanvasGroup;
         [SerializeField] private Sprite m_yellowStarImage;
         [SerializeField] private Sprite m_redStarImage;
         public SerializedDictionary<Direction, FruitEntity> neighbours;
@@ -56,12 +56,13 @@ namespace BenStudios
             m_id = id;
             this.row = row;
             this.column = column;
-            if (isInvisibleCell)
+            if (id == -1 || isInvisibleCell)
             {
                 m_isInVisibleEntity = isInvisibleCell;
-                m_fruitImage.gameObject.SetActive(false);
-                m_fruitOutline.gameObject.SetActive(false);
-                m_gridCellBG.gameObject.SetActive(false);
+                m_entityCanvasGroup.alpha = 0;
+                //m_fruitImage.gameObject.SetActive(false);
+                //m_fruitOutline.gameObject.SetActive(false);
+                //m_gridCellBG.gameObject.SetActive(false);
                 m_isDestroyed = true;
                 return;
             }
@@ -209,7 +210,7 @@ namespace BenStudios
                 _ShowBlastEffect();
             };
         }
-        public void HighlightForFruitBombSelection(bool canHighlight)
+        public void HighlightFruitntity(bool canHighlight)
         {
             if (canHighlight)
             {

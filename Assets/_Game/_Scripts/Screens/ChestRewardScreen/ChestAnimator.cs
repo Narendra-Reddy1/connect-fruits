@@ -67,33 +67,11 @@ namespace BenStudios
         public RectTransform originRectTransfrom;
         public Transform center;
 
-        // [SerializeField]
-        // private GameObject openChestGlow;
         private List<Transform> instantiatedRewards = new List<Transform>();
         private List<Reward> rewards;
         private Action onChestAnimationComplete;
         private ChestType chestType;
 
-        //Testing 
-        //private void Start()
-        //{
-        //    var rewardstoShow = new List<Reward>();
-
-        //    rewardstoShow.Add(new Reward()
-        //    {
-        //        rewardType = RewardType.Coin,
-        //        rewardSprite = SpriteManager.Instance.rewardResourcesData.GetSprite(RewardType.Coin),
-        //        rewardValue = 100
-        //    });
-        //    rewardstoShow.Add(new Reward()
-        //    {
-        //        rewardType = RewardType.LifeUnlimited15Min,
-        //        rewardSprite = SpriteManager.Instance.rewardResourcesData.GetSprite(RewardType.LifeUnlimited15Min),
-        //        rewardValue = 15
-        //    });
-
-        //   ShowReward(rewardstoShow);
-        //}
         private void OnDisable()
         {
             DOTween.KillAll();
@@ -142,7 +120,6 @@ namespace BenStudios
                     {
                         chest.transform.DOScaleY(1.9f, 0.125f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.Unset).OnComplete(() =>
                         {
-                            //DeftAudioContainer.Instance?.PlaySFX(DeftAudioClip.AUDIO_CLIP_IN_HOME_SCREEN_GIFTOPENBOX);
                             chestImage.sprite = GetOpenChestSprite();
                             // openChestGlow.SetActive(true);
                             chestOpenBurstParticle.Play();
@@ -210,7 +187,6 @@ namespace BenStudios
                             {
                                 chest.transform.DOScaleY(2.0f, 0.125f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.Unset).OnComplete(() =>
                                 {
-                                    //DeftAudioContainer.Instance?.PlaySFX(DeftAudioClip.AUDIO_CLIP_IN_HOME_SCREEN_GIFTOPENBOX);
                                     chestImage.sprite = GetOpenChestSprite();
                                     // openChestGlow.SetActive(true);
                                     chestOpenBurstParticle.Play();
@@ -329,8 +305,6 @@ namespace BenStudios
                 rewardItem.rewardImage.sprite = rewards[i].rewardSprite;
                 SetRewardValue(rewardItem, rewards[i]);
                 SetRewardSize(rewardItem, rewards[i]);
-                //rewardItem.tileRewardBg.SetActive(rewards[i].rewardType == RewardType.Tile);
-
                 go.gameObject.SetActive(true);
                 instantiatedRewards.Add(go);
             }
@@ -343,18 +317,7 @@ namespace BenStudios
 
         private void SetRewardSize(RewardItem rewardItem, Reward rewardData)
         {
-            //switch (rewardData.rewardType)
-            //{
-            //    case RewardType.Tile:
-            //        rewardItem.rootRectTransfrom.sizeDelta = new Vector2(150, 150);
-            //        break;
-            //    case RewardType.Theme:
-            //        rewardItem.rootRectTransfrom.sizeDelta = new Vector2(300, 300);
-            //        break;
-            //    default:
-            //        rewardItem.rootRectTransfrom.sizeDelta = new Vector2(200, 200);
-            //        break;
-            //}
+         
         }
 
         private Sprite GetOpenChestSprite()

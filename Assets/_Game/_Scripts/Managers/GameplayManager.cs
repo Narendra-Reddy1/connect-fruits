@@ -30,10 +30,13 @@ namespace BenStudios
         [SerializeField] private Transform m_blastEffect_2;
         [SerializeField] private ParticleSystem m_blastEffectParticleSystem_1;
         [SerializeField] private ParticleSystem m_blastEffectParticleSystem_2;
+        [Space(15)]
+        [Header("Streak")]
         [SerializeField] private Image m_streakFillbar;
         [SerializeField] private UIParticleAttractor m_particleAttractor;
         [SerializeField] private TextMeshProUGUI m_streakCounterTxt;
         [SerializeField] private StarsParticleSystemManager m_starsParticleSystemManager;
+        [Space(15)]
         [SerializeField] private TutorialHandler m_tutorialHandler;
         private FruitEntity[,] m_fruitEntityArray;
         [Tooltip("This list contains the fruit entities that are not destroyed only")]
@@ -41,10 +44,10 @@ namespace BenStudios
         private Stack<FruitEntity> m_selectedEntityStack = new Stack<FruitEntity>();
         private WaitForEndOfFrame _waitForEndOfTheFrame = new WaitForEndOfFrame();
         private WaitForSeconds delayToShowEntireBoardClearedEffect = new WaitForSeconds(1.5f);
-        private float m_streakCounterTxtFontSize = 35;
+        private float m_streakCounterTxtFontSize = 45;
         private byte _streakCounter = 0;
         private static short m_collectedStars = 0;
-
+        private Vector2Int m_clearedRowAndColumnCount;
         public static short CollectedStars => m_collectedStars;
 
         #endregion Variables
@@ -122,15 +125,19 @@ namespace BenStudios
         #endregion Public Methods
 
         #region Private Methods
+
+        #region Initializing
+
         private void _Init()
         {
             if (GlobalVariables.currentGameplayMode != GameplayType.LevelMode) return;
+            m_levelTimer.gameObject.SetActive(GlobalVariables.highestUnlockedLevel >= Konstants.MIN_LEVEL_FOR_TIMER);
             m_collectedStars = 0;
             _streakCounter = 0;
             m_fruitCallManager.gameObject.SetActive(false);
             m_streakCounterTxt.gameObject.SetActive(true);
-            m_streakCounterTxt.SetText($"X{_streakCounter + 1}");
-            m_streakCounterTxt.fontSize = m_streakCounterTxtFontSize;
+            m_streakCounterTxt.fontSizeMax = m_streakCounterTxtFontSize;
+            m_streakCounterTxt.SetText(GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_FOR_STREAK ? $"Unlocks at Level {Konstants.MIN_LEVEL_FOR_STREAK}" : $"X{_streakCounter + 1}");
         }
         int[,] m_currentLevelData;
         private void _InitLevel()//MUST HAVE FRUIT PAIR CHECK
@@ -143,11 +150,11 @@ namespace BenStudios
                 for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
                 {
                     FruitEntity item = Instantiate(m_fruitEntityTemplate, m_gridParent);
-                    int index = IsInvisibleCell(i, j) ? 0 : m_currentLevelData[i - 1, j - 1];
-                    item.Init(m_entityDatabase.fruitSprites[index], m_entityDatabase.outlineFruitSprites[index], index, i, j, IsInvisibleCell(i, j));
+                    int index = IsInvisibleCell(i, j) ? -1 : m_currentLevelData[i - 1, j - 1];
+                    item.Init(m_entityDatabase.GetFruitSprite(index), m_entityDatabase.GetFruitOutlineSprite(index), index, i, j, IsInvisibleCell(i, j));
                     item.name = $"Fruit_{i}_{j}";
                     m_fruitEntityArray[i, j] = item;
-                    if (!IsInvisibleCell(i, j))
+                    if (index != -1)
                         m_fruitEnityList.Add(item);
                 }
             foreach (FruitEntity entity in m_fruitEntityArray)
@@ -156,10 +163,25 @@ namespace BenStudios
             }
             Debug.Log($"{m_fruitEntityArray.Length}");
         }
+
+        #endregion Initializing
+
+        #region StartLevel And Board Generation
+
+        private void _StartLevelTimer()
+        {
+            if (GlobalVariables.highestUnlockedLevel <= Konstants.MIN_LEVEL_FOR_TIMER) return;
+            m_levelTimer.StartTimer();
+        }
         private bool IsInvisibleCell(int row, int column)
         {
             return (row == 0 || column == 0 || row == Konstants.ROW_SIZE - 1 || column == Konstants.COLUMN_SIZE - 1);
         }
+
+        #endregion StartLevel And Board Generation
+
+        #region Pair Matching Logic
+
         private void _CheckForMatch()
         {
             /*
@@ -248,15 +270,6 @@ namespace BenStudios
                     m_selectedEntityStack.Clear();
             }
         }
-
-        private void _CheckForPowerupUnlockAndShowTutorial()
-        {
-            if ((GlobalVariables.highestUnlockedLevel >= Konstants.HINT_POWERUP_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown)) m_tutorialHandler.ShowPowerupTutorial(PowerupType.Hint);
-            if ((GlobalVariables.highestUnlockedLevel >= Konstants.FRUIT_BOMB_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
-                m_tutorialHandler.ShowPowerupTutorial(PowerupType.FruitBomb);
-            if ((GlobalVariables.highestUnlockedLevel >= Konstants.TRIPLE_BOMB_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown))
-                m_tutorialHandler.ShowPowerupTutorial(PowerupType.TripleBomb);
-        }
         private void _OnMatchFoundWithPath(List<Vector2Int> optimizedPath, FruitEntity entity1, FruitEntity entity2)
         {
             GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.MatchSuccessSFX);
@@ -266,15 +279,6 @@ namespace BenStudios
                 _OnNewMatchMade();//to show star multiplier fill effect;
             _ShowMatchEffect(optimizedPath, entity1, entity2);
         }
-
-        private void _AddAndUpdatePairMatchScore()
-        {
-            int score = 0;
-            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
-                score += m_fruitCallManager.GetQuickMatchBonusScore();
-            score += Konstants.PAIR_MATCH_SCORE;
-            GlobalEventHandler.RequestToUpdateScore?.Invoke(score);
-        }
         private void _ShowFruitPairCantMatchAnimation(FruitEntity entity1, FruitEntity entity2, MatchFailedCause matchFailedCause)
         {
             GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.MatchFailedSFX);
@@ -282,16 +286,9 @@ namespace BenStudios
             entity2.transform.DOShakeRotation(0.3f, 15f);
             GlobalEventHandler.OnFruitPairMatchFailed?.Invoke(matchFailedCause);
         }
-
         private void _ShowMatchEffect(List<Vector2Int> optimizedPath, FruitEntity item1, FruitEntity item2, System.Action onComplete = null)
         {
-            m_uiLineRenderer.Points = new Vector2[optimizedPath.Count];
-            for (int i = 0, count = optimizedPath.Count; i < count; i++)
-            {
-                // m_fruitEntityArray[optimizedPath[i].x, optimizedPath[i].y].CanShowSelectedEffect(true);
-                _SetupLinesToLinerender(i, m_fruitEntityArray[optimizedPath[i].x, optimizedPath[i].y].RectTransform.localPosition);
-                m_uiLineRenderer.SetAllDirty();
-            }
+            _DrawLinedPath(optimizedPath);
             m_blastEffect_1.position = item1.transform.position;
             m_blastEffect_2.position = item2.transform.position;
             m_blastEffectParticleSystem_1.gameObject.SetActive(true);
@@ -317,102 +314,17 @@ namespace BenStudios
             if (m_fruitEnityList.Count <= (Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) / 3)
                 GlobalVariables.isBoardClearedNearToHalf = true;
         }
-        private bool _CheckIfEntitesAreOnEdgeRowOrColumn(FruitEntity entity1, FruitEntity entity2)
-        {
-            return (entity1.Column == 0 && entity2.Column == 0) || (entity1.Row == 0 && entity2.Row == 0) ||
-            (entity1.Column == Konstants.COLUMN_SIZE - 1 && entity2.Column == Konstants.COLUMN_SIZE - 1) || (entity1.Row == Konstants.ROW_SIZE - 1 && entity2.Row == Konstants.ROW_SIZE - 1);
-        }
 
-        private List<int> clearedRows = new List<int>();
-        private List<int> clearedColumns = new List<int>();
-        private void _CheckIfEntireRowOrColumnIsCleared(FruitEntity entity)
+        private void _DrawLinedPath(List<Vector2Int> pathData)
         {
-            List<FruitEntity> rowList = _GetRowEntites(entity);
-            List<FruitEntity> columnList = _GetColumnEntities(entity);
-            byte delayCounter = 0;
-            if (rowList.FindAll(x => x.IsDestroyed).Count == rowList.Count)
+            m_uiLineRenderer.Points = new Vector2[pathData.Count];
+            for (int i = 0, count = pathData.Count; i < count; i++)
             {
-                if (clearedRows.Contains(rowList[0].Row)) return;
-                delayCounter = 0;
-                clearedRows.Add(rowList[0].Row);
-                GlobalEventHandler.OnRowCleared?.Invoke();
-                GlobalEventHandler.RequestToUpdateScore(Konstants.ROW_CLEAR_BONUS);
-                ShowEffectOnEntity(rowList);
-            }
-            if (columnList.FindAll(x => x.IsDestroyed).Count == columnList.Count)
-            {
-                if (clearedColumns.Contains(rowList[0].Column)) return;
-                delayCounter = 0;
-                GlobalEventHandler.RequestToUpdateScore(Konstants.COLUMN_CLEAR_BONUS);
-                clearedColumns.Add(columnList[0].Column);
-                GlobalEventHandler.OnColumnCleared?.Invoke();
-                ShowEffectOnEntity(columnList);
-            }
-            MyUtils.Log($"## Total Fruit count On the board::{m_fruitEnityList.Count}:: ClearedColumns:{clearedColumns.Count} ==> ClearedRowCount::{clearedRows.Count}");
-            if ((m_fruitEnityList.Count <= 0) || (clearedRows.Count == Konstants.REAL_ROW_SIZE && clearedColumns.Count == Konstants.REAL_COLUMN_SIZE))
-            {
-                StartCoroutine(_ShowEntireBoardClearedEffect());
-            }
-            void ShowEffectOnEntity(List<FruitEntity> entityList)
-            {
-                entityList.ForEach(x =>
-                {
-                    delayCounter++;
-                    x.ShowRowOrColumnGotClearedEffect(delayCounter * 0.2f); ;
-                });
+                // m_fruitEntityArray[optimizedPath[i].x, optimizedPath[i].y].CanShowSelectedEffect(true);
+                _SetupLinesToLinerender(i, m_fruitEntityArray[pathData[i].x, pathData[i].y].RectTransform.localPosition);
+                m_uiLineRenderer.SetAllDirty();
             }
         }
-        private IEnumerator _ShowEntireBoardClearedEffect()
-        {
-            if (GlobalVariables.isLevelCompletedSuccessfully) yield break;
-            GlobalVariables.isLevelCompletedSuccessfully = true;
-            GlobalVariables.highestUnlockedLevel++;//next level
-            GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
-            m_levelTimer.StopTimer();
-            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
-                m_fruitCallManager.ActiveFruitCall.PauseTimer();
-            yield return delayToShowEntireBoardClearedEffect;
-            for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
-                for (int i = 0; i < Konstants.ROW_SIZE; i++)
-                {
-                    m_fruitEntityArray[i, j].ShowEntireBoardClearedEffect(0.1f * j);
-                }
-            yield return delayToShowEntireBoardClearedEffect;
-            yield return delayToShowEntireBoardClearedEffect;
-            ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
-            {
-                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.LevelCompleted);
-            });
-        }
-        private IEnumerator _ShowTimeUpEffect()
-        {
-            GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
-            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
-                m_fruitCallManager.ActiveFruitCall.PauseTimer();
-            yield return delayToShowEntireBoardClearedEffect;
-            ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
-            {
-                GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
-                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.TimeUp);
-            });
-        }
-        private List<FruitEntity> _GetRowEntites(FruitEntity entity)
-        {
-            List<FruitEntity> rowElements = new List<FruitEntity>();
-            for (int i = 0, count = Konstants.COLUMN_SIZE; i < count; i++)
-                rowElements.Add(m_fruitEntityArray[entity.Row, i]);
-            return rowElements;
-        }
-
-        private List<FruitEntity> _GetColumnEntities(FruitEntity entity)
-        {
-            List<FruitEntity> columnElements = new List<FruitEntity>();
-            for (int i = 0, count = Konstants.ROW_SIZE; i < count; i++)
-                columnElements.Add(m_fruitEntityArray[i, entity.Column]);
-            return columnElements;
-
-        }
-
         private List<Vector2Int> _GetValidAndEfficientPath(List<List<Vector2Int>> paths, Vector2Int startCell, Vector2Int endCell)
         {
             byte counter = 0;
@@ -442,50 +354,149 @@ namespace BenStudios
             m_uiLineRenderer.Points[index] = new Vector2(position.x, position.y);
         }
 
+        private void _CheckIfEntireRowOrColumnIsCleared(FruitEntity entity)
+        {
+            List<FruitEntity> rowList = _GetRowEntites(entity);
+            List<FruitEntity> columnList = _GetColumnEntities(entity);
+            byte delayCounter = 0;
+            if (rowList.FindAll(x => x.IsDestroyed).Count == rowList.Count)
+            {
+                if (clearedRows.Contains(rowList[0].Row)) return;
+                delayCounter = 0;
+                clearedRows.Add(rowList[0].Row);
+                GlobalEventHandler.OnRowCleared?.Invoke();
+                GlobalEventHandler.RequestToUpdateScore(Konstants.ROW_CLEAR_BONUS);
+                ShowEffectOnEntity(rowList);
+            }
+            if (columnList.FindAll(x => x.IsDestroyed).Count == columnList.Count)
+            {
+                if (clearedColumns.Contains(rowList[0].Column)) return;
+                delayCounter = 0;
+                GlobalEventHandler.RequestToUpdateScore(Konstants.COLUMN_CLEAR_BONUS);
+                clearedColumns.Add(columnList[0].Column);
+                GlobalEventHandler.OnColumnCleared?.Invoke();
+                ShowEffectOnEntity(columnList);
+            }
+            MyUtils.Log($"## Total Fruit count On the board::{m_fruitEnityList.Count}:: ClearedColumns:{clearedColumns.Count} ==> ClearedRowCount::{clearedRows.Count}");
+            if ((m_fruitEnityList.Count <= 0) /*|| (clearedRows.Count == Konstants.REAL_ROW_SIZE && clearedColumns.Count == Konstants.REAL_COLUMN_SIZE)*/)
+            {
+                StartCoroutine(_ShowEntireBoardClearedEffect());
+            }
+            void ShowEffectOnEntity(List<FruitEntity> entityList)
+            {
+                entityList.ForEach(x =>
+                {
+                    delayCounter++;
+                    x.ShowRowOrColumnGotClearedEffect(delayCounter * 0.2f); ;
+                });
+            }
+        }
+
+
+        #endregion Pair Matching Logic
+
+        #region Challenge Mode
+        private IEnumerator _ShowTimeUpEffect()
+        {
+            GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
+            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                m_fruitCallManager.ActiveFruitCall.PauseTimer();
+            yield return delayToShowEntireBoardClearedEffect;
+            ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
+            {
+                GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
+                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.TimeUp);
+            });
+        }
+        #endregion Challenge Mode
+
+        #region LevelComplete
+
+        private IEnumerator _ShowEntireBoardClearedEffect()
+        {
+            if (GlobalVariables.isLevelCompletedSuccessfully) yield break;
+            GlobalVariables.isLevelCompletedSuccessfully = true;
+            GlobalVariables.highestUnlockedLevel++;//next level
+            GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
+            m_levelTimer.StopTimer();
+            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                m_fruitCallManager.ActiveFruitCall.PauseTimer();
+            yield return delayToShowEntireBoardClearedEffect;
+            for (int j = 0; j < Konstants.COLUMN_SIZE; j++)
+                for (int i = 0; i < Konstants.ROW_SIZE; i++)
+                {
+                    m_fruitEntityArray[i, j].ShowEntireBoardClearedEffect(0.1f * j);
+                }
+            yield return delayToShowEntireBoardClearedEffect;
+            yield return delayToShowEntireBoardClearedEffect;
+            ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
+            {
+                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.LevelCompleted);
+            });
+        }
+
+        private List<FruitEntity> _GetRowEntites(FruitEntity entity)
+        {
+            List<FruitEntity> rowElements = new List<FruitEntity>();
+            for (int i = 0, count = Konstants.COLUMN_SIZE; i < count; i++)
+                rowElements.Add(m_fruitEntityArray[entity.Row, i]);
+            return rowElements;
+        }
+
+        private List<FruitEntity> _GetColumnEntities(FruitEntity entity)
+        {
+            List<FruitEntity> columnElements = new List<FruitEntity>();
+            for (int i = 0, count = Konstants.ROW_SIZE; i < count; i++)
+                columnElements.Add(m_fruitEntityArray[i, entity.Column]);
+            return columnElements;
+
+        }
+
+
+        #endregion LevelComplete
+
+        #region Powerups
+        private void _CheckForPowerupUnlockAndShowTutorial()
+        {
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.HINT_POWERUP_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_hint_powerup_tutorial_shown)) m_tutorialHandler.ShowPowerupTutorial(PowerupType.Hint);
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.FRUIT_BOMB_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown))
+                m_tutorialHandler.ShowPowerupTutorial(PowerupType.FruitBomb);
+            if ((GlobalVariables.highestUnlockedLevel >= Konstants.TRIPLE_BOMB_UNLOCK_LEVEL) && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_triple_bomb_tutorial_shown))
+                m_tutorialHandler.ShowPowerupTutorial(PowerupType.TripleBomb);
+        }
+
         private void _HighlightThePossibleFruitsForFruitBomb(FruitEntity fruitEntity, bool canHighlight)
         {
             foreach (FruitEntity entity in m_fruitEnityList)
             {
                 if (entity == fruitEntity) continue;
                 if (entity.ID == fruitEntity.ID)
-                    entity.HighlightForFruitBombSelection(canHighlight);
+                    entity.HighlightFruitntity(canHighlight);
             }
         }
-        private void _HighlightThePossibleFruitsForFruitBomb(FruitEntity fruitEntity, FruitEntity exceptionalEntity, bool canHighlight)
-        {
-            foreach (FruitEntity entity in m_fruitEnityList)
-            {
-                if (entity == fruitEntity) continue;
-                if (entity.ID == fruitEntity.ID)
-                    entity.HighlightForFruitBombSelection(canHighlight);
-            }
-        }
+
         private void _CheckForPossibleAutoMatch()
         {
             if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
-            AutoMatchData autoMatchData = _GetAutoMatchDataIfAvailable(GlobalVariables.currentFruitCallId);
+            AutoMatchData autoMatchData = _GetAutoMatchDataForID(GlobalVariables.currentFruitCallId);
             if (!autoMatchData.Equals(default(AutoMatchData)))
                 _OnMatchFoundWithPath(autoMatchData.path, autoMatchData.startCell, autoMatchData.endCell);
         }
 
-        private int _GetRemainingSecondsInLevelTimer()
+
+        private void _PerformHintPowerupAction()
         {
-            return m_levelTimer.GetRemaingTimeInSeconds();
+            MyUtils.Log($"Hint Powerup Action From gameplayMAnager");
+            //OnComplete.....
+            GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
+            AutoMatchData autoMatchData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
+            if (!autoMatchData.Equals(default(AutoMatchData)))
+                _OnMatchFoundWithPath(autoMatchData.path, autoMatchData.startCell, autoMatchData.endCell);
         }
 
-        private int _GetClearedFruitCount()
-        {
-            return ((Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) - m_fruitEnityList.Count);
-        }
-        private Vector2Int m_clearedRowAndColumnCount;
-        private Vector2Int GetClearedRowAndColumnCount()
-        {
-            m_clearedRowAndColumnCount.x = clearedRows.Count;
-            m_clearedRowAndColumnCount.y = clearedColumns.Count;
-            return m_clearedRowAndColumnCount;
-        }
+        #endregion Powerups
 
-
+        #region Streak Logic
         private void _StartFillingDown()
         {
             DOTween.Kill(m_streakFillbar);
@@ -521,33 +532,128 @@ namespace BenStudios
         }
         private void _OnNewMatchMade()
         {
+            _RestartTimerForPairHint();
+            if (GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_FOR_STREAK) return;
             _streakCounter++;
             m_starsParticleSystemManager.SetupAndEmitParticles(_streakCounter);
             _StartFillingDown();
         }
-        private void _PerformHintPowerupAction()
+
+        #endregion Streak Logic
+
+        #region Available Match Hint Logic 
+        AutoMatchData _availablePairMatchHintData = default;
+        private int _pairHintTimerCounter = 0;
+        private bool _isPairHintAnimationActive = false;
+        private void _ShowAvailablePairToMatch()
         {
-            MyUtils.Log($"Hint Powerup Action From gameplayMAnager");
-            //OnComplete.....
-            GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
-            AutoMatchData autoMatchData = _CheckOnEachFruitEntityForAutoMatchPairAvailability();
-            if (!autoMatchData.Equals(default(AutoMatchData)))
-                _OnMatchFoundWithPath(autoMatchData.path, autoMatchData.startCell, autoMatchData.endCell);
+            _availablePairMatchHintData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
+            if (!_availablePairMatchHintData.Equals(default(AutoMatchData)))
+            {
+                _isPairHintAnimationActive = true;
+                _availablePairMatchHintData.startCell.HighlightFruitntity(true);
+                _availablePairMatchHintData.endCell.HighlightFruitntity(true);
+                _DrawLinedPath(_availablePairMatchHintData.path);
+            }
         }
-        private AutoMatchData _CheckOnEachFruitEntityForAutoMatchPairAvailability()
+        private void _RestartTimerForPairHint()
+        {
+            CancelInvoke(nameof(_Tick));
+            _DisableHighlightedFruitForPairHint();
+            if (GlobalVariables.highestUnlockedLevel <= Konstants.MAX_LEVEL_TO_SHOW_PAIR_HINT)
+            {
+                _pairHintTimerCounter = Konstants.TIME_TO_WAIT_TO_SHOW_AVAILABLE_PAIR_TO_MATCH;
+                InvokeRepeating(nameof(_Tick), 1, 1);
+            }
+        }
+        private void _StopTimerForPairHint()
+        {
+            if (GlobalVariables.highestUnlockedLevel >= Konstants.MAX_LEVEL_TO_SHOW_PAIR_HINT) return;
+            CancelInvoke(nameof(_Tick));
+            _DisableHighlightedFruitForPairHint();
+        }
+        private void _Tick()
+        {
+            _pairHintTimerCounter--;
+            if (_pairHintTimerCounter <= 0)
+            {
+                _pairHintTimerCounter = 0;
+                CancelInvoke(nameof(_Tick));
+                _ShowAvailablePairToMatch();
+            }
+        }
+        private void _DisableHighlightedFruitForPairHint()
+        {
+            if (_isPairHintAnimationActive)
+            {
+                _isPairHintAnimationActive = false;
+                _availablePairMatchHintData.startCell.HighlightFruitntity(false);
+                _availablePairMatchHintData.endCell.HighlightFruitntity(false);
+            }
+        }
+
+
+        #endregion Available Match Hint Logic
+
+        private void _AddAndUpdatePairMatchScore()
+        {
+            int score = 0;
+            if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                score += m_fruitCallManager.GetQuickMatchBonusScore();
+            score += Konstants.PAIR_MATCH_SCORE;
+            GlobalEventHandler.RequestToUpdateScore?.Invoke(score);
+        }
+
+        private bool _CheckIfEntitesAreOnEdgeRowOrColumn(FruitEntity entity1, FruitEntity entity2)
+        {
+            return (entity1.Column == 0 && entity2.Column == 0) || (entity1.Row == 0 && entity2.Row == 0) ||
+            (entity1.Column == Konstants.COLUMN_SIZE - 1 && entity2.Column == Konstants.COLUMN_SIZE - 1) || (entity1.Row == Konstants.ROW_SIZE - 1 && entity2.Row == Konstants.ROW_SIZE - 1);
+        }
+
+        private List<int> clearedRows = new List<int>();
+        private List<int> clearedColumns = new List<int>();
+
+        private void _HighlightThePossibleFruitsForFruitBomb(FruitEntity fruitEntity, FruitEntity exceptionalEntity, bool canHighlight)
+        {
+            foreach (FruitEntity entity in m_fruitEnityList)
+            {
+                if (entity == fruitEntity) continue;
+                if (entity.ID == fruitEntity.ID)
+                    entity.HighlightFruitntity(canHighlight);
+            }
+        }
+
+        private int _GetRemainingSecondsInLevelTimer()
+        {
+            return m_levelTimer.GetRemaingTimeInSeconds();
+        }
+
+        private int _GetClearedFruitCount()
+        {
+            return ((Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) - m_fruitEnityList.Count);
+        }
+        private Vector2Int GetClearedRowAndColumnCount()
+        {
+            m_clearedRowAndColumnCount.x = clearedRows.Count;
+            m_clearedRowAndColumnCount.y = clearedColumns.Count;
+            return m_clearedRowAndColumnCount;
+        }
+
+
+        private AutoMatchData _CheckForPairToMatchAvailabilityAndReturnIfAvailable()
         {
             int id;
             AutoMatchData autoMatchData = default;
             for (int i = 0, count = m_fruitEnityList.Count; i < count; i++)
             {
                 id = m_fruitEnityList[i].ID;
-                autoMatchData = _GetAutoMatchDataIfAvailable(id);
+                autoMatchData = _GetAutoMatchDataForID(id);
                 if (!autoMatchData.Equals(default(AutoMatchData)))
                     break;
             }
             return autoMatchData;
         }
-        private AutoMatchData _GetAutoMatchDataIfAvailable(int id)
+        private AutoMatchData _GetAutoMatchDataForID(int id)
         {
             AutoMatchData autoMatchData = default;
             List<FruitEntity> sameIdEntities = m_fruitEnityList.FindAll(x => x.ID == id);
@@ -583,11 +689,15 @@ namespace BenStudios
             public FruitEntity startCell;
             public FruitEntity endCell;
         }
+
+
         #endregion Private Methods
 
 
         #region Callbacks
 
+
+        #region Gameplay
         private void Callback_On_Fruit_Entity_Selected(FruitEntity selectedEntity)
         {
             m_selectedEntityStack.Push(selectedEntity);
@@ -607,54 +717,49 @@ namespace BenStudios
             if (m_selectedEntityStack.Count > 0)
                 m_selectedEntityStack?.Pop();
         }
-        private void Callback_On_Fruit_Bomb_Action_Requested(FruitEntity entity1, FruitEntity entity2)
-        {
-            m_fruitEnityList.Remove(entity1);
-            m_fruitEnityList.Remove(entity2);
-            _HighlightThePossibleFruitsForFruitBomb(entity1, false);
-            _CheckForPossibleAutoMatch();
-            MyUtils.DelayedCallback(1f, () =>
-            {
-                GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);
-                _CheckIfEntireRowOrColumnIsCleared(entity1);
-                _CheckIfEntireRowOrColumnIsCleared(entity2);
-            });
-        }
-        private void Callback_On_Triple_Bomb_Action_Requested(FruitEntity entity1, FruitEntity entity2)
-        {
-            m_fruitEnityList.Remove(entity1);
-            m_fruitEnityList.Remove(entity2);
-            _HighlightThePossibleFruitsForFruitBomb(entity1, false);
-            _CheckForPossibleAutoMatch();
-            MyUtils.DelayedCallback(1f, () =>
-            {
-                GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);
-                _CheckIfEntireRowOrColumnIsCleared(entity1);
-                _CheckIfEntireRowOrColumnIsCleared(entity2);
-            });
-        }
-
-        private void Callback_On_Powerup_Tutorial_Completed()
-        {
-            m_levelTimer.StartTimer();
-        }
         private void Callback_On_LevelStartup_Timer_Completed()
         {
-            m_levelTimer.StartTimer();
+            _StartLevelTimer();
             _CheckForPowerupUnlockAndShowTutorial();
+            _RestartTimerForPairHint();
         }
+
+        private void Callback_On_Level_Timer_Completed()
+        {
+            StartCoroutine(_ShowTimeUpEffect());
+        }
+        private void Callback_On_TimePauseRequested(bool canPause)
+        {
+            if (canPause)
+            {
+                m_levelTimer.StopTimer();
+                if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                    m_fruitCallManager.ActiveFruitCall.PauseTimer();
+            }
+            else
+            {
+                _StartLevelTimer();
+                if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
+                    m_fruitCallManager.ActiveFruitCall.ResumeTimer();
+            }
+        }
+
         private void Callback_On_Check_For_Auto_Match_Pair_Availability_Requested()
         {
-            _CheckOnEachFruitEntityForAutoMatchPairAvailability();
+            _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
         }
-        private void Callback_On_Activate_Powerup_Mode_Requested(PowerupType powerupType)
+
+        #endregion Gameplay
+
+        #region Powerups
+        private void Callback_On_Powerup_Tutorial_Completed()
         {
-            // m_tutorialHandler.ClosePowerUpTutorial();
-            m_levelTimer.StopTimer();
+            _StartLevelTimer();
         }
-        private void Callback_On_Deactivate_Powerup_Mode_Requested()
+
+        private void Callback_On_Hint_Action_Requested()
         {
-            m_levelTimer.StartTimer();
+            _PerformHintPowerupAction();
         }
         private void Callback_On_Fruit_Dumper_Action_Requested()
         {
@@ -683,35 +788,58 @@ namespace BenStudios
                 GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
             });
         }
-        private void Callback_On_Level_Timer_Completed()
+        private void Callback_On_Fruit_Bomb_Action_Requested(FruitEntity entity1, FruitEntity entity2)
         {
-            StartCoroutine(_ShowTimeUpEffect());
+            m_fruitEnityList.Remove(entity1);
+            m_fruitEnityList.Remove(entity2);
+            _HighlightThePossibleFruitsForFruitBomb(entity1, false);
+            _CheckForPossibleAutoMatch();
+            MyUtils.DelayedCallback(1f, () =>
+            {
+                GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);
+                _CheckIfEntireRowOrColumnIsCleared(entity1);
+                _CheckIfEntireRowOrColumnIsCleared(entity2);
+            });
         }
-        private void Callback_On_TimePauseRequested(bool canPause)
+        private void Callback_On_Triple_Bomb_Action_Requested(FruitEntity entity1, FruitEntity entity2)
         {
-            if (canPause)
+            m_fruitEnityList.Remove(entity1);
+            m_fruitEnityList.Remove(entity2);
+            _HighlightThePossibleFruitsForFruitBomb(entity1, false);
+            _CheckForPossibleAutoMatch();
+            MyUtils.DelayedCallback(1f, () =>
             {
-                m_levelTimer.StopTimer();
-                if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
-                    m_fruitCallManager.ActiveFruitCall.PauseTimer();
-            }
-            else
-            {
-                m_levelTimer.StartTimer();
-                if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
-                    m_fruitCallManager.ActiveFruitCall.ResumeTimer();
-            }
+                GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);
+                _CheckIfEntireRowOrColumnIsCleared(entity1);
+                _CheckIfEntireRowOrColumnIsCleared(entity2);
+            });
         }
+        private void Callback_On_Activate_Powerup_Mode_Requested(PowerupType powerupType)
+        {
+            // m_tutorialHandler.ClosePowerUpTutorial();
+            m_levelTimer.StopTimer();
+        }
+        private void Callback_On_Deactivate_Powerup_Mode_Requested()
+        {
+            _StartLevelTimer();
+        }
+
+
+        #endregion Powerups
+
+        #region Streak
+
         private void Callback_On_Star_Particle_Attracted()
         {
             m_collectedStars++;
             GlobalEventHandler.EventOnStarParticleAttracted?.Invoke(m_collectedStars);
         }
-        private void Callback_On_Hint_Action_Requested()
-        {
-            _PerformHintPowerupAction();
-        }
+
+        #endregion Streak
+
         #endregion Callbacks
+
+
 
         #region Deug PathFinding LinearAlgo
         //[Space(100)]

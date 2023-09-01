@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace Deftouch
+namespace BenStudios
 {
     public class UIParticleEffect : MonoBehaviour
     {

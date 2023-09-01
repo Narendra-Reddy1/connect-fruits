@@ -113,6 +113,7 @@ namespace BenStudios
             m_updateScoreInitialPose = m_updateScoreEffectTxt.transform.position;
             m_powerupHolderInitialPose = m_powerupsHolderTransform.position;
             m_topbarUiInitialPose = m_topbarUiTransform.position;
+            m_starCountTxt.transform.parent.gameObject.SetActive((GlobalVariables.highestUnlockedLevel >= Konstants.MIN_LEVEL_FOR_STREAK) && GlobalVariables.currentGameplayMode == GameplayType.LevelMode);
             m_levelTxt.SetText($"Level : {GlobalVariables.highestUnlockedLevel}");
             m_levelHolder.SetActive(GlobalVariables.currentGameplayMode == GameplayType.LevelMode);
             ObjectPoolManager.instance.InitializePool(GOOD_MATCH_TEXT_POOL, m_goodMatchTxtPrefab, 5, m_praiseTxtsParent);
@@ -176,7 +177,7 @@ namespace BenStudios
             }
             void ShowFruitDumpUI()
             {
-                m_fruitToDumpImage.sprite = m_entityDatabase.fruitSprites[GlobalVariables.dumpedFruitIndex];
+                m_fruitToDumpImage.sprite = m_entityDatabase.GetFruitSprite(GlobalVariables.dumpedFruitIndex);
                 m_fruitCallPanelCanvasGroup.DOFade(0, .2f);
                 m_powerupStripCanvasGroup.alpha = 1;
                 m_powerupInfoStrip.DOMove(m_powerupStripEndPose.position, 0.2f);
