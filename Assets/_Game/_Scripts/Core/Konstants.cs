@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class Konstants
 {
-    //FOR LEVELDATA
+    //FOR levelData
     public const byte REAL_COLUMN_SIZE = 6;
     public const byte REAL_ROW_SIZE = 8;
 

@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 public static class LevelData
 {
-    private static Dictionary<int, int[,]> LEVELDATA = new Dictionary<int, int[,]>()
+    private static Dictionary<int, int[,]> levelData = new Dictionary<int, int[,]>()
     {
-       { 1,
+        { 1,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {-1,-1,-1,-1,-1,-1},
@@ -17,7 +17,7 @@ public static class LevelData
                     {-1,-1,-1,-1,-1,-1},
                 }
             },
-       {
+        {
                 2,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -30,8 +30,9 @@ public static class LevelData
                     {2,3,1,4,4,1},
                     {3,0,2,2,0,1},
                 }
-            },{
-               3,
+            },
+        {
+            3,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {0,2,-1,-1,4,0},
@@ -43,7 +44,8 @@ public static class LevelData
                     {3,0,-1,-1,4,1},
                     {0,4,-1,-1,2,4},
                 }
-            },{
+            },
+        {
                 4,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -58,7 +60,7 @@ public static class LevelData
                 }
             },
 
-       {
+        {
                 5,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -72,7 +74,7 @@ public static class LevelData
                     {1,1,0,4,4,1},
                 }
             },
-       { 6,
+        { 6,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {0,1,2,3,4,5},
@@ -86,7 +88,7 @@ public static class LevelData
                 }
             },
 
-       {7,
+        {7,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {5,2,3,2,3,5},
@@ -100,7 +102,7 @@ public static class LevelData
                 }
             },
 
-       {8,
+        {8,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {2,3,2,1,4,1},
@@ -113,7 +115,7 @@ public static class LevelData
                     {4,1,0,3,0,1},
                 }
             },
-       {9,
+        {9,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {0,5,4,3,2,1},
@@ -127,7 +129,7 @@ public static class LevelData
                 }
             },
 
-       {
+        {
                 10,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -141,7 +143,7 @@ public static class LevelData
                     {1,1,3,4,5,4},
                 }
             },
-       { 11,
+        { 11,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {5,0,1,2,3,4},
@@ -154,7 +156,7 @@ public static class LevelData
                     {0,1,2,3,4,5},
                 }
             },
-       {12,
+        {12,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
                     {5,1,4,2,1,3},
@@ -253,7 +255,7 @@ public static class LevelData
                     {0,4,2,1,5,0},
                 }
             },
-{
+        {
                 19,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -267,7 +269,7 @@ public static class LevelData
                     {7,3,2,1,3,5},
                 }
             },
-{
+        {
                 20,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -281,7 +283,7 @@ public static class LevelData
                     {1,9,6,10,8,6},
                 }
             },
-{
+        {
                 21,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -295,7 +297,7 @@ public static class LevelData
                     {5,6,0,10,7,5},
                 }
             },
-{
+        {
                 22,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -309,7 +311,7 @@ public static class LevelData
                     {10,1,7,4,3,6},
                 }
             },
-{
+        {
                 23,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -324,7 +326,7 @@ public static class LevelData
                 }
             },
 
-{
+        {
                 24,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -338,7 +340,7 @@ public static class LevelData
                     {0,10,7,6,3,0},
                 }
             },
-{
+        {
                 25,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -352,7 +354,7 @@ public static class LevelData
                     {2,9,9,4,7,6},
                 }
             },
-{
+        {
                 26,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -366,7 +368,7 @@ public static class LevelData
                     {2,4,4,0,0,1},
                 }
             },
-{
+        {
                 27,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -380,7 +382,7 @@ public static class LevelData
                     {8,10,3,10,9,10},
                 }
             },
-{
+        {
                 28,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -394,7 +396,7 @@ public static class LevelData
                     {6,7,1,2,7,6},
                 }
             },
-{
+        {
                 29,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -408,7 +410,7 @@ public static class LevelData
                     {2,6,4,10,6,7},
                 }
             },
-{
+        {
                 30,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -422,7 +424,7 @@ public static class LevelData
                     {6,3,8,1,3,2},
                 }
             },
-{
+        {
                 31,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -436,7 +438,7 @@ public static class LevelData
                     {0,4,11,1,2,3},
                 }
             },
-{
+        {
                 32,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -450,7 +452,7 @@ public static class LevelData
                     {12,4,8,3,6,0},
                 }
             },
-{
+        {
                 33,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -464,7 +466,7 @@ public static class LevelData
                     {1,3,4,5,1,0},
                 }
             },
-{
+        {
                 34,
                 new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
                 {
@@ -478,27 +480,166 @@ public static class LevelData
                     {2,11,10,12,9,8},
                 }
             },
+        {
+                35,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {10,10,0,3,3,5},
+                    {1,2,7,4,4,4},
+                    {2,1,4,9,0,5},
+                    {5,10,1,0,7,10},
+                    {1,3,0,1,10,0},
+                    {2,0,9,3,1,2},
+                    {6,6,4,10,2,4},
+                    {2,4,5,5,4,5},
+                }
+            },
+        {
+                36,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {2,5,2,4,6,0},
+                    {6,3,0,7,10,3},
+                    {2,9,10,10,9,4},
+                    {5,9,0,3,6,5},
+                    {9,4,6,10,9,0},
+                    {3,6,8,8,3,10},
+                    {7,5,6,10,2,7},
+                    {7,4,9,3,1,1},
+                }
+            },
+        {
+                37,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {8,10,10,5,2,6},
+                    {9,1,7,1,10,2},
+                    {6,0,3,6,7,9},
+                    {9,3,4,4,3,10},
+                    {0,6,8,5,6,8},
+                    {2,6,8,10,3,5},
+                    {6,2,10,1,0,6},
+                    {4,5,1,0,4,9},
+                }
+            },
+        {
+                38,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {9,4,4,9,6,5},
+                    {3,10,6,3,0,2},
+                    {5,10,1,0,6,9},
+                    {6,1,2,3,9,10},
+                    {3,0,2,6,7,5},
+                    {8,9,1,10,1,7},
+                    {1,6,10,5,0,2},
+                    {1,10,8,9,3,3},
+                }
+            },
+        {
+                39,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {0,5,8,2,6,6},
+                    {7,9,5,3,10,2},
+                    {1,10,5,10,8,0},
+                    {1,5,3,0,4,1},
+                    {9,3,4,0,5,7},
+                    {3,8,10,3,8,3},
+                    {7,5,0,6,1,9},
+                    {7,6,9,5,0,5},
+                }
+            },
+        {
+                40,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {0,12,4,3,11,0},
+                    {7,10,8,10,5,6},
+                    {1,4,12,1,4,2},
+                    {1,5,6,0,4,11},
+                    {8,11,4,5,10,7},
+                    {6,10,6,10,8,4},
+                    {3,10,8,3,5,12},
+                    {2,12,1,3,11,0},
+                }
+            },
+        {
+                41,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {0,12,4,3,11,0},
+                    {7,10,8,10,5,6},
+                    {1,4,12,1,4,2},
+                    {1,5,6,0,4,11},
+                    {8,11,4,5,10,7},
+                    {6,10,6,10,8,4},
+                    {3,10,8,3,5,12},
+                    {2,12,1,3,11,0},
+                }
+            },
+        {
+                42,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {5,8,11,8,9,5},
+                    {4,2,4,7,6,2},
+                    {7,9,11,9,8,3},
+                    {3,10,6,10,9,1},
+                    {12,2,2,7,12,1},
+                    {3,7,6,3,3,8},
+                    {10,6,10,3,12,9},
+                    {4,12,10,9,4,10},
+                }
+            },
+        {
+                43,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {6,0,0,6,2,5},
+                    {10,3,8,7,4,4},
+                    {8,5,7,5,11,2},
+                    {1,1,12,10,3,5},
+                    {7,10,11,6,12,8},
+                    {2,7,6,9,1,8},
+                    {2,4,5,3,0,1},
+                    {4,5,10,9,3,0},
+                }
+            },
+        {
+                44,
+                new int[Konstants.REAL_ROW_SIZE,Konstants.REAL_COLUMN_SIZE]
+                {
+                    {0,4,5,7,6,7},
+                    {3,0,3,5,10,12},
+                    {9,4,11,9,12,10},
+                    {6,2,2,5,8,5},
+                    {10,8,11,10,9,6},
+                    {12,12,9,3,5,7},
+                    {7,6,3,6,2,5},
+                    {6,4,0,0,4,2},
+                }
+            },
 
     };
 
     public static int[,] GetLevelDataByIndex(int level)
     {
         int[,] leveldata = new int[Konstants.REAL_ROW_SIZE, Konstants.REAL_COLUMN_SIZE];
-        if (LEVELDATA.ContainsKey(level))
+        if (levelData.ContainsKey(level))
         {
-            leveldata = LEVELDATA[level];
+            leveldata = levelData[level];
         }
         else
-            leveldata = LEVELDATA[GetMappedLevel(level)];//Mapping Logic should be here
+            leveldata = levelData[GetMappedLevel(level)];//Mapping Logic should be here ||Download from server
         return leveldata;
     }
 
 
     ///DUMMY Formula
-    private static int offset = 6;
+    private static int offset = 20;
     private static int GetMappedLevel(int index)
     {
         return (index % 10) + offset;
-
     }
 }
