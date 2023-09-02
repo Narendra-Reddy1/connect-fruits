@@ -36,17 +36,17 @@ public class DashboardScreen : ScreenBase
 
     public void OnClickSettingsBtn()
     {
-        ScreenManager.Instance.ChangeScreen(Window.SettingsPopup, ScreenType.Additive);
+        ScreenManager.Instance.ChangeScreen(Window.SettingsPopup, ScreenType.Additive, false);
     }
     public void OnClickStoreBtn()
     {
-        ScreenManager.Instance.ChangeScreen(Window.StoreScreen, ScreenType.Additive);
+        ScreenManager.Instance.ChangeScreen(Window.StoreScreen, ScreenType.Additive, false);
     }
     public void OnClickPlayButton()
     {
         _StartGameplay();
     }
-   
+
     public void OnClickStarChest()
     {
         ChestManager.Instance.StarChestReward();

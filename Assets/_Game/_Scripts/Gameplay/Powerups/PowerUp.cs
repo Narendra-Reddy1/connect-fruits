@@ -13,6 +13,11 @@ namespace BenStudios
         public Image powerupHolderImage;
         public Sprite powerupCountHolderSprite;
         public Sprite plusIconSprite;
+
+        public GameObject costPanel;
+        public GameObject powerupCountPanel;
+        public TextMeshProUGUI coinPriceTxt;
+
         public abstract void Init();
         public abstract void PerformPowerupAction();
 

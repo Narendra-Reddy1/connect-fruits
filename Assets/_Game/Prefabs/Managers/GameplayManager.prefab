@@ -55,3 +55,18 @@ MonoBehaviour:
   m_uiLineRenderer: {fileID: 0}
   m_levelTimer: {fileID: 0}
   m_timerData: {fileID: 11400000, guid: 505b874eeefc0df48bba0974076586c8, type: 2}
+  m_fruitCallManager: {fileID: 0}
+  m_blastParticleSystemList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_streakFillbar: {fileID: 0}
+  m_particleAttractor: {fileID: 0}
+  m_streakCounterTxt: {fileID: 0}
+  m_starsParticleSystemManager: {fileID: 0}
+  m_tutorialHandler: {fileID: 0}

@@ -7,8 +7,8 @@ public class StarsParticleSystemManager : MonoBehaviour
 {
     #region Variables
     [SerializeField] private ParticleSystemSimulationSpace particleSystemSimulationSpace;
-    [SerializeField] private ParticleSystem m_starParticleSystem;
     [SerializeField] private ParticleSystem starsBackupParticleSystem;
+    [SerializeField] private List<ParticleSystem> m_starsParticleSystemList;
     #endregion Variables
 
     #region Unity Methods
@@ -19,12 +19,15 @@ public class StarsParticleSystemManager : MonoBehaviour
     #region Public Methods
     public void SetupAndEmitParticles(int particleCount)
     {
-        SetupAndEmitStarParticles(m_starParticleSystem, particleCount);
+        SetupAndEmitStarParticles(_GetIdleParticleSystem(), particleCount);
     }
     #endregion Public Methods
 
     #region Private Methods
-
+    private ParticleSystem _GetIdleParticleSystem()
+    {
+        return m_starsParticleSystemList.Find(x => !x.IsAlive());
+    }
     private void SetupAndEmitStarParticles(ParticleSystem ps, int particleCount)
     {
         if (ps.IsAlive())
@@ -50,8 +53,6 @@ public class StarsParticleSystemManager : MonoBehaviour
     private void SetupandEmitBackupStarParticles(ParticleSystem ps, int particleCount)
     {
         if (starsBackupParticleSystem.IsAlive()) return;
-        MyUtils.Log($"$$$ Backup Using....{starsBackupParticleSystem.transform.parent.position}:{ps.transform.parent.position}");
-        //starsBackupParticleSystem.transform.parent.position = ps.transform.parent.TransformPoint(ps.transform.parent.position);
         starsBackupParticleSystem.transform.parent.position = ps.transform.parent.position;
         SetupAndEmitStarParticles(starsBackupParticleSystem, particleCount);
     }

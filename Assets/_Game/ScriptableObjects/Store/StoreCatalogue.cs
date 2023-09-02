@@ -15,10 +15,9 @@ namespace BenStudios
     }
 
     [System.Serializable]
-    public class BundlePackData
+    public class BundlePackData : IAPPackData
     {
         public string bundleTitle;
-        public BundleType bundleType;
         public bool isOfferRunning;
         public SerializedDictionary<ResourceType, int> resourcesDictionary;
 
@@ -30,11 +29,15 @@ namespace BenStudios
         }
     }
     [System.Serializable]
-    public class SinglePackData
+    public class SinglePackData : IAPPackData
     {
-        public BundleType bundleType;
         public ResourceType resourceType;
         public int itemCount;
+    }
+    [System.Serializable]
+    public class IAPPackData
+    {
+        public BundleType bundleType;
     }
     public enum BundleType
     {
@@ -53,6 +56,7 @@ namespace BenStudios
         FruitBombPack_1,
         TripleBombPack_1,
         HindPowerupPack_1,
+        FruitBomb_Nano_Pack,
         No_Ads,
 
     }

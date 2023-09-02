@@ -26,6 +26,7 @@ public class SettingsPopup : PopupBase
     }
     public override void OnDisable()
     {
+        GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
         m_musicToggle.onValueChanged.RemoveListener(_ToggleMusic);
         m_soundToggle.onValueChanged.RemoveListener(_ToggleSound);
     }

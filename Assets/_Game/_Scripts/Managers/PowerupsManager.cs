@@ -97,7 +97,7 @@ namespace BenStudios
         {
             entity1.ShowFruitBombEffect();
             entity2.ShowFruitBombEffect();
-            
+
             entity1.ShrinkAndDestroy();
             entity2.ShrinkAndDestroy(() =>
             {
@@ -163,6 +163,7 @@ namespace BenStudios
         }
         private void Callback_On_Deactivate_Powerup_Mode()
         {
+            if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
             m_powerupsFullTxt.gameObject.SetActive(_CheckIfAllPowerupHoldersAreFull());
         }
 

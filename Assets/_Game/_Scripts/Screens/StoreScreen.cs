@@ -52,6 +52,8 @@ namespace BenStudios
         public void OnClickCloseBtn()
         {
             ReleaseLoadedPacks();
+            if (GlobalVariables.currentGameState == GameState.Gameplay)
+                GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
             ScreenManager.Instance.CloseLastAdditiveScreen();
         }
 
@@ -93,6 +95,7 @@ namespace BenStudios
                 {
                     GameObject item = handle.Result;
                     item.transform.SetParent(m_contentTransform);
+                    item.transform.localScale = Vector3.one;
                     item.transform.SetAsLastSibling();
                     m_loadedPackHandles.Add(handle);
                 }

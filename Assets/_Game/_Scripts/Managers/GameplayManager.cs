@@ -26,10 +26,11 @@ namespace BenStudios
         [SerializeField] private LevelTimer m_levelTimer;
         [SerializeField] private TimerData m_timerData;
         [SerializeField] private FruitCallManager m_fruitCallManager;
-        [SerializeField] private Transform m_blastEffect_1;
-        [SerializeField] private Transform m_blastEffect_2;
-        [SerializeField] private ParticleSystem m_blastEffectParticleSystem_1;
-        [SerializeField] private ParticleSystem m_blastEffectParticleSystem_2;
+        //[SerializeField] private Transform m_blastEffect_1;
+        //[SerializeField] private Transform m_blastEffect_2;
+        //[SerializeField] private ParticleSystem m_blastEffectParticleSystem_1;
+        //[SerializeField] private ParticleSystem m_blastEffectParticleSystem_2;
+        [SerializeField] private List<ParticleSystem> m_blastParticleSystemList;
         [Space(15)]
         [Header("Streak")]
         [SerializeField] private Image m_streakFillbar;
@@ -48,6 +49,7 @@ namespace BenStudios
         private byte _streakCounter = 0;
         private static short m_collectedStars = 0;
         private Vector2Int m_clearedRowAndColumnCount;
+        private int m_totalFruitsInTheLevel = 0;
         public static short CollectedStars => m_collectedStars;
 
         #endregion Variables
@@ -60,6 +62,7 @@ namespace BenStudios
         private void OnEnable()
         {
             m_particleAttractor.AddListnerToOnPartilceAttracted(Callback_On_Star_Particle_Attracted);
+            ScreenManager.OnScreenChange += Callback_On_Screen_Changed;
             GlobalEventHandler.OnFruitEntitySelected += Callback_On_Fruit_Entity_Selected;
             GlobalEventHandler.OnFruitEntityUnSelected += Callback_On_Unselected_Fruit_Entity;
             GlobalEventHandler.OnLevelStartupTimerIsCompleted += Callback_On_LevelStartup_Timer_Completed;
@@ -81,6 +84,7 @@ namespace BenStudios
         private void OnDisable()
         {
             m_particleAttractor.RemoveListenerToOnParticleAttracted(Callback_On_Star_Particle_Attracted);
+            ScreenManager.OnScreenChange -= Callback_On_Screen_Changed;
             GlobalEventHandler.OnFruitEntitySelected -= Callback_On_Fruit_Entity_Selected;
             GlobalEventHandler.OnFruitEntityUnSelected -= Callback_On_Unselected_Fruit_Entity;
             GlobalEventHandler.OnLevelStartupTimerIsCompleted -= Callback_On_LevelStartup_Timer_Completed;
@@ -106,13 +110,17 @@ namespace BenStudios
             _InitLevel();
             m_levelTimer.InitTimer(m_timerData.GetTimerData(TimerType.LevelTimer).timeInSeconds);
         }
+#if UNITY_EDITOR
         private void Update()
         {
             if (Input.GetKeyUp(KeyCode.O))
             {
                 StartCoroutine(_ShowEntireBoardClearedEffect());
             }
+
         }
+#endif
+
         #endregion Unity Methods
 
         #region Public Methods
@@ -161,6 +169,7 @@ namespace BenStudios
             {
                 entity.SetupNeighbours(m_fruitEntityArray);
             }
+            m_totalFruitsInTheLevel = m_fruitEnityList.Count;
             Debug.Log($"{m_fruitEntityArray.Length}");
         }
 
@@ -179,6 +188,16 @@ namespace BenStudios
         }
 
         #endregion StartLevel And Board Generation
+        #region OnBoarding
+        private void _OnBoardPlayerIfPlayingFirstTime()
+        {
+            if (GlobalVariables.highestUnlockedLevel > 1) return;
+            //AutoMatchData matchData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
+            // m_tutorialHandler.ShowLevelOnBoardingTutorial();
+
+
+        }
+        #endregion OnBoarding
 
         #region Pair Matching Logic
 
@@ -289,12 +308,7 @@ namespace BenStudios
         private void _ShowMatchEffect(List<Vector2Int> optimizedPath, FruitEntity item1, FruitEntity item2, System.Action onComplete = null)
         {
             _DrawLinedPath(optimizedPath);
-            m_blastEffect_1.position = item1.transform.position;
-            m_blastEffect_2.position = item2.transform.position;
-            m_blastEffectParticleSystem_1.gameObject.SetActive(true);
-            m_blastEffectParticleSystem_2.gameObject.SetActive(true);
-            m_blastEffectParticleSystem_1.Play(true);
-            m_blastEffectParticleSystem_2.Play(true);
+            _ShowBlastParticleEffect(item1, item2);
 
             //Removing items
             m_fruitEnityList.Remove(item1);
@@ -314,7 +328,31 @@ namespace BenStudios
             if (m_fruitEnityList.Count <= (Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) / 3)
                 GlobalVariables.isBoardClearedNearToHalf = true;
         }
+        private void _ShowBlastParticleEffect(FruitEntity item1, FruitEntity item2)
+        {
+            _PlayBlastEffect(item1);
+            _PlayBlastEffect(item2);
 
+            //ParticleSystem blastEffect_1 = _GetIdleBlastParticleSystem();
+            //blastEffect_1.transform.parent.position = item1.transform.position;
+            //blastEffect_1.Play(true);
+            //ParticleSystem blastEffect_2 = _GetIdleBlastParticleSystem();
+            //blastEffect_2.transform.parent.position = item2.transform.position;
+            //blastEffect_2.Play(true);
+
+            // m_blastEffectParticleSystem_1.gameObject.SetActive(true);
+            // m_blastEffectParticleSystem_2.gameObject.SetActive(true);
+        }
+        private void _PlayBlastEffect(FruitEntity item)
+        {
+            ParticleSystem blastEffect = _GetIdleBlastParticleSystem();
+            blastEffect.transform.parent.position = item.transform.position;
+            blastEffect.Play(true);
+        }
+        private ParticleSystem _GetIdleBlastParticleSystem()
+        {
+            return m_blastParticleSystemList.Find(x => !x.IsAlive());
+        }
         private void _DrawLinedPath(List<Vector2Int> pathData)
         {
             m_uiLineRenderer.Points = new Vector2[pathData.Count];
@@ -555,20 +593,21 @@ namespace BenStudios
                 _availablePairMatchHintData.endCell.HighlightFruitntity(true);
                 _DrawLinedPath(_availablePairMatchHintData.path);
             }
+            else
+            {
+                if (GlobalVariables.highestUnlockedLevel > Konstants.FRUIT_BOMB_UNLOCK_LEVEL)
+                    m_tutorialHandler.ShowPlayerStuckMessageToUsePowerup(PowerupType.FruitBomb);
+            }
         }
         private void _RestartTimerForPairHint()
         {
             CancelInvoke(nameof(_Tick));
             _DisableHighlightedFruitForPairHint();
-            if (GlobalVariables.highestUnlockedLevel <= Konstants.MAX_LEVEL_TO_SHOW_PAIR_HINT)
-            {
-                _pairHintTimerCounter = Konstants.TIME_TO_WAIT_TO_SHOW_AVAILABLE_PAIR_TO_MATCH;
-                InvokeRepeating(nameof(_Tick), 1, 1);
-            }
+            _pairHintTimerCounter = Konstants.TIME_TO_WAIT_TO_SHOW_AVAILABLE_PAIR_TO_MATCH;
+            InvokeRepeating(nameof(_Tick), 1, 1);
         }
         private void _StopTimerForPairHint()
         {
-            if (GlobalVariables.highestUnlockedLevel >= Konstants.MAX_LEVEL_TO_SHOW_PAIR_HINT) return;
             CancelInvoke(nameof(_Tick));
             _DisableHighlightedFruitForPairHint();
         }
@@ -630,7 +669,7 @@ namespace BenStudios
 
         private int _GetClearedFruitCount()
         {
-            return ((Konstants.REAL_ROW_SIZE * Konstants.REAL_COLUMN_SIZE) - m_fruitEnityList.Count);
+            return m_totalFruitsInTheLevel - m_fruitEnityList.Count;
         }
         private Vector2Int GetClearedRowAndColumnCount()
         {
@@ -720,6 +759,7 @@ namespace BenStudios
         private void Callback_On_LevelStartup_Timer_Completed()
         {
             _StartLevelTimer();
+            _OnBoardPlayerIfPlayingFirstTime();
             _CheckForPowerupUnlockAndShowTutorial();
             _RestartTimerForPairHint();
         }
@@ -790,6 +830,7 @@ namespace BenStudios
         }
         private void Callback_On_Fruit_Bomb_Action_Requested(FruitEntity entity1, FruitEntity entity2)
         {
+            m_tutorialHandler.ClosePlayerStuckMessage();
             m_fruitEnityList.Remove(entity1);
             m_fruitEnityList.Remove(entity2);
             _HighlightThePossibleFruitsForFruitBomb(entity1, false);
@@ -837,6 +878,10 @@ namespace BenStudios
 
         #endregion Streak
 
+        private void Callback_On_Screen_Changed(Window window)
+        {
+            if (window == Window.StoreScreen) m_tutorialHandler.ClosePlayerStuckMessage();
+        }
         #endregion Callbacks
 
 

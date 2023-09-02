@@ -128,6 +128,7 @@ namespace BenStudios
         sound_toggle,
         music_toggle,
         //levelMode
+        is_player_onboarded,
         is_fruit_bomb_tutorial_shown,
         is_triple_bomb_tutorial_shown,
         is_hint_powerup_tutorial_shown,

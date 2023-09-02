@@ -12,6 +12,7 @@ public class InitSceneManager : MonoBehaviour
     private const string DEVELOPMENT_ENVIRONMENT = "development";
     private void Start()
     {
+        Input.multiTouchEnabled = false;
         SceneManager.LoadSceneAsync(Konstants.PERSISTENT_MANAGERS, LoadSceneMode.Additive).completed += async (handle) =>
        {
            if (handle.isDone)
@@ -27,8 +28,8 @@ public class InitSceneManager : MonoBehaviour
                SceneManager.LoadSceneAsync(Konstants.HOME_SCENE, LoadSceneMode.Additive).completed += (handle1) =>
                {
 #if DEVLOPMENT_BUILD || DEBUG_DEFINE
-                    GameObject obj = Instantiate(m_reporterPrefab);
-                    DontDestroyOnLoad(obj);
+                   GameObject obj = Instantiate(m_reporterPrefab);
+                   DontDestroyOnLoad(obj);
 #else
                    m_reporterPrefab = null;
 #endif

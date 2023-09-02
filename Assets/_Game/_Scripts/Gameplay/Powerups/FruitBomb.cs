@@ -20,7 +20,13 @@ namespace BenStudios
         private void OnEnable()
         {
             Init();
+            PlayerResourceManager.onStoreGiveCallback += OnResourcesUpdated;
         }
+        private void OnDisable()
+        {
+            PlayerResourceManager.onStoreGiveCallback -= OnResourcesUpdated;
+        }
+
         #endregion Unity Methods
 
 
@@ -43,8 +49,8 @@ namespace BenStudios
                     }
                     else
                     {
-                        //Out of Powerups...
-                        //Show ShopScreen...
+                        GlobalEventHandler.RequestToPauseTimer?.Invoke(true);
+                        ScreenManager.Instance.ChangeScreen(Window.PowerupPurchasePopup, ScreenType.Additive);
                     }
                     break;
                 case GameplayType.ChallengeMode:
@@ -75,14 +81,18 @@ namespace BenStudios
                     m_powerupBalance = PlayerResourceManager.GetBalance(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID);
                     if (m_powerupBalance > 0)
                     {
+                        costPanel.SetActive(false);
+                        powerupCountPanel.SetActive(true);
                         powerupHolderImage.sprite = powerupCountHolderSprite;
                         powerupCountTxt.SetText(m_powerupBalance.ToString());
                         MyUtils.Log($"FRUITBOMB IS SET...");
                     }
                     else
                     {
+                        costPanel.SetActive(true);
+                        coinPriceTxt.SetText(Konstants.FRUIT_BOMB_POWERUP_COST.ToString());
                         powerupHolderImage.sprite = plusIconSprite;
-                        powerupCountTxt.gameObject.SetActive(false);
+                        powerupCountPanel.SetActive(false);
                     }
                     break;
                 case GameplayType.ChallengeMode:
@@ -104,6 +114,11 @@ namespace BenStudios
                 PlayerResourceManager.Take(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID);
                 deducted = true;
             }
+            else if (PlayerResourceManager.GetCoinsBalance() >= Konstants.FRUIT_BOMB_POWERUP_COST)
+            {
+                PlayerResourceManager.Take(PlayerResourceManager.COINS_ITEM_ID, Konstants.FRUIT_BOMB_POWERUP_COST);
+                deducted = true;
+            }
             _HandlePowerupCount();
             return deducted;
         }
@@ -111,7 +126,11 @@ namespace BenStudios
         #endregion Private Methods
 
         #region Callbacks
-
+        private void OnResourcesUpdated()
+        {
+            MyUtils.Log($"@@@@@@@@@ Resources UPDATED::::");
+            _HandlePowerupCount();
+        }
 
         #endregion Callbacks
     }

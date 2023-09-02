@@ -21,9 +21,9 @@ MonoBehaviour:
       - Key: 0
         Value: 3000
       - Key: 1
-        Value: 20
+        Value: 25
       - Key: 2
-        Value: 5
+        Value: 20
       - Key: 4
         Value: 25
   - bundleTitle: Master Bundle
@@ -32,13 +32,13 @@ MonoBehaviour:
     resourcesDictionary:
       _serializedList:
       - Key: 0
-        Value: 10000
+        Value: 8000
       - Key: 1
-        Value: 30
+        Value: 50
       - Key: 2
-        Value: 5
-      - Key: 4
         Value: 30
+      - Key: 4
+        Value: 50
   singlePacks:
   - bundleType: 3
     resourceType: 0
@@ -64,3 +64,6 @@ MonoBehaviour:
   - bundleType: 10
     resourceType: 4
     itemCount: 25
+  - bundleType: 11
+    resourceType: 1
+    itemCount: 5

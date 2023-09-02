@@ -46,6 +46,7 @@ namespace BenStudios.IAP
             builder.AddProduct(Konstants.FRUIT_BOMB_PACK_1, ProductType.Consumable);
             builder.AddProduct(Konstants.TRIPLE_BOMB_PACK_1, ProductType.Consumable);
             builder.AddProduct(Konstants.HINT_POWERUP_PACK_1, ProductType.Consumable);
+            builder.AddProduct(Konstants.MINI_STORE_FRUIT_BOMB_NANO_PACK, ProductType.Consumable);
             builder.AddProduct(Konstants.NO_ADS, ProductType.NonConsumable);
 
             builder.Configure<IGooglePlayConfiguration>().SetServiceDisconnectAtInitializeListener(_OnGooglePlayServiceDisconnected);
@@ -61,6 +62,10 @@ namespace BenStudios.IAP
         public string GetLocalizedPrice(string productID)
         {
             return m_products.Find(x => x.definition.id == productID).metadata.localizedPriceString;
+        }
+        public SinglePackData GetSinglePackData(BundleType bundleType)
+        {
+            return m_storeCatalogue.singlePacks.Find(x => x.bundleType == bundleType);
         }
 
         #region IDetailedStoreListner Callbacks
@@ -153,13 +158,8 @@ namespace BenStudios.IAP
                 {Konstants.FRUIT_BOMB_PACK_1,GetSinglePackData(BundleType.FruitBombPack_1)},
                 {Konstants.TRIPLE_BOMB_PACK_1,GetSinglePackData(BundleType.TripleBombPack_1)},
                 {Konstants.HINT_POWERUP_PACK_1,GetSinglePackData(BundleType.HindPowerupPack_1)},
+                {Konstants.MINI_STORE_FRUIT_BOMB_NANO_PACK,GetSinglePackData(BundleType.FruitBomb_Nano_Pack)},
             };
-
-            SinglePackData GetSinglePackData(BundleType bundleType)
-            {
-                return m_storeCatalogue.singlePacks.Find(x => x.bundleType == bundleType);
-            }
-            //m_singlePacksDict;
         }
         private void _InitializePurchase(string productID)
         {

@@ -44,6 +44,34 @@ namespace BenStudios
         #endregion Unity Methods
 
         #region Public Methods
+
+        public void ShowLevelOnBoardingTutorial()
+        {
+
+        }
+        public void ShowPlayerStuckMessageToUsePowerup(PowerupType powerupType)
+        {
+            float extraSpacingToAvoidOverlap = 150f;
+            powerupMessagePanel.SetActive(true);
+            powerupMessageText.text = Konstants.STUCK_MESSAGE;
+            switch (powerupType)
+            {
+                case PowerupType.FruitBomb:
+                    powerupMessagePanel.transform.position = new Vector2(fruitBombPowerup.transform.position.x, fruitBombPowerup.transform.position.y + extraSpacingToAvoidOverlap);
+                    break;
+                case PowerupType.TripleBomb:
+                    powerupMessagePanel.transform.position = new Vector2(tripleBombPowerup.transform.position.x, tripleBombPowerup.transform.position.y + extraSpacingToAvoidOverlap);
+                    break;
+                case PowerupType.Hint:
+                    powerupMessagePanel.transform.position = new Vector2(hintPowerup.transform.position.x, hintPowerup.transform.position.y + extraSpacingToAvoidOverlap);
+                    break;
+            }
+        }
+
+        public void ClosePlayerStuckMessage()
+        {
+            powerupMessagePanel.SetActive(false);
+        }
         public void ShowPowerupTutorial(PowerupType powerUpType)
         {
             GlobalEventHandler.RequestToPauseTimer?.Invoke(true);

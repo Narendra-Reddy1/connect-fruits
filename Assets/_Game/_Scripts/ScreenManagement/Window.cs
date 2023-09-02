@@ -20,6 +20,7 @@ namespace BenStudios.ScreenManagement
         PurchaseStatusScreen,
         ChestRewardScreen,
         LevelCompleteScreeen,
+        PowerupPurchasePopup,
     }
 
     [System.Serializable]

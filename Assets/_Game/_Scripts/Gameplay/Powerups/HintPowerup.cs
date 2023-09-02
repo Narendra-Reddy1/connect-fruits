@@ -21,10 +21,12 @@ namespace BenStudios
         {
             Init();
             GlobalEventHandler.EventOnNoPairIsAvailableForHintPowerup += Callback_On_Auto_Match_Is_Not_Available;
+            PlayerResourceManager.onStoreGiveCallback += OnResourcesUpdated;
         }
         private void OnDisable()
         {
             GlobalEventHandler.EventOnNoPairIsAvailableForHintPowerup -= Callback_On_Auto_Match_Is_Not_Available;
+            PlayerResourceManager.onStoreGiveCallback -= OnResourcesUpdated;
         }
         #endregion Unity Methods
 
@@ -44,8 +46,8 @@ namespace BenStudios
             }
             else
             {
-                //Out Of Powerups
-                //Show Store.....
+                GlobalEventHandler.RequestToPauseTimer?.Invoke(true);
+                ScreenManager.Instance.ChangeScreen(Window.StoreScreen, ScreenType.Additive);
             }
         }
         #endregion Public Methods
@@ -60,13 +62,16 @@ namespace BenStudios
                     int m_powerupBalance = PlayerResourceManager.GetBalance(PlayerResourceManager.HINT_POWERUP_ITEM_ID);
                     if (m_powerupBalance > 0)
                     {
+                        costPanel.SetActive(false);
+                        powerupCountPanel.SetActive(true);
                         powerupHolderImage.sprite = powerupCountHolderSprite;
                         powerupCountTxt.SetText(m_powerupBalance.ToString());
                     }
                     else
                     {
-                        powerupHolderImage.sprite = plusIconSprite;
-                        powerupCountTxt.gameObject.SetActive(false);
+                        costPanel.SetActive(true);
+                        coinPriceTxt.SetText(Konstants.HINT_POWERUP_COST.ToString());
+                        powerupCountPanel.SetActive(false);
                     }
                     break;
                 case GameplayType.ChallengeMode:
@@ -87,6 +92,11 @@ namespace BenStudios
                 PlayerResourceManager.Take(PlayerResourceManager.HINT_POWERUP_ITEM_ID);
                 deducted = true;
             }
+            else if (PlayerResourceManager.GetCoinsBalance() >= Konstants.HINT_POWERUP_COST)
+            {
+                PlayerResourceManager.Take(PlayerResourceManager.COINS_ITEM_ID, Konstants.HINT_POWERUP_COST);
+                deducted = true;
+            }
             _HandlePowerupCount();
             return deducted;
         }
@@ -101,7 +111,10 @@ namespace BenStudios
                 m_grayScaleEffects[i].effectMode = EffectMode.Grayscale;
             }
         }
-
+        private void OnResourcesUpdated()
+        {
+            _HandlePowerupCount();
+        }
         #endregion Callbacks
     }
 }

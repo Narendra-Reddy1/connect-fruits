@@ -15,7 +15,12 @@ namespace BenStudios
 
         private void OnEnable()
         {
+            PlayerResourceManager.onStoreGiveCallback += OnResourcesUpdated;
             Init();
+        }
+        private void OnDisable()
+        {
+            PlayerResourceManager.onStoreGiveCallback -= OnResourcesUpdated;
         }
         #endregion Unity Methods
 
@@ -40,8 +45,8 @@ namespace BenStudios
                     }
                     else
                     {
-                        //Out of powerups...
-                        //Show Shop Screen...
+                        GlobalEventHandler.RequestToPauseTimer?.Invoke(true);
+                        ScreenManager.Instance.ChangeScreen(Window.StoreScreen, ScreenType.Additive);
                     }
                     break;
                 case GameplayType.ChallengeMode:
@@ -74,13 +79,16 @@ namespace BenStudios
                     int m_powerupBalance = PlayerResourceManager.GetBalance(PlayerResourceManager.TRIPLE_BOMB_POWERUP_ITEM_ID);
                     if (m_powerupBalance > 0)
                     {
+                        costPanel.SetActive(false);
+                        powerupCountPanel.SetActive(true);
                         powerupHolderImage.sprite = powerupCountHolderSprite;
                         powerupCountTxt.SetText(m_powerupBalance.ToString());
                     }
                     else
                     {
-                        powerupHolderImage.sprite = plusIconSprite;
-                        powerupCountTxt.gameObject.SetActive(false);
+                        costPanel.SetActive(true);
+                        coinPriceTxt.SetText(Konstants.TRIPLE_BOMB_POWERUP_COST.ToString());
+                        powerupCountPanel.SetActive(false);
                     }
                     break;
                 case GameplayType.ChallengeMode:
@@ -102,6 +110,11 @@ namespace BenStudios
                 PlayerResourceManager.Take(PlayerResourceManager.TRIPLE_BOMB_POWERUP_ITEM_ID);
                 deducted = true;
             }
+            else if (PlayerResourceManager.GetCoinsBalance() >= Konstants.TRIPLE_BOMB_POWERUP_COST)
+            {
+                PlayerResourceManager.Take(PlayerResourceManager.COINS_ITEM_ID, Konstants.TRIPLE_BOMB_POWERUP_COST);
+                deducted = true;
+            }
             _HandlePowerupCount();
             return deducted;
         }
@@ -110,7 +123,10 @@ namespace BenStudios
 
         #region Callbacks
 
-
+        private void OnResourcesUpdated()
+        {
+            _HandlePowerupCount();
+        }
         #endregion Callbacks
     }
 }

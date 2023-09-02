@@ -263,7 +263,7 @@ namespace BenStudios.Economy
                     break;
             }
             PlayerDataManager.instance.SaveData();
-            invokeStoreGiveCallback();
+            InvokeStoreGiveCallback();
         }
 
         public static void Give(string itemId)
@@ -302,7 +302,7 @@ namespace BenStudios.Economy
             }
 
             PlayerDataManager.instance.SaveData();
-            invokeStoreGiveCallback();
+            InvokeStoreGiveCallback();
         }
 
         public static void UpdateToPlayerData(string itemId)
@@ -319,7 +319,7 @@ namespace BenStudios.Economy
             }
 
             PlayerDataManager.instance.SaveData();
-            invokeStoreGiveCallback();
+            InvokeStoreGiveCallback();
         }
 
         public static bool Buy(string itemId)
@@ -405,7 +405,7 @@ namespace BenStudios.Economy
 
         public delegate void StoreGiveCallback();
         public static event StoreGiveCallback onStoreGiveCallback;
-        public static void invokeStoreGiveCallback()
+        public static void InvokeStoreGiveCallback()
         {
             onStoreGiveCallback?.Invoke();
 
@@ -423,7 +423,7 @@ namespace BenStudios.Economy
             Give(FRUIT_BOMB_POWERUP_ITEM_ID, purchaseData.fruitBombs);
             Give(TRIPLE_BOMB_POWERUP_ITEM_ID, purchaseData.tripleBombs);
             Give(HINT_POWERUP_ITEM_ID, purchaseData.hintPowerups);
-            onStoreGiveCallback?.Invoke();
+            
 
         }
     }
