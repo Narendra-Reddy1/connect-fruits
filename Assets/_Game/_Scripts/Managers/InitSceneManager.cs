@@ -4,10 +4,21 @@ using BenStudios.ScreenManagement;
 using BenStudios;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class InitSceneManager : MonoBehaviour
 {
+    [Header("Splash Screen")]
+    [SerializeField] private Image m_fillbar;
+    [SerializeField] private float m_fakeDuration = 2f;
+
+    [Space(10)]
+    [Space(10)]
+    [Header("Debug")]
     [SerializeField] private GameObject m_reporterPrefab;
+
+
     private const string PRODUCTION_ENVIRONMENT = "production";
     private const string DEVELOPMENT_ENVIRONMENT = "development";
     private void Start()
@@ -35,7 +46,16 @@ public class InitSceneManager : MonoBehaviour
 #endif
                    SceneManager.SetActiveScene(SceneManager.GetSceneByName(Konstants.HOME_SCENE));
                    ScreenManager.Instance.ChangeScreen(Window.Dashboard);
-                   SceneManager.UnloadSceneAsync(Konstants.INIT_SCENE);
+                   m_fillbar.DOFillAmount(.25f, m_fakeDuration / 4).onComplete += () =>
+                   {
+                       m_fillbar.DOFillAmount(0.5f, m_fakeDuration / 4).SetDelay(0.2f).onComplete += () =>
+                       {
+                           m_fillbar.DOFillAmount(1f, m_fakeDuration / 4).SetDelay(.1f).onComplete += () =>
+                           {
+                               SceneManager.UnloadSceneAsync(Konstants.INIT_SCENE);
+                           };
+                       };
+                   };
                };
            }
        };

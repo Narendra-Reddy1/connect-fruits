@@ -1,6 +1,7 @@
 using BenStudios;
 using BenStudios.Economy;
 using BenStudios.ScreenManagement;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -62,6 +63,7 @@ public class DashboardScreen : ScreenBase
     {
         m_levelTxt.SetText($"LEVEL {GlobalVariables.highestUnlockedLevel}");
         _SetCoinsText();
+        StartCoroutine(_ShowSupportPopup());
     }
     private void _SetCoinsText() => m_coinsTxt.SetText(PlayerResourceManager.GetCoinsBalance().ToString());
     private void _StartGameplay()
@@ -71,6 +73,17 @@ public class DashboardScreen : ScreenBase
         {
             GlobalEventHandler.RequestToPlayBGM?.Invoke(AudioID.GameplayBGM);
         });
+    }
+    private WaitForSeconds _waitForSecondsToShowPopup = new WaitForSeconds(.65f);
+    private IEnumerator _ShowSupportPopup()
+    {
+        if (GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_TO_ASK_SUPPORT || PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_player_supported_dev)) yield break;
+
+        if (GlobalVariables.highestUnlockedLevel % 20 != 0 && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown)) yield break;
+        
+        yield return _waitForSecondsToShowPopup;
+        PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown, true);
+        ScreenManager.Instance.ChangeScreen(Window.SupportDevAskScreen, ScreenType.Additive, false);
     }
     #endregion Private Methods
 

@@ -51,6 +51,9 @@ namespace BenStudios.IAP
                 case BundleType.No_Ads:
                     productID = Konstants.NO_ADS;
                     break;
+                case BundleType.FruitBomb_Nano_Pack:
+                    productID = Konstants.MINI_STORE_FRUIT_BOMB_NANO_PACK;
+                    break;
                 default:
                     MyUtils.Log($"Bundle type undefined:::AssignBundleID::BasePack:: {bundleType}", LogType.Exception);
                     break;

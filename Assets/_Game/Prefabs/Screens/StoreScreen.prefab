@@ -178,6 +178,11 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  m_supportDevPack:
+    m_AssetGUID: 597fb9050a14fc145972bf2115ba7918
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   m_contentTransform: {fileID: 6315878302848220375}
   m_scrollRect: {fileID: 3529106003783370033}
   m_closebtn: {fileID: 7747855410376562568}

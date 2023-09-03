@@ -56,6 +56,7 @@ MonoBehaviour:
   popupPanelCanvasGroup: {fileID: 4138613201923006884}
   m_adButton: {fileID: 1506392742418061044}
   m_powerupPriceTxt: {fileID: 5528502438911901474}
+  m_powerupCountTxt: {fileID: 3922579240356523073}
 --- !u!1 &1948655561836137141
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,7 +975,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}

@@ -38,6 +38,7 @@ namespace BenStudios
     public class IAPPackData
     {
         public BundleType bundleType;
+        public bool dontListInStore;
     }
     public enum BundleType
     {
@@ -58,6 +59,8 @@ namespace BenStudios
         HindPowerupPack_1,
         FruitBomb_Nano_Pack,
         No_Ads,
+        //misc
+        Support_Dev,
 
     }
 }

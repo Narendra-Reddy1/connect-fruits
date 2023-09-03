@@ -47,6 +47,7 @@ namespace BenStudios.IAP
             builder.AddProduct(Konstants.TRIPLE_BOMB_PACK_1, ProductType.Consumable);
             builder.AddProduct(Konstants.HINT_POWERUP_PACK_1, ProductType.Consumable);
             builder.AddProduct(Konstants.MINI_STORE_FRUIT_BOMB_NANO_PACK, ProductType.Consumable);
+            builder.AddProduct(Konstants.SUPPORT_DEV_PACK, ProductType.Consumable);
             builder.AddProduct(Konstants.NO_ADS, ProductType.NonConsumable);
 
             builder.Configure<IGooglePlayConfiguration>().SetServiceDisconnectAtInitializeListener(_OnGooglePlayServiceDisconnected);
@@ -61,11 +62,23 @@ namespace BenStudios.IAP
 
         public string GetLocalizedPrice(string productID)
         {
-            return m_products.Find(x => x.definition.id == productID).metadata.localizedPriceString;
+            try
+            {
+                return m_products.Find(x => x.definition.id == productID).metadata.localizedPriceString;
+            }
+            catch (System.Exception e)
+            {
+                MyUtils.Log($"Exception:: {productID} ::{e}", LogType.Exception);
+                return string.Empty;
+            }
         }
         public SinglePackData GetSinglePackData(BundleType bundleType)
         {
             return m_storeCatalogue.singlePacks.Find(x => x.bundleType == bundleType);
+        }
+        public BundlePackData GetBundlePackData(BundleType bundleType)
+        {
+            return m_storeCatalogue.bundlePacks.Find(x => x.bundleType == bundleType);
         }
 
         #region IDetailedStoreListner Callbacks
@@ -147,6 +160,8 @@ namespace BenStudios.IAP
             {
                 {Konstants.STARTER_PACK,m_storeCatalogue.bundlePacks.Find(x=>x.bundleType==BundleType.Starter) },
                 {Konstants.MASTER_PACK,m_storeCatalogue.bundlePacks.Find(x=>x.bundleType== BundleType.Master) },
+                {Konstants.SUPPORT_DEV_PACK,m_storeCatalogue.bundlePacks.Find(x=>x.bundleType== BundleType.Support_Dev) },
+
             };
             m_singlePacksDict = new Dictionary<string, SinglePackData>
             {

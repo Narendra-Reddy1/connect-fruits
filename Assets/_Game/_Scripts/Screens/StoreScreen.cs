@@ -17,6 +17,7 @@ namespace BenStudios
         [SerializeField] private AssetReference m_bundlePack;
         [SerializeField] private AssetReference m_singleItemPack;
         [SerializeField] private AssetReference m_noAdsItemPack;
+        [SerializeField] private AssetReference m_supportDevPack;
         [SerializeField] private Transform m_contentTransform;
         [SerializeField] private ScrollRect m_scrollRect;
         [SerializeField] private GameObject m_closebtn;
@@ -42,11 +43,6 @@ namespace BenStudios
             _Init();
             Invoke(nameof(_EnableCloseBtn), m_delayToEnableCloseBtn);
         }
-        //private void OnDisable()
-        //{
-        //    //m_textureDatabase.ReleaseAllTextureAssets();
-        //   // ReleaseLoadedPacks();
-        //}
 
 
         public void OnClickCloseBtn()
@@ -62,8 +58,10 @@ namespace BenStudios
             MyUtils.Log($"Store screen initializing....");
             List<BundlePackData> bundlePacks = m_storeCatalogue.bundlePacks;
             AsyncOperationHandle<GameObject> handle = default;
+
             for (int i = 0, count = bundlePacks.Count; i < count; i++)
             {
+                if (bundlePacks[i].dontListInStore) continue;
                 handle = Addressables.InstantiateAsync(m_bundlePack);
                 await handle.Task;
                 if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -77,6 +75,7 @@ namespace BenStudios
             List<SinglePackData> singlePacks = m_storeCatalogue.singlePacks;
             for (int i = 0, count = singlePacks.Count; i < count; i++)
             {
+                if (singlePacks[i].dontListInStore) continue;
                 handle = Addressables.InstantiateAsync(m_singleItemPack);
                 await handle.Task;
                 if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -100,6 +99,17 @@ namespace BenStudios
                     m_loadedPackHandles.Add(handle);
                 }
             }
+            handle = Addressables.InstantiateAsync(m_supportDevPack);
+            await handle.Task;
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                GameObject item = handle.Result;
+                item.transform.SetParent(m_contentTransform);
+                item.transform.localScale = Vector3.one;
+                item.transform.SetAsLastSibling();
+                m_loadedPackHandles.Add(handle);
+            }
+
             m_connectingToServerPanel.SetActive(false);
             m_scrollRect.normalizedPosition = new Vector2(0, 1);
         }

@@ -143,5 +143,8 @@ namespace BenStudios
         is_star_chest_opened_but_not_claimed,
         collected_stars,
         is_no_ads_purchased,
+        is_support_dev_popup_shown,
+        is_player_supported_dev,
+        never_show_again_support_dev_popup,
     }
 }

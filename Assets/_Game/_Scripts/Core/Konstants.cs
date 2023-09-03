@@ -20,6 +20,7 @@ public static class Konstants
     public const byte MIN_LEVEL_FOR_TIMER = 6;
     public const byte MIN_LEVEL_FOR_STREAK = 6;
     public const byte MAX_LEVEL_TO_SHOW_PAIR_HINT = 6;
+    public const byte MIN_LEVEL_TO_ASK_SUPPORT = 15;
 
     public const float DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS = 4;
     public const float STAR_MULTIPLIER_DECAY_RATE = 0.5f;//how much the timer should be reduced.
@@ -84,7 +85,9 @@ public static class Konstants
     public const string TRIPLE_BOMB_PACK_1 = "triple_bomb_pack_1";
     public const string HINT_POWERUP_PACK_1 = "fruit_dumper_pack_1";
     //MINI STORE
-    public const string MINI_STORE_FRUIT_BOMB_NANO_PACK= "ms_fruit_bomb_nano";
+    public const string MINI_STORE_FRUIT_BOMB_NANO_PACK = "ms_fruit_bomb_nano";
     //No Ads
     public const string NO_ADS = "no_ads";
+    //Miscelleneous
+    public const string SUPPORT_DEV_PACK = "support_dev";
 }

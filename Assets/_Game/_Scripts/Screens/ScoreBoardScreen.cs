@@ -71,6 +71,8 @@ namespace BenStudios
                     if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
                     {
                         GlobalVariables.CollectedStars += GameplayManager.CollectedStars;
+                        if (PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown))
+                            PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown, false);
                         PlayerDataManager.instance.SaveData();
                     }
                     break;
