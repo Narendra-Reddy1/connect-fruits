@@ -10,7 +10,6 @@ namespace BenStudios
         [SerializeField] private GameObject m_starsPanel;
         [SerializeField] private GameObject m_normalConfrimationPanel;
         [SerializeField] private TextMeshProUGUI m_starsCountTxt;
-        [SerializeField] private Button m_exitBtn, m_continueBtn;
         public override void OnEnable()
         {
             base.OnEnable();
@@ -27,14 +26,13 @@ namespace BenStudios
 
         public void OnClickExit()
         {
-            m_continueBtn.interactable = false;
             switch (GlobalVariables.currentGameState)
             {
                 case GameState.HomeScreen:
                     Application.Quit();
                     break;
                 case GameState.Gameplay:
-                    ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
+                    ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, false, onComplete: () =>
                     {
                         ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.GameOver);
                     });
@@ -43,7 +41,6 @@ namespace BenStudios
         }
         public void OnClickContinue()
         {
-            m_exitBtn.interactable = false;
             ScreenManager.Instance.CloseLastAdditiveScreen();
         }
 

@@ -26,7 +26,6 @@ namespace BenStudios
         [SerializeField] private Image m_fruitOutline;
         [SerializeField] private Image m_gridCellBG;
         [SerializeField] private GameObject m_selectionEffect;
-        [SerializeField] private RectTransform m_rectTransform;
         [SerializeField] private Image m_starImage;
         [SerializeField] private Transform m_fruitBombImage;
         [SerializeField] private CanvasGroup m_entityCanvasGroup;
@@ -39,8 +38,6 @@ namespace BenStudios
         private bool m_isDestroyed;
         private bool m_isInVisibleEntity;
         private bool m_isCleared;
-        private bool m_isTweening = false;
-        public RectTransform RectTransform => m_rectTransform;
         public int ID => m_id;
         public int Row => row;
         public int Column => column;
