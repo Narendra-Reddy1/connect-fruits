@@ -23,6 +23,7 @@ namespace BenStudios.ScreenManagement
         PowerupPurchasePopup,
         SupportDevSuccessScreen,
         SupportDevAskScreen,
+        Console,
     }
 
     [System.Serializable]
