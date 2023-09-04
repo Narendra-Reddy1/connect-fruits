@@ -36,6 +36,7 @@ public class InitSceneManager : MonoBehaviour
                    .SetEnvironmentName(DEVELOPMENT_ENVIRONMENT)
 #endif
                    );
+               MaxSdk.InitializeSdk();
                SceneManager.LoadSceneAsync(Konstants.HOME_SCENE, LoadSceneMode.Additive).completed += (handle1) =>
                {
 #if DEVLOPMENT_BUILD || DEBUG_DEFINE
