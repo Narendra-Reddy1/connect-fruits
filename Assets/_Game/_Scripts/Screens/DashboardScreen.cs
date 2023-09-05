@@ -79,7 +79,7 @@ public class DashboardScreen : ScreenBase
     {
         if (GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_TO_ASK_SUPPORT || PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_player_supported_dev)) yield break;
 
-        if (GlobalVariables.highestUnlockedLevel % 20 != 0 && PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown)) yield break;
+        if (GlobalVariables.highestUnlockedLevel % 50 != 0 && !PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown)) yield break;
 
         yield return _waitForSecondsToShowPopup;
         PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown, true);

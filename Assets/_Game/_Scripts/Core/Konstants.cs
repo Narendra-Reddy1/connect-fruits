@@ -19,8 +19,9 @@ public static class Konstants
 
     public const byte MIN_LEVEL_FOR_TIMER = 6;
     public const byte MIN_LEVEL_FOR_STREAK = 6;
-    public const byte MAX_LEVEL_TO_SHOW_PAIR_HINT = 6;
-    public const byte MIN_LEVEL_TO_ASK_SUPPORT = 15;
+
+    public const byte MAX_LEVEL_TO_SHOW_PAIR_HINT = 3;
+    public const byte MIN_LEVEL_TO_ASK_SUPPORT = 20;
 
     public const float DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS = 4;
     public const float STAR_MULTIPLIER_DECAY_RATE = 0.5f;//how much the timer should be reduced.
