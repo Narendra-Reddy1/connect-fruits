@@ -346,8 +346,13 @@ namespace BenStudios
         private void _PlayBlastEffect(FruitEntity item)
         {
             ParticleSystem blastEffect = _GetIdleBlastParticleSystem();
+            if (blastEffect == null) blastEffect = _GetRandomBlastEffect();
             blastEffect.transform.parent.position = item.transform.position;
             blastEffect.Play(true);
+        }
+        private ParticleSystem _GetRandomBlastEffect()
+        {
+            return m_blastParticleSystemList[Random.Range(0, m_blastParticleSystemList.Count)];
         }
         private ParticleSystem _GetIdleBlastParticleSystem()
         {
@@ -585,8 +590,10 @@ namespace BenStudios
         private bool _isPairHintAnimationActive = false;
         private void _ShowAvailablePairToMatch()
         {
+            if (GlobalVariables.isLevelCompletedSuccessfully || GlobalVariables.isTripleBombInAction || GlobalVariables.isFruitBombInAction) return;
             _availablePairMatchHintData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
-            if (!_availablePairMatchHintData.Equals(default(AutoMatchData)))
+
+            if (!_availablePairMatchHintData.Equals(default(AutoMatchData)) && (GlobalVariables.highestUnlockedLevel < Konstants.MAX_LEVEL_TO_SHOW_PAIR_HINT))
             {
                 _isPairHintAnimationActive = true;
                 _availablePairMatchHintData.startCell.HighlightFruitntity(true);
