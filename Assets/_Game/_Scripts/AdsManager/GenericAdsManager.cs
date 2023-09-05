@@ -39,7 +39,7 @@ public class GenericAdsManager : MonoBehaviour
         GlobalEventHandler.RequestToHideBannerAd -= Callback_On_HideBannerAd_Requested;
         GlobalEventHandler.RequestToShowInterstitial -= Callback_On_ShowInterstitialAd_Requested;
         GlobalEventHandler.RequestToShowRewardedAd -= Callback_On_ShowRewardedAd_Requested;
-       
+
         GlobalEventHandler.Request_Interstitial_Availability -= Callback_On_InterstitialAd_Availability_Requested;
         GlobalEventHandler.Request_Rewarded_Ad_Availability -= Callback_On_RewardedAd_Availability_Requested;
 
@@ -50,7 +50,10 @@ public class GenericAdsManager : MonoBehaviour
         //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_SHOW_APP_OPEN_AD_REQUESTED, Callback_On_Show_AppOpenAd_Requested);
         //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_APP_OPEN_AD_AVAILABILITTY_REQUESTED, Callback_On_AppOpenAd_Availability_Requested);
     }
-
+    private void OnDestroy()
+    {
+        AdsManager = null;
+    }
     #endregion Unity Methods
 
     public void Init()

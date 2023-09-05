@@ -107,12 +107,13 @@ public class ApplovinManager : IAds
     {
         isBannerAdLoaded = true;
         GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.BANNER_AD_LOADED, networkName: adInfo.NetworkName, adFormat: adInfo.AdFormat));
-        MyUtils.Log($"On Banner AdLoadeed");
         ShowBannerAd();
+        MyUtils.Log($"On Banner AdLoadeed");
     }
 
     private void OnBannerAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
     {
+        isBannerAdLoaded = false;
         GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.BANNER_AD_FAILED_TO_LOAD, errorInfo: errorInfo));
         MyUtils.Log($"Banner ad load faiuled: {errorInfo}");
     }
