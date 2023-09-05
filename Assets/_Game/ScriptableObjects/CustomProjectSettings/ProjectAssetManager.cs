@@ -5,8 +5,4 @@ using UnityEngine;
 public class ProjectAssetManager : ScriptableObject
 {
     public ProjectSettingAssets projectSettingAssets;
-
-    public AssetSecurity assetSecurity;
-    //public ServerInformations serverInformations;
-
 }

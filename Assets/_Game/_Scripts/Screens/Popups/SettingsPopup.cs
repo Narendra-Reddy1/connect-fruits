@@ -43,6 +43,10 @@ public class SettingsPopup : PopupBase
     {
         ScreenManager.Instance.ChangeScreen(Window.ExitConfirmationPopup, ScreenType.Additive);
     }
+    public void OnClickPrivacyPolicyUrl()
+    {
+        Application.OpenURL("https://sites.google.com/view/benstudios/privacy-policy");
+    }
     #endregion Public Methods
 
     #region Private Methods

@@ -52,7 +52,7 @@ namespace BenStudios.ScreenManagement
         /// This case is relevant if there is any other canvas displaying the required information.
         /// eg. in this case, Onboarding scene uses its own Canvas
         /// </summary>
-        public void RemoveAllScreens()
+        public void RemoveAllScreens(Action onComplete=null)
         {
             //Removal of Additive Screens
             if (m_AdditiveScreenStack.Count > 0)
@@ -72,7 +72,9 @@ namespace BenStudios.ScreenManagement
             m_CurrentScreenType = Window.None;
             m_PreviousScreenType = Window.None;
             m_CurrentReplaceScreenType = Window.None;
+            onComplete?.Invoke();
         }
+
 
         public void ChangeScreen(Window newScreen, ScreenType screenType = ScreenType.Replace, bool enableDelay = true, Action onComplete = null, bool isUIObject = true)
         {

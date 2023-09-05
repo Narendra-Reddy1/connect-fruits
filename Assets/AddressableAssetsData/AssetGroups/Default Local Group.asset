@@ -16,7 +16,12 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: a6a757c256542c14995556114937eb15
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 0ffb3e15d0d35b54981bbcb2fa3c8cdc
+    m_Address: Assets/_Game/Tools/DebugPanel/Debug Console.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2fbf52e8a2a2af44083c4748e171e53a, type: 2}
   m_SchemaSet:
