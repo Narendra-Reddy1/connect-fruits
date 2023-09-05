@@ -30,11 +30,14 @@ namespace BenStudios
         public static Action OnRowCleared = default;
         public static Action<short> EventOnStarParticleAttracted = default;
         public static Action OnPowerupTutorialCompleted = default;
+
+
         //POWERUP 
         public static Action HintPowerupActionRequested = default;
         public static Action RequestToCheckForPairIsAvailableForAutoMatch = default;
         public static Action EventOnPairIsAvailableForHintPowerup = default;
         public static Action EventOnNoPairIsAvailableForHintPowerup = default;
+        public static Action PerformOnClickFruitBomb = default;
 
         //Chest
         public static Action EventOnStarChestClaimed = default;
@@ -80,5 +83,10 @@ namespace BenStudios
         public static Func<int> RequestRemainingTimer = default;
         public static Func<int> RequestTotalMatchedFruits = default;
         public static Func<Vector2Int> RequestClearedRowAndColumnCount = default;
+
+        //ADS
+        public static Func<bool> Request_Interstitial_Availability = default;
+        public static Func<bool> Request_Rewarded_Ad_Availability = default;
+
     }
 }

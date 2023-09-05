@@ -21,10 +21,12 @@ namespace BenStudios
         {
             Init();
             PlayerResourceManager.onStoreGiveCallback += OnResourcesUpdated;
+            GlobalEventHandler.PerformOnClickFruitBomb += PerformPowerupAction;
         }
         private void OnDisable()
         {
             PlayerResourceManager.onStoreGiveCallback -= OnResourcesUpdated;
+            GlobalEventHandler.PerformOnClickFruitBomb -= PerformPowerupAction;
         }
 
         #endregion Unity Methods

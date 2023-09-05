@@ -23,6 +23,8 @@ public class GenericAdsManager : MonoBehaviour
         GlobalEventHandler.RequestToShowInterstitial += Callback_On_ShowInterstitialAd_Requested;
         GlobalEventHandler.RequestToShowRewardedAd += Callback_On_ShowRewardedAd_Requested;
 
+        GlobalEventHandler.Request_Interstitial_Availability += Callback_On_InterstitialAd_Availability_Requested;
+        GlobalEventHandler.Request_Rewarded_Ad_Availability += Callback_On_RewardedAd_Availability_Requested;
         //GlobalEventHandler.AddListener(EventID.EVENT_ON_LOAD_MREC_AD_REQUESTED, Callback_On_Load_MREC_Ad_Requested);
         //GlobalEventHandler.AddListener(EventID.EVENT_ON_SHOW_MREC_AD_REQUESTED, Callback_On_ShowMRECAd_Requested);
         //GlobalEventHandler.AddListener(EventID.EVENT_ON_HIDE_MREC_AD_REQUESTED, Callback_On_HideMRECAd_Requested);
@@ -30,8 +32,6 @@ public class GenericAdsManager : MonoBehaviour
         //GlobalEventHandler.AddListener(EventID.EVENT_ON_SHOW_APP_OPEN_AD_REQUESTED, Callback_On_Show_AppOpenAd_Requested);
         //GlobalEventHandler.AddListener(EventID.EVENT_ON_APP_OPEN_AD_AVAILABILITTY_REQUESTED, Callback_On_AppOpenAd_Availability_Requested);
 
-        //GlobalEventHandler.AddListener(EventID.EVENT_ON_INTERSTITIAL_AD_AVAILABILITY_REQUESTED, Callback_On_InterstitialAd_Availability_Requested);
-        //GlobalEventHandler.AddListener(EventID.EVENT_ON_REWARDED_AD_AVAILABILITY_REQUESTED, Callback_On_RewardedAd_Availability_Requested);
     }
     private void OnDisable()
     {
@@ -39,6 +39,9 @@ public class GenericAdsManager : MonoBehaviour
         GlobalEventHandler.RequestToHideBannerAd -= Callback_On_HideBannerAd_Requested;
         GlobalEventHandler.RequestToShowInterstitial -= Callback_On_ShowInterstitialAd_Requested;
         GlobalEventHandler.RequestToShowRewardedAd -= Callback_On_ShowRewardedAd_Requested;
+       
+        GlobalEventHandler.Request_Interstitial_Availability -= Callback_On_InterstitialAd_Availability_Requested;
+        GlobalEventHandler.Request_Rewarded_Ad_Availability -= Callback_On_RewardedAd_Availability_Requested;
 
         //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_LOAD_MREC_AD_REQUESTED, Callback_On_Load_MREC_Ad_Requested);
         //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_SHOW_MREC_AD_REQUESTED, Callback_On_ShowMRECAd_Requested);
@@ -46,8 +49,6 @@ public class GenericAdsManager : MonoBehaviour
         //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_LOAD_APP_OPEN_AD_REQUESTED, Callback_On_Load_App_Open_Ad_Requested);
         //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_SHOW_APP_OPEN_AD_REQUESTED, Callback_On_Show_AppOpenAd_Requested);
         //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_APP_OPEN_AD_AVAILABILITTY_REQUESTED, Callback_On_AppOpenAd_Availability_Requested);
-        //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_INTERSTITIAL_AD_AVAILABILITY_REQUESTED, Callback_On_InterstitialAd_Availability_Requested);
-        //GlobalEventHandler.RemoveListener(EventID.EVENT_ON_REWARDED_AD_AVAILABILITY_REQUESTED, Callback_On_RewardedAd_Availability_Requested);
     }
 
     #endregion Unity Methods
@@ -73,7 +74,7 @@ public class GenericAdsManager : MonoBehaviour
     {
         AdsManager.ShowInterstitialAd();
     }
-    private object Callback_On_InterstitialAd_Availability_Requested()
+    private bool Callback_On_InterstitialAd_Availability_Requested()
     {
         return AdsManager.IsInterstitialAdAvailable();
     }

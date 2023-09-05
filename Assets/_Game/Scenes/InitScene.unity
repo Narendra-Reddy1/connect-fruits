@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a019282f13397b2429ffada224add1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_adUnits: {fileID: 11400000, guid: 62c0bb40028dea94ca247ac6a0e67431, type: 2}
+  m_projectAssetManager: {fileID: 11400000, guid: aa4785bfd0ccb7d43992f78478732cdb, type: 2}
   m_fillbar: {fileID: 513096539}
   m_fakeDuration: 2
   m_reporterPrefab: {fileID: 2515929669263590475, guid: 9cb7a5d33d640ac44a2644def2d56dff, type: 3}

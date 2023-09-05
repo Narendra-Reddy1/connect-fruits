@@ -74,10 +74,6 @@ public class ProjectSettingAssets : ScriptableObject
             {
                 SymbolList.Add("ENABLE_GAMEPLAY_TESTING");
             }
-            //if (projectSettingAssets.ENABLE_GOOGLE_PLAY_SIGN_IN_TESTING)
-            //{
-            //    SymbolList.Add("ENABLE_GOOGLE_PLAY_SIGN_IN_TESTING");
-            //}
         }
         else
         {
@@ -87,9 +83,9 @@ public class ProjectSettingAssets : ScriptableObject
             projectSettingAssets.ENABLE_GAMEPLAY_TESTING = false;
         }
         return SymbolList;
+
+
     }
-
-
 
     #endregion
 }

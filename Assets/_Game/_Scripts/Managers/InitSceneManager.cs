@@ -9,6 +9,8 @@ using DG.Tweening;
 
 public class InitSceneManager : MonoBehaviour
 {
+    [SerializeField] private ProjectAssetManager m_projectAssetManager;
+
     [Header("Splash Screen")]
     [SerializeField] private Image m_fillbar;
     [SerializeField] private float m_fakeDuration = 2f;
@@ -24,6 +26,13 @@ public class InitSceneManager : MonoBehaviour
     private void Start()
     {
         Input.multiTouchEnabled = false;
+        MaxSdk.SetSdkKey(m_projectAssetManager.projectSettingAssets.thirdPartySdkKeys.applovinSDKKey);
+        MaxSdk.InitializeSdk();
+        MaxSdkCallbacks.OnSdkInitializedEvent += (config) =>
+        {
+            MyUtils.Log($"Applovin SDK Initialized? {config.IsSuccessfullyInitialized}");
+        };
+
         SceneManager.LoadSceneAsync(Konstants.PERSISTENT_MANAGERS, LoadSceneMode.Additive).completed += async (handle) =>
        {
            if (handle.isDone)
@@ -36,7 +45,6 @@ public class InitSceneManager : MonoBehaviour
                    .SetEnvironmentName(DEVELOPMENT_ENVIRONMENT)
 #endif
                    );
-               MaxSdk.InitializeSdk();
                SceneManager.LoadSceneAsync(Konstants.HOME_SCENE, LoadSceneMode.Additive).completed += (handle1) =>
                {
 #if DEVLOPMENT_BUILD || DEBUG_DEFINE
