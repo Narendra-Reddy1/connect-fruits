@@ -19,7 +19,7 @@ public static class Konstants
 
     public const byte MIN_LEVEL_FOR_TIMER = 6;
     public const byte MIN_LEVEL_FOR_STREAK = 6;
-    public const byte MAX_LEVEL_TO_SHOW_PAIR_HINT = 6;
+    public const byte MAX_LEVEL_TO_SHOW_PAIR_HINT = 3;
     public const byte MIN_LEVEL_TO_ASK_SUPPORT = 15;
 
     public const float DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS = 4;
@@ -59,7 +59,8 @@ public static class Konstants
     public static int FRUIT_BOMB_POWERUP_COST = 20;//COINS;
     public static int TRIPLE_BOMB_POWERUP_COST = 40;//COINS
     public const byte OUT_OF_TIME_COST = 60;//COINS
-
+    //Ads
+    public const int MIN_LEVEL_TO_SHOW_INTERSTITIAL = 7;
 
     ///Default data
     public static int DEFAULT_FRUIT_BOMB_POWERUP_BALANCE = 1;

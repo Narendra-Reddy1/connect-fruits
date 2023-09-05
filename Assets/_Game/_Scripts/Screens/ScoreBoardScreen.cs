@@ -38,11 +38,13 @@ namespace BenStudios
         {
             OnPopupInitalized += _SetupPopup;
             OnPopupInitalized += _CalculateScores;
+            GlobalEventHandler.EventOnAdStateChanged += Callback_On_Ad_State_Changed;
         }
         private void OnDisable()
         {
             OnPopupInitalized -= _CalculateScores;
             OnPopupInitalized -= _SetupPopup;
+            GlobalEventHandler.EventOnAdStateChanged -= Callback_On_Ad_State_Changed;
         }
 
 
@@ -53,6 +55,13 @@ namespace BenStudios
         }
         public void OnClickSubmit()
         {
+            if (!(bool)GlobalEventHandler.Request_Interstitial_Availability?.Invoke() || GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_TO_SHOW_INTERSTITIAL)
+                _SubmitAction();
+            else
+                GlobalEventHandler.RequestToShowInterstitial?.Invoke();
+        }
+        private void _SubmitAction()
+        {
             if (m_popupType == PopupType.LevelCompleted && GlobalVariables.currentGameplayMode == GameplayType.LevelMode)
             {
                 ScreenManager.Instance.ChangeScreen(Window.LevelCompleteScreeen, ScreenType.Replace);
@@ -60,6 +69,7 @@ namespace BenStudios
             }
             GlobalEventHandler.RequestToPlayBGM?.Invoke(AudioID.DashboardBGM);
             ScreenManager.Instance.ChangeScreen(Window.Dashboard);
+
         }
 
         private void _SetupPopup()
@@ -138,6 +148,18 @@ namespace BenStudios
                 };
             };
         }
+
+        private void Callback_On_Ad_State_Changed(AdEventData adEventData)
+        {
+            switch (adEventData.adState)
+            {
+                case AdState.INTERSTITIAL_DISMISSED:
+                case AdState.INTERSTITIAL_FAILED_TO_DISPLAY:
+                    _SubmitAction();
+                    break;
+            }
+        }
+
 
         public enum PopupType
         {

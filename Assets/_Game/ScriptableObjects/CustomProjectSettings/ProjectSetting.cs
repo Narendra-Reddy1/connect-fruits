@@ -11,31 +11,11 @@ public class ProjectSetting
     public static bool enableLogWrite;
     public static int BundleVersionCode;
     private static bool isInitialized;
-    private static string IornSourceApiKey;
-    private static string FaceBookAppId;
-    private static string MixPaneRunTimeToken;
-    private static string MixPaneDebugToken;
 
     #endregion
 
     #region DO NOT MODIFY THIS REGION
-    public static string GetIornSourceApiKey()
-    {
-        return IornSourceApiKey;
-    }
-    public static string GetFaceBookAppId()
-    {
-        return FaceBookAppId;
-    }
-    public static string GetMixPaneRunTimeToken()
-    {
-        return MixPaneRunTimeToken;
-    }
-    public static string GetMixPaneDebugToken()
-    {
-        return MixPaneDebugToken;
-    }
-
+  
     public static ref bool IsProjectSettingInitialized()
     {
         return ref isInitialized;

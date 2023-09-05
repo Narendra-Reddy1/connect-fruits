@@ -125,10 +125,9 @@ namespace BenStudios
 
         #region Public Methods
         public FruitEntity[,] GetFruitEntitiesOnTheBoard() => m_fruitEntityArray;
-        Vector2[] m_defaultLineRenderer = new Vector2[1] { Vector2.zero };
         public void ResetLineRenderer()
         {
-            m_uiLineRenderer.Points = m_defaultLineRenderer;
+            m_uiLineRenderer.Points = new Vector2[1] { Vector2.zero };
             m_uiLineRenderer.SetAllDirty();
         }
         #endregion Public Methods
@@ -170,7 +169,6 @@ namespace BenStudios
             {
                 entity.SetupNeighbours(m_fruitEntityArray);
             }
-            GlobalVariables.ResetGameplayVariables();
             m_totalFruitsInTheLevel = m_fruitEnityList.Count;
             Debug.Log($"{m_fruitEntityArray.Length}");
         }
@@ -211,6 +209,8 @@ namespace BenStudios
             **if path is within bounds then perform match operation.
             else show warning of more than three lines or not matched fruits.
              */
+
+            ResetLineRenderer();
             bool pathFound = false;
             List<Vector2Int> optimizedPath = new List<Vector2Int>();
             FruitEntity entity2 = m_selectedEntityStack.Pop();
@@ -291,7 +291,6 @@ namespace BenStudios
         }
         private void _OnMatchFoundWithPath(List<Vector2Int> optimizedPath, FruitEntity entity1, FruitEntity entity2)
         {
-            ResetLineRenderer();
             GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.MatchSuccessSFX);
             _AddAndUpdatePairMatchScore();
             GlobalEventHandler.OnFruitPairMatched?.Invoke(entity1.ID);
@@ -347,13 +346,11 @@ namespace BenStudios
         private void _PlayBlastEffect(FruitEntity item)
         {
             ParticleSystem blastEffect = _GetIdleBlastParticleSystem();
-            if (blastEffect == null) blastEffect = _GetRandomParticleSystem();
-            ParticleSystem.MainModule main = blastEffect.main;
-            main.startLifetime = .5f;
+            if (blastEffect == null) blastEffect = _GetRandomBlastEffect();
             blastEffect.transform.parent.position = item.transform.position;
             blastEffect.Play(true);
         }
-        private ParticleSystem _GetRandomParticleSystem()
+        private ParticleSystem _GetRandomBlastEffect()
         {
             return m_blastParticleSystemList[Random.Range(0, m_blastParticleSystemList.Count)];
         }
@@ -366,9 +363,10 @@ namespace BenStudios
             m_uiLineRenderer.Points = new Vector2[pathData.Count];
             for (int i = 0, count = pathData.Count; i < count; i++)
             {
-                _SetupLinesToLinerender(i, m_fruitEntityArray[pathData[i].x, pathData[i].y].transform.localPosition);
+                // m_fruitEntityArray[optimizedPath[i].x, optimizedPath[i].y].CanShowSelectedEffect(true);
+                _SetupLinesToLinerender(i, m_fruitEntityArray[pathData[i].x, pathData[i].y].RectTransform.localPosition);
+                m_uiLineRenderer.SetAllDirty();
             }
-            m_uiLineRenderer.SetAllDirty();
         }
         private List<Vector2Int> _GetValidAndEfficientPath(List<List<Vector2Int>> paths, Vector2Int startCell, Vector2Int endCell)
         {
@@ -396,7 +394,7 @@ namespace BenStudios
         }
         private void _SetupLinesToLinerender(int index, Vector2 position)
         {
-            m_uiLineRenderer.Points[index] = position;
+            m_uiLineRenderer.Points[index] = new Vector2(position.x, position.y);
         }
 
         private void _CheckIfEntireRowOrColumnIsCleared(FruitEntity entity)
@@ -592,8 +590,10 @@ namespace BenStudios
         private bool _isPairHintAnimationActive = false;
         private void _ShowAvailablePairToMatch()
         {
+            if (GlobalVariables.isLevelCompletedSuccessfully || GlobalVariables.isTripleBombInAction || GlobalVariables.isFruitBombInAction) return;
             _availablePairMatchHintData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
-            if (!_availablePairMatchHintData.Equals(default(AutoMatchData)))
+
+            if (!_availablePairMatchHintData.Equals(default(AutoMatchData)) && (GlobalVariables.highestUnlockedLevel < Konstants.MAX_LEVEL_TO_SHOW_PAIR_HINT))
             {
                 _isPairHintAnimationActive = true;
                 _availablePairMatchHintData.startCell.HighlightFruitntity(true);
