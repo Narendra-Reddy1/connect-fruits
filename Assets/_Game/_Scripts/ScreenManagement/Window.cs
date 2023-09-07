@@ -24,6 +24,7 @@ namespace BenStudios.ScreenManagement
         SupportDevSuccessScreen,
         SupportDevAskScreen,
         Console,
+        OutOfTimePopup,
     }
 
     [System.Serializable]

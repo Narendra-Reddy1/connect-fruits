@@ -364,7 +364,7 @@ namespace BenStudios
             for (int i = 0, count = pathData.Count; i < count; i++)
             {
                 // m_fruitEntityArray[optimizedPath[i].x, optimizedPath[i].y].CanShowSelectedEffect(true);
-                _SetupLinesToLinerender(i, m_fruitEntityArray[pathData[i].x, pathData[i].y].RectTransform.localPosition);
+                _SetupLinesToLinerender(i, m_fruitEntityArray[pathData[i].x, pathData[i].y].transform.localPosition);
                 m_uiLineRenderer.SetAllDirty();
             }
         }
@@ -445,11 +445,16 @@ namespace BenStudios
             if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
                 m_fruitCallManager.ActiveFruitCall.PauseTimer();
             yield return delayToShowEntireBoardClearedEffect;
-            ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
-            {
-                GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
-                ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.TimeUp);
-            });
+            ScreenManager.Instance.ChangeScreen(Window.OutOfTimePopup, ScreenType.Additive, false,
+                () =>
+                {
+                    GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
+                });
+            //ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
+            //{
+            //    GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
+            //    ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.TimeUp);
+            //});
         }
         #endregion Challenge Mode
 
@@ -458,6 +463,7 @@ namespace BenStudios
         private IEnumerator _ShowEntireBoardClearedEffect()
         {
             if (GlobalVariables.isLevelCompletedSuccessfully) yield break;
+            GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
             GlobalVariables.isLevelCompletedSuccessfully = true;
             GlobalVariables.highestUnlockedLevel++;//next level
             GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
@@ -475,6 +481,7 @@ namespace BenStudios
             ScreenManager.Instance.ChangeScreen(Window.ScoreBoardScreen, ScreenType.Additive, onComplete: () =>
             {
                 ScoreBoardScreen._Init(ScoreBoardScreen.PopupType.LevelCompleted);
+                GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
             });
         }
 
@@ -576,6 +583,7 @@ namespace BenStudios
         private void _OnNewMatchMade()
         {
             _RestartTimerForPairHint();
+            m_tutorialHandler.ClosePlayerStuckMessage();
             if (GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_FOR_STREAK) return;
             _streakCounter++;
             m_starsParticleSystemManager.SetupAndEmitParticles(_streakCounter);
@@ -894,6 +902,17 @@ namespace BenStudios
 
 
         #region Deug PathFinding LinearAlgo
+
+#if DEVLOPMENT_BUILD || DEBUG_DEFINE
+
+        [DebugButton("DebugTimeUp")]
+        public void TimeUP()
+        {
+            GlobalEventHandler.RequestToPauseTimer?.Invoke(true);
+            ScreenManager.Instance.ChangeScreen(Window.OutOfTimePopup, ScreenType.Additive, false);
+        }
+#endif
+
         //[Space(100)]
         //public Vector2Int startCell;
         //public Vector2Int endCell;

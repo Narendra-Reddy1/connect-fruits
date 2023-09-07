@@ -17,6 +17,7 @@ namespace BenStudios
         public static int lastLevelChestRewardDefinedAt = 5;
         public static short CollectedStars;
         internal static bool isLevelCompletedSuccessfully;
+        public static byte outOfTimeCounter = 1;
 
         public static void ResetGameplayVariables()
         {
@@ -25,6 +26,7 @@ namespace BenStudios
             isTripleBombInAction = false;
             dumpedFruitIndex = -1;
             currentFruitCallId = -1;
+            outOfTimeCounter = 1;
         }
     }
 }

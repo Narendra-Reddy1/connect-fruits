@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb634395f1b6db7409ebebf87727b3a9, type: 3}
-  m_Name: TimerData
+  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
+  m_Name: Fonts_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  timerData:
-    _serializedList:
-    - Key: 0
-      Value:
-        timeInSeconds: 90
-        canCache: 0
+  m_Group: {fileID: 11400000, guid: 9edf531bbb7b10741bae5d6b237964c3, type: 2}
+  m_StaticContent: 0

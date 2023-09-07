@@ -9,11 +9,19 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_timerTxt;
     private int m_timerCounter = 0;
     private int m_totalTimeInSeconds;
+    private bool m_isTimerCompleted;
     #endregion Variables
 
 
     #region Unity Methods
-
+    private void OnEnable()
+    {
+        GlobalEventHandler.RequestToAddExtraLevelTime += Callback_On_Add_Extra_Time_Requested;
+    }
+    private void OnDisable()
+    {
+        GlobalEventHandler.RequestToAddExtraLevelTime -= Callback_On_Add_Extra_Time_Requested;
+    }
     #endregion Unity Methods
 
 
@@ -21,16 +29,20 @@ public class LevelTimer : MonoBehaviour
     public void InitTimer(int timeInSeconds)
     {
         m_totalTimeInSeconds = m_timerCounter = timeInSeconds;
+        m_isTimerCompleted = false;
         if (m_timerTxt)
             m_timerTxt.text = MyUtils.GetFormattedSeconds(m_timerCounter);
     }
     public void InitTimerAndStartTimer(int timeInSeconds)
     {
         m_totalTimeInSeconds = m_timerCounter = timeInSeconds;
+        m_isTimerCompleted = false;
         StartTimer();
     }
     public void StartTimer()
     {
+        if (m_isTimerCompleted) return;
+        m_timerTxt.transform.DOKill();
         InvokeRepeating(nameof(_Tick), 1, 1);
     }
     public void StopTimer()
@@ -62,6 +74,7 @@ public class LevelTimer : MonoBehaviour
         if (m_timerCounter <= 0)
         {
             m_timerCounter = 0;
+            m_isTimerCompleted = true;
             GlobalEventHandler.RequestToPlaySFX(AudioID.TimerCountdownEndSFX);
             StopTimer();
             GlobalEventHandler.OnLevelTimerIsCompleted?.Invoke();
@@ -76,6 +89,12 @@ public class LevelTimer : MonoBehaviour
     #endregion Private Methods 
 
     #region Callbacks
-
+    private void Callback_On_Add_Extra_Time_Requested(int timeInSeconds)
+    {
+        m_timerCounter += timeInSeconds;
+        if (m_timerTxt) m_timerTxt.DOText(MyUtils.GetFormattedSeconds(m_timerCounter), .25f);
+        m_isTimerCompleted = false;
+        StartTimer();
+    }
     #endregion Callbacks
 }

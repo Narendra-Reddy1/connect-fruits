@@ -30,7 +30,8 @@ namespace BenStudios
         public static Action OnRowCleared = default;
         public static Action<short> EventOnStarParticleAttracted = default;
         public static Action OnPowerupTutorialCompleted = default;
-
+        //Timer
+        public static Action<int> RequestToAddExtraLevelTime = default;
 
         //POWERUP 
         public static Action HintPowerupActionRequested = default;

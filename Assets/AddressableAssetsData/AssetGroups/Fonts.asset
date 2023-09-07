@@ -10,16 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Fonts
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: Fonts
   m_Data:
     m_SerializedData: []
-  m_GUID: a6a757c256542c14995556114937eb15
-  m_SerializeEntries: []
+  m_GUID: 78a3265ed25fae341a3a3d608fffc197
+  m_SerializeEntries:
+  - m_GUID: c6b10c07ec5d2ce44921fc8b5c3f57b1
+    m_Address: Assets/_Game/Fonts
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2fbf52e8a2a2af44083c4748e171e53a, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 04cf85124af5db6408e94d6121a929f7, type: 2}
-    - {fileID: 11400000, guid: b7ee87873e057e04ab51841abad3d6bd, type: 2}
+    - {fileID: 11400000, guid: 2bd534a20bf81254cb2a69ff7a32d487, type: 2}
+    - {fileID: 11400000, guid: 823d2c20227c71043bd2270376722b86, type: 2}
