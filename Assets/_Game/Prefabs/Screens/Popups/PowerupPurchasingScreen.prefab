@@ -466,6 +466,7 @@ GameObject:
   - component: {fileID: 5513669949202648187}
   - component: {fileID: 7075900879446449317}
   - component: {fileID: 496129999157736017}
+  - component: {fileID: 3441045651030074586}
   m_Layer: 5
   m_Name: StoreBtn
   m_TagString: Untagged
@@ -589,6 +590,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickAnimate: 1
+--- !u!114 &3441045651030074586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3607000356452946569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2
 --- !u!1 &3849019746403437690
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +903,7 @@ GameObject:
   - component: {fileID: 8942808508283249244}
   - component: {fileID: 5526757644291072657}
   - component: {fileID: 1506392742418061044}
+  - component: {fileID: 4511689187377724992}
   m_Layer: 5
   m_Name: AdBuyButton
   m_TagString: Untagged
@@ -975,7 +990,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1013,6 +1028,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickAnimate: 1
+--- !u!114 &4511689187377724992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5180448270207455343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2
 --- !u!1 &5535446880589850657
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,6 +1396,7 @@ GameObject:
   - component: {fileID: 4860010656035520824}
   - component: {fileID: 8807754122915017431}
   - component: {fileID: 3353772084027484778}
+  - component: {fileID: 3691840162158820269}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -1492,6 +1521,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickAnimate: 1
+--- !u!114 &3691840162158820269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6955172225349208166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2
 --- !u!1 &7227134566226036672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1908,6 +1950,7 @@ GameObject:
   - component: {fileID: 3655863787037359223}
   - component: {fileID: 2976472050924184938}
   - component: {fileID: 6216749005680496747}
+  - component: {fileID: 7645012299682958710}
   m_Layer: 5
   m_Name: CloseBtn
   m_TagString: Untagged
@@ -2030,6 +2073,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickAnimate: 1
+--- !u!114 &7645012299682958710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8191331249361650516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2
 --- !u!1 &8612095446639111458
 GameObject:
   m_ObjectHideFlags: 0
