@@ -15,7 +15,7 @@ public static class Konstants
     public const byte MIN_FRUITS_TO_MATCH = 2;
     public const byte LEVEL_STARTUP_TIMER_IN_SECONDS = 4;
     public const byte FRUIT_CALL_TIMER_IN_SECONDS = 4;
-    public const byte TIME_TO_WAIT_TO_SHOW_AVAILABLE_PAIR_TO_MATCH = 10;
+    public const byte TIME_TO_WAIT_TO_SHOW_AVAILABLE_PAIR_TO_MATCH = 20;
 
     public const byte MIN_LEVEL_FOR_TIMER = 6;
     public const byte MIN_LEVEL_FOR_STREAK = 6;
@@ -24,9 +24,9 @@ public static class Konstants
     public const byte MIN_LEVEL_TO_ASK_SUPPORT = 20;
 
     public const float DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS = 4;
-    public const float STAR_MULTIPLIER_DECAY_RATE = 0.5f;//how much the timer should be reduced.
+    public const float STAR_MULTIPLIER_DECAY_RATE = 0.75f;//how much the timer should be reduced.
     public const byte STAR_MULTIPLIER_DECAY_FREQUENCY = 5;//frequency to reduce the star multiplier timer
-    public const float STAR_MULTIPLIER_LOW_CAP_TIMER = 2.5f;//Lowest time for star multiplier.
+    public const float STAR_MULTIPLIER_LOW_CAP_TIMER = 1.75f;//Lowest time for star multiplier.
 
     //SCORE
     public const short PAIR_MATCH_SCORE = 50;

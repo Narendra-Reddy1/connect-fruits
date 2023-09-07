@@ -37,6 +37,10 @@ namespace BenStudios
         [SerializeField] private UIParticleAttractor m_particleAttractor;
         [SerializeField] private TextMeshProUGUI m_streakCounterTxt;
         [SerializeField] private StarsParticleSystemManager m_starsParticleSystemManager;
+        [Header("LevelMode")]
+        [SerializeField] private Transform m_levelModeGridPose;
+        [SerializeField] private Transform m_gridTransform;
+
         [Space(15)]
         [SerializeField] private TutorialHandler m_tutorialHandler;
         private FruitEntity[,] m_fruitEntityArray;
@@ -55,12 +59,9 @@ namespace BenStudios
         #endregion Variables
 
         #region Unity Methods
-        private void Awake()
-        {
-            _Init();
-        }
         private void OnEnable()
         {
+            _Init();
             m_particleAttractor.AddListnerToOnPartilceAttracted(Callback_On_Star_Particle_Attracted);
             ScreenManager.OnScreenChange += Callback_On_Screen_Changed;
             GlobalEventHandler.OnFruitEntitySelected += Callback_On_Fruit_Entity_Selected;
@@ -127,6 +128,7 @@ namespace BenStudios
         public FruitEntity[,] GetFruitEntitiesOnTheBoard() => m_fruitEntityArray;
         public void ResetLineRenderer()
         {
+            m_uiLineRenderer.Points = null;
             m_uiLineRenderer.Points = new Vector2[1] { Vector2.zero };
             m_uiLineRenderer.SetAllDirty();
         }
@@ -139,6 +141,7 @@ namespace BenStudios
         private void _Init()
         {
             if (GlobalVariables.currentGameplayMode != GameplayType.LevelMode) return;
+            m_gridTransform.position = m_levelModeGridPose.position;
             m_levelTimer.gameObject.SetActive(GlobalVariables.highestUnlockedLevel >= Konstants.MIN_LEVEL_FOR_TIMER);
             m_collectedStars = 0;
             _streakCounter = 0;
@@ -200,7 +203,6 @@ namespace BenStudios
         #endregion OnBoarding
 
         #region Pair Matching Logic
-
         private void _CheckForMatch()
         {
             /*
@@ -345,6 +347,7 @@ namespace BenStudios
         }
         private void _PlayBlastEffect(FruitEntity item)
         {
+
             ParticleSystem blastEffect = _GetIdleBlastParticleSystem();
             if (blastEffect == null) blastEffect = _GetRandomBlastEffect();
             blastEffect.transform.parent.position = item.transform.position;
@@ -360,6 +363,7 @@ namespace BenStudios
         }
         private void _DrawLinedPath(List<Vector2Int> pathData)
         {
+            m_uiLineRenderer.Points = null;
             m_uiLineRenderer.Points = new Vector2[pathData.Count];
             for (int i = 0, count = pathData.Count; i < count; i++)
             {
@@ -568,7 +572,7 @@ namespace BenStudios
         private float _GetStreakTimer(byte streakCounter)
         {
             if (streakCounter <= 5) return Konstants.DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS;
-            if (streakCounter <= 10) return Konstants.DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS - Konstants.STAR_MULTIPLIER_DECAY_RATE;
+            if (streakCounter <= 8) return Konstants.DEFAULT_STAR_MULTIPLIER_TIMER_IN_SECONDS - Konstants.STAR_MULTIPLIER_DECAY_RATE;
             else
                 return Konstants.STAR_MULTIPLIER_LOW_CAP_TIMER;
         }

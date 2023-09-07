@@ -19769,7 +19769,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -20697,7 +20697,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -21212,7 +21212,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 2
@@ -24655,7 +24655,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -25583,7 +25583,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -26098,7 +26098,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 2
@@ -29826,7 +29826,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -30754,7 +30754,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -31269,7 +31269,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 2
@@ -49264,7 +49264,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -50192,7 +50192,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -50707,7 +50707,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 2
@@ -61469,7 +61469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -63924,7 +63924,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -64852,7 +64852,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -65367,7 +65367,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 2
@@ -68801,7 +68801,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -93620,7 +93620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -106207,7 +106207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3ece8f2e9d36347bd079b88384d865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystemSimulationSpace: 0
+  particleSystemSimulationSpace: 1
   starsBackupParticleSystem: {fileID: 3551218678366149904}
   m_starsParticleSystemList:
   - {fileID: 1029592896725006502}
@@ -118233,7 +118233,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
   randomSeed: 0
@@ -119161,7 +119161,7 @@ ParticleSystem:
       repeatInterval: 0.01
       probability: 1
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -119676,7 +119676,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 2
@@ -157584,9 +157584,9 @@ MonoBehaviour:
   - {fileID: 4664826396672781444}
   - {fileID: 3195186458114119816}
   - {fileID: 3551218678366149904}
-  m_DestinationRadius: 1
-  m_DelayRate: 0.1
-  m_MaxSpeed: 1
+  m_DestinationRadius: 4
+  m_DelayRate: 0.2
+  m_MaxSpeed: 1.5
   m_Movement: 1
   m_OnAttracted:
     m_PersistentCalls:
@@ -169373,6 +169373,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5441761556149907358}
     - target: {fileID: 2919438409209194369, guid: f9c7af2a8029fdb419e71f967c3338e0, type: 3}
+      propertyPath: m_gridTransform
+      value: 
+      objectReference: {fileID: 6380692174205147638}
+    - target: {fileID: 2919438409209194369, guid: f9c7af2a8029fdb419e71f967c3338e0, type: 3}
       propertyPath: m_streakFillbar
       value: 
       objectReference: {fileID: 8251063011085553197}
@@ -169392,6 +169396,10 @@ PrefabInstance:
       propertyPath: m_streakCounterTxt
       value: 
       objectReference: {fileID: 4716130581243526094}
+    - target: {fileID: 2919438409209194369, guid: f9c7af2a8029fdb419e71f967c3338e0, type: 3}
+      propertyPath: m_levelModeGridPose
+      value: 
+      objectReference: {fileID: 2047596070736235283}
     - target: {fileID: 2919438409209194369, guid: f9c7af2a8029fdb419e71f967c3338e0, type: 3}
       propertyPath: m_particleAttractor
       value: 
