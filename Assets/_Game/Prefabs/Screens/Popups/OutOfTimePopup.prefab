@@ -952,6 +952,7 @@ GameObject:
   - component: {fileID: 670563778986952058}
   - component: {fileID: 3021190156898958534}
   - component: {fileID: 6765196808095374472}
+  - component: {fileID: 4208570280508609815}
   m_Layer: 5
   m_Name: NoThanks
   m_TagString: Untagged
@@ -1045,6 +1046,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickAnimate: 1
+--- !u!114 &4208570280508609815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4289498827434413645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2
 --- !u!1 &4490846560536041881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,6 +1206,7 @@ GameObject:
   - component: {fileID: 6551771801169411656}
   - component: {fileID: 8378236289511692281}
   - component: {fileID: 1821708837785253}
+  - component: {fileID: 1520588228903888247}
   m_Layer: 5
   m_Name: BuyWithCoins
   m_TagString: Untagged
@@ -1316,6 +1331,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickAnimate: 1
+--- !u!114 &1520588228903888247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706787083558091804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2
 --- !u!1 &5103058417234816073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,6 +1491,7 @@ GameObject:
   - component: {fileID: 6993445594393509848}
   - component: {fileID: 2781223154101994364}
   - component: {fileID: 8836328027482223659}
+  - component: {fileID: 9104131068655090744}
   m_Layer: 5
   m_Name: AdBuyButton
   m_TagString: Untagged
@@ -1587,6 +1616,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   clickAnimate: 1
+--- !u!114 &9104131068655090744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280592189448753468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2
 --- !u!1 &6445683039318438533
 GameObject:
   m_ObjectHideFlags: 0
