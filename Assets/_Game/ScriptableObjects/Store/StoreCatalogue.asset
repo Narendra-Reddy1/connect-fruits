@@ -59,11 +59,11 @@ MonoBehaviour:
   - bundleType: 3
     dontListInStore: 0
     resourceType: 0
-    itemCount: 100
+    itemCount: 150
   - bundleType: 4
     dontListInStore: 0
     resourceType: 0
-    itemCount: 799
+    itemCount: 800
   - bundleType: 5
     dontListInStore: 0
     resourceType: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   - bundleType: 8
     dontListInStore: 0
     resourceType: 1
-    itemCount: 20
+    itemCount: 25
   - bundleType: 9
     dontListInStore: 0
     resourceType: 2
@@ -87,7 +87,7 @@ MonoBehaviour:
   - bundleType: 10
     dontListInStore: 0
     resourceType: 4
-    itemCount: 20
+    itemCount: 25
   - bundleType: 11
     dontListInStore: 1
     resourceType: 1
