@@ -361,9 +361,9 @@ namespace BenStudios
         {
             return m_blastParticleSystemList.Find(x => !x.IsAlive());
         }
+        
         private void _DrawLinedPath(List<Vector2Int> pathData)
         {
-            m_uiLineRenderer.Points = null;
             m_uiLineRenderer.Points = new Vector2[pathData.Count];
             for (int i = 0, count = pathData.Count; i < count; i++)
             {
@@ -372,6 +372,7 @@ namespace BenStudios
                 m_uiLineRenderer.SetAllDirty();
             }
         }
+
         private List<Vector2Int> _GetValidAndEfficientPath(List<List<Vector2Int>> paths, Vector2Int startCell, Vector2Int endCell)
         {
             byte counter = 0;
