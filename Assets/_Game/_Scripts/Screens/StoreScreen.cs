@@ -31,10 +31,13 @@ namespace BenStudios
 
         private void OnEnable()
         {
+            GlobalEventHandler.RequestToPauseTimer?.Invoke(true);
             PlayerResourceManager.onStoreGiveCallback += Callback_On_ResourcesUpdated;
         }
         private void OnDisable()
         {
+            if (ScreenManager.Instance.GetPreviousScreenScreen() == Window.GameplayScreen)
+                GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
             PlayerResourceManager.onStoreGiveCallback += Callback_On_ResourcesUpdated;
         }
         private void Start()
@@ -48,11 +51,8 @@ namespace BenStudios
         public void OnClickCloseBtn()
         {
             ReleaseLoadedPacks();
-            if (GlobalVariables.currentGameState == GameState.Gameplay)
-                GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
             ScreenManager.Instance.CloseLastAdditiveScreen();
         }
-
         private async void _Init()
         {
             MyUtils.Log($"Store screen initializing....");

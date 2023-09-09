@@ -168317,18 +168317,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8222957230503100443}
     m_Modifications:
-    - target: {fileID: 386948441110360058, guid: 02561500f6f671d4d9a76974257432a8, type: 3}
-      propertyPath: m_Transition
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 420391989854416902, guid: 02561500f6f671d4d9a76974257432a8, type: 3}
-      propertyPath: m_grayScaleEffects.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 420391989854416902, guid: 02561500f6f671d4d9a76974257432a8, type: 3}
-      propertyPath: m_grayScaleEffects.Array.data[0]
-      value: 
-      objectReference: {fileID: 7985390131600102015}
     - target: {fileID: 420391989854416902, guid: 02561500f6f671d4d9a76974257432a8, type: 3}
       propertyPath: m_grayScaleEffects.Array.data[1]
       value: 

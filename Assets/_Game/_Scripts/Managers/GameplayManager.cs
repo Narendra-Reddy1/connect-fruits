@@ -111,16 +111,6 @@ namespace BenStudios
             _InitLevel();
             m_levelTimer.InitTimer(m_timerData.GetTimerData(TimerType.LevelTimer).timeInSeconds);
         }
-#if UNITY_EDITOR
-        private void Update()
-        {
-            if (Input.GetKeyUp(KeyCode.O))
-            {
-                StartCoroutine(_ShowEntireBoardClearedEffect());
-            }
-
-        }
-#endif
 
         #endregion Unity Methods
 
@@ -182,7 +172,7 @@ namespace BenStudios
 
         private void _StartLevelTimer()
         {
-            if (GlobalVariables.highestUnlockedLevel <= Konstants.MIN_LEVEL_FOR_TIMER) return;
+            if (GlobalVariables.highestUnlockedLevel <= Konstants.MIN_LEVEL_FOR_TIMER || GlobalVariables.isLevelCompletedSuccessfully) return;
             m_levelTimer.StartTimer();
         }
         private bool IsInvisibleCell(int row, int column)
@@ -191,11 +181,12 @@ namespace BenStudios
         }
 
         #endregion StartLevel And Board Generation
+
         #region OnBoarding
         private void _OnBoardPlayerIfPlayingFirstTime()
         {
             if (GlobalVariables.highestUnlockedLevel > 1) return;
-            //AutoMatchData matchData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
+            //AutoMatchData matchData = _CheckAndReturnPairToMatchIfAvailable();
             // m_tutorialHandler.ShowLevelOnBoardingTutorial();
 
 
@@ -361,7 +352,7 @@ namespace BenStudios
         {
             return m_blastParticleSystemList.Find(x => !x.IsAlive());
         }
-        
+
         private void _DrawLinedPath(List<Vector2Int> pathData)
         {
             m_uiLineRenderer.Points = new Vector2[pathData.Count];
@@ -471,6 +462,7 @@ namespace BenStudios
             GlobalEventHandler.RequestToScreenBlocker?.Invoke(true);
             GlobalVariables.isLevelCompletedSuccessfully = true;
             GlobalVariables.highestUnlockedLevel++;//next level
+            PlayerDataManager.instance.SaveData();
             GlobalEventHandler.RequestToDeactivatePowerUpMode?.Invoke();
             m_levelTimer.StopTimer();
             if (GlobalVariables.currentGameplayMode == GameplayType.ChallengeMode)
@@ -530,7 +522,7 @@ namespace BenStudios
             }
         }
 
-        private void _CheckForPossibleAutoMatch()
+        private void _CheckForPossibleAutoMatchInChallengeMode()
         {
             if (GlobalVariables.currentGameplayMode == GameplayType.LevelMode) return;
             AutoMatchData autoMatchData = _GetAutoMatchDataForID(GlobalVariables.currentFruitCallId);
@@ -544,7 +536,7 @@ namespace BenStudios
             MyUtils.Log($"Hint Powerup Action From gameplayMAnager");
             //OnComplete.....
             GlobalEventHandler.RequestToScreenBlocker?.Invoke(false);
-            AutoMatchData autoMatchData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
+            AutoMatchData autoMatchData = _CheckAndReturnPairToMatchIfAvailable();
             if (!autoMatchData.Equals(default(AutoMatchData)))
                 _OnMatchFoundWithPath(autoMatchData.path, autoMatchData.startCell, autoMatchData.endCell);
         }
@@ -604,7 +596,7 @@ namespace BenStudios
         private void _ShowAvailablePairToMatch()
         {
             if (GlobalVariables.isLevelCompletedSuccessfully || GlobalVariables.isTripleBombInAction || GlobalVariables.isFruitBombInAction) return;
-            _availablePairMatchHintData = _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
+            _availablePairMatchHintData = _CheckAndReturnPairToMatchIfAvailable();
 
             if (!_availablePairMatchHintData.Equals(default(AutoMatchData)) && (GlobalVariables.highestUnlockedLevel < Konstants.MAX_LEVEL_TO_SHOW_PAIR_HINT))
             {
@@ -699,7 +691,7 @@ namespace BenStudios
         }
 
 
-        private AutoMatchData _CheckForPairToMatchAvailabilityAndReturnIfAvailable()
+        private AutoMatchData _CheckAndReturnPairToMatchIfAvailable()
         {
             int id;
             AutoMatchData autoMatchData = default;
@@ -712,6 +704,7 @@ namespace BenStudios
             }
             return autoMatchData;
         }
+
         private AutoMatchData _GetAutoMatchDataForID(int id)
         {
             AutoMatchData autoMatchData = default;
@@ -742,6 +735,7 @@ namespace BenStudios
         ENDOFTHEMETHOD:
             return autoMatchData;
         }
+
         public struct AutoMatchData
         {
             public List<Vector2Int> path;
@@ -806,7 +800,7 @@ namespace BenStudios
 
         private void Callback_On_Check_For_Auto_Match_Pair_Availability_Requested()
         {
-            _CheckForPairToMatchAvailabilityAndReturnIfAvailable();
+            _CheckAndReturnPairToMatchIfAvailable();
         }
 
         #endregion Gameplay
@@ -854,7 +848,7 @@ namespace BenStudios
             m_fruitEnityList.Remove(entity1);
             m_fruitEnityList.Remove(entity2);
             _HighlightThePossibleFruitsForFruitBomb(entity1, false);
-            _CheckForPossibleAutoMatch();
+            _CheckForPossibleAutoMatchInChallengeMode();
             MyUtils.DelayedCallback(1f, () =>
             {
                 GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);
@@ -867,7 +861,7 @@ namespace BenStudios
             m_fruitEnityList.Remove(entity1);
             m_fruitEnityList.Remove(entity2);
             _HighlightThePossibleFruitsForFruitBomb(entity1, false);
-            _CheckForPossibleAutoMatch();
+            _CheckForPossibleAutoMatchInChallengeMode();
             MyUtils.DelayedCallback(1f, () =>
             {
                 GlobalEventHandler.RequestToUpdateScore?.Invoke(Konstants.PAIR_MATCH_SCORE);

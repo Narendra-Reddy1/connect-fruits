@@ -1,4 +1,5 @@
 using BenStudios;
+using BenStudios.ScreenManagement;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -42,6 +43,8 @@ public class StarChest : MonoBehaviour
 
     private void Init()
     {
+        if (!GlobalVariables.isLevelCompletedSuccessfully)
+            UpdateUI();
         if ((GlobalVariables.isLevelCompletedSuccessfully && GlobalVariables.CollectedStars < Konstants.MAX_STARS_REQUIRED_FOR_STAR_CHEST) && GlobalVariables.highestUnlockedLevel >= Konstants.MIN_LEVEL_FOR_STREAK)
         {
             StartCoroutine(WaitForStarAnimation());
@@ -54,7 +57,6 @@ public class StarChest : MonoBehaviour
             return;
         }
         Debug.Log("INIT  " + CheckChestNotClaimed());
-        UpdateUI();
     }
 
     private bool CheckChestNotClaimed()

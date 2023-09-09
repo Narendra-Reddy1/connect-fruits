@@ -50,10 +50,7 @@ namespace BenStudios
                         GlobalEventHandler.RequestToActivatePowerUpMode?.Invoke(PowerupType.FruitBomb);
                     }
                     else
-                    {
-                        GlobalEventHandler.RequestToPauseTimer?.Invoke(true);
-                        ScreenManager.Instance.ChangeScreen(Window.PowerupPurchasePopup, ScreenType.Additive);
-                    }
+                        ScreenManager.Instance.ChangeScreen(Window.PowerupPurchasePopup, ScreenType.Additive, false);
                     break;
                 case GameplayType.ChallengeMode:
                     if (!PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_fruit_bomb_tutorial_shown_ChallengeMode))

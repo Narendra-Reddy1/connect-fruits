@@ -28,6 +28,12 @@ public class MyUtils
                 break;
         }
     }
+    public static bool IsApplicationConnectedToInternet()
+    {
+        return Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork || Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork;
+
+
+    }
     public static string GetJsonStringForTheObject<T>(T data)
     {
         return JsonUtility.ToJson(data);

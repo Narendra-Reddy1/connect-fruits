@@ -423,8 +423,6 @@ namespace BenStudios.Economy
             Give(FRUIT_BOMB_POWERUP_ITEM_ID, purchaseData.fruitBombs);
             Give(TRIPLE_BOMB_POWERUP_ITEM_ID, purchaseData.tripleBombs);
             Give(HINT_POWERUP_ITEM_ID, purchaseData.hintPowerups);
-            
-
         }
     }
 }

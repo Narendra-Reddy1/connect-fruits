@@ -2,8 +2,6 @@ using BenStudios;
 using BenStudios.Economy;
 using BenStudios.IAP;
 using BenStudios.ScreenManagement;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,30 +11,46 @@ public class PowerupPurchasingPopup : PopupBase
     [SerializeField] private Button m_adButton;
     [SerializeField] private TextMeshProUGUI m_powerupPriceTxt;
     [SerializeField] private TextMeshProUGUI m_powerupCountTxt;
+    [SerializeField] private GameObject m_adIcon;
+    [SerializeField] private GameObject m_loadingIcon;
     private string m_productID;
+    bool m_isConnectedToInternet;
+    bool m_isAdAvailable;
 
     public override void OnEnable()
     {
         base.OnEnable();
         _Init();
+        GlobalEventHandler.RequestToPauseTimer?.Invoke(true);
         GlobalEventHandler.OnPurchaseSuccess += Callback_On_Purchase_Success;
         GlobalEventHandler.EventOnAdStateChanged += Callback_On_Ad_State_Changed;
-
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
+        GlobalEventHandler.RequestToPauseTimer?.Invoke(false);
         GlobalEventHandler.OnPurchaseSuccess -= Callback_On_Purchase_Success;
         GlobalEventHandler.EventOnAdStateChanged -= Callback_On_Ad_State_Changed;
     }
 
     private void _Init()
     {
-        m_adButton.interactable = (bool)GlobalEventHandler.Request_Rewarded_Ad_Availability?.Invoke();
-        m_powerupCountTxt.SetText($"X{InAppPurchasingManager.instance.GetSinglePackData(BundleType.FruitBomb_Nano_Pack)}");
+        m_powerupCountTxt.SetText($"X{InAppPurchasingManager.instance.GetSinglePackData(BundleType.FruitBomb_Nano_Pack).itemCount}");
         m_productID = Konstants.MINI_STORE_FRUIT_BOMB_NANO_PACK;
         m_powerupPriceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(m_productID));
+        _UpdateAdButtonOnAdAvailability();
+        _UpdateAdButtonOnInternetConnectionChange();
+    }
+    private void _UpdateAdButtonOnAdAvailability()
+    {
+        m_isAdAvailable = (bool)GlobalEventHandler.Request_Rewarded_Ad_Availability?.Invoke();
+    }
+    private void _UpdateAdButtonOnInternetConnectionChange()
+    {
+        m_isConnectedToInternet = MyUtils.IsApplicationConnectedToInternet();
+        m_adIcon.SetActive(m_isConnectedToInternet);
+        m_loadingIcon.SetActive(!m_isConnectedToInternet);
     }
     public override void OnCloseClick()
     {
@@ -45,6 +59,16 @@ public class PowerupPurchasingPopup : PopupBase
 
     public void OnClickPowerupAdBtn()
     {
+        if (!m_isConnectedToInternet)
+        {
+            _UpdateAdButtonOnInternetConnectionChange();
+            return;
+        }
+        else if (!m_isAdAvailable)
+        {
+            _UpdateAdButtonOnAdAvailability();
+            return;
+        }
         GlobalEventHandler.RequestToShowRewardedAd?.Invoke();
     }
     public void OnClickPowerupBuyBtn()
@@ -60,7 +84,6 @@ public class PowerupPurchasingPopup : PopupBase
     private void Callback_On_Purchase_Success(PurchaseData purchaseData)
     {
         if (purchaseData.productID != m_productID) return;
-        PlayerResourceManager.Give(PlayerResourceManager.FRUIT_BOMB_POWERUP_ITEM_ID, purchaseData.fruitBombs);
         if (ScreenManager.Instance.GetCurrentScreen() == Window.PowerupPurchasePopup)
             ScreenManager.Instance.CloseLastAdditiveScreen();
     }

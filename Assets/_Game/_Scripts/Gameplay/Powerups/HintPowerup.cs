@@ -4,6 +4,7 @@ using Coffee.UIEffects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BenStudios
 {
@@ -12,6 +13,7 @@ namespace BenStudios
 
         #region Variables
         [SerializeField] private List<UIEffect> m_grayScaleEffects;
+        [SerializeField] private Button m_powerupButton;
         #endregion Variables
 
 
@@ -21,11 +23,13 @@ namespace BenStudios
         {
             Init();
             GlobalEventHandler.EventOnNoPairIsAvailableForHintPowerup += Callback_On_Auto_Match_Is_Not_Available;
+            GlobalEventHandler.EventOnPairIsAvailableForHintPowerup += Callback_On_Auto_Match_Is_Available;
             PlayerResourceManager.onStoreGiveCallback += OnResourcesUpdated;
         }
         private void OnDisable()
         {
             GlobalEventHandler.EventOnNoPairIsAvailableForHintPowerup -= Callback_On_Auto_Match_Is_Not_Available;
+            GlobalEventHandler.EventOnPairIsAvailableForHintPowerup -= Callback_On_Auto_Match_Is_Available;
             PlayerResourceManager.onStoreGiveCallback -= OnResourcesUpdated;
         }
         #endregion Unity Methods
@@ -106,10 +110,21 @@ namespace BenStudios
         #region Callbacks
         private void Callback_On_Auto_Match_Is_Not_Available()
         {
+            if (GlobalVariables.highestUnlockedLevel < Konstants.HINT_POWERUP_UNLOCK_LEVEL) return;
             for (int i = 0, count = m_grayScaleEffects.Count; i < count; i++)
             {
                 m_grayScaleEffects[i].effectMode = EffectMode.Grayscale;
             }
+            m_powerupButton.interactable = false;
+        }
+        private void Callback_On_Auto_Match_Is_Available()
+        {
+            if (GlobalVariables.highestUnlockedLevel < Konstants.HINT_POWERUP_UNLOCK_LEVEL) return;
+            for (int i = 0, count = m_grayScaleEffects.Count; i < count; i++)
+            {
+                m_grayScaleEffects[i].effectMode = EffectMode.None;
+            }
+            m_powerupButton.interactable = true;
         }
         private void OnResourcesUpdated()
         {

@@ -10,6 +10,7 @@ public class LevelTimer : MonoBehaviour
     private int m_timerCounter = 0;
     private int m_totalTimeInSeconds;
     private bool m_isTimerCompleted;
+    private bool m_isTimerRunning = false;
     #endregion Variables
 
 
@@ -30,6 +31,7 @@ public class LevelTimer : MonoBehaviour
     {
         m_totalTimeInSeconds = m_timerCounter = timeInSeconds;
         m_isTimerCompleted = false;
+        m_isTimerRunning = false;
         if (m_timerTxt)
             m_timerTxt.text = MyUtils.GetFormattedSeconds(m_timerCounter);
     }
@@ -37,16 +39,21 @@ public class LevelTimer : MonoBehaviour
     {
         m_totalTimeInSeconds = m_timerCounter = timeInSeconds;
         m_isTimerCompleted = false;
+        m_isTimerRunning = false;
         StartTimer();
     }
     public void StartTimer()
     {
-        if (m_isTimerCompleted) return;
+        if (m_isTimerCompleted || m_isTimerRunning) return;
+        m_isTimerRunning = true;
         m_timerTxt.transform.DOKill();
+        MyUtils.Log($"Timer Started::");
         InvokeRepeating(nameof(_Tick), 1, 1);
     }
     public void StopTimer()
     {
+        MyUtils.Log($"Timer Stopped::");
+        m_isTimerRunning = false;
         CancelInvoke(nameof(_Tick));
     }
     public void RestartTimer()
