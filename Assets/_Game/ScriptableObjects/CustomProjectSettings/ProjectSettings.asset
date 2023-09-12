@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64b5cc4e9b775d84f814341d4e6c3cf3, type: 3}
   m_Name: ProjectSettings
   m_EditorClassIdentifier: 
-  CurrentProjectBranch: 1
-  ENABLE_REPORTER: 0
-  ENABLE_DEBUG_DEFINE: 0
-  ENABLE_LOG_WRITE: 0
+  CurrentProjectBranch: 0
+  ENABLE_REPORTER: 1
+  ENABLE_DEBUG_DEFINE: 1
+  ENABLE_LOG_WRITE: 1
   ENABLE_GAMEPLAY_TESTING: 0
-  APP_BUNDLE_BUILD: 1
+  APP_BUNDLE_BUILD: 0
   EditEnablePlayerSetting: 1
   ViewThirdPartySdkKeys: 1
   ViewPlayerSetting: 1

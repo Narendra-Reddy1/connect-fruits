@@ -359,6 +359,7 @@ public class ApplovinManager : IAds
     #region IAds 
     public void ShowBannerAd()
     {
+        if (PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_no_ads_purchased)) return;
         if (isBannerAdLoaded)
         {
             MaxSdk.ShowBanner(adUnitIds.BannerAdId);
@@ -380,6 +381,7 @@ public class ApplovinManager : IAds
 
     public void ShowInterstitialAd()
     {
+        if (PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_no_ads_purchased)) return;
         if (MaxSdk.IsInterstitialReady(adUnitIds.InterstitialAdId))
             MaxSdk.ShowInterstitial(adUnitIds.InterstitialAdId);
         else
@@ -388,6 +390,7 @@ public class ApplovinManager : IAds
 
     public void ShowMRECAd()
     {
+        if (PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_no_ads_purchased)) return;
         if (isMRECAdLoaded)
         {
             MaxSdk.ShowMRec(adUnitIds.MRECAdId);
@@ -414,6 +417,7 @@ public class ApplovinManager : IAds
     }
     public void ShowAppOpenAd()
     {
+        if (PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_no_ads_purchased)) return;
         if (IsAppOpenAdAvailable())
             MaxSdk.ShowAppOpenAd(adUnitIds.AppOpenId);
         else
@@ -430,6 +434,7 @@ public class ApplovinManager : IAds
     }
     public bool IsInterstitialAdAvailable()
     {
+        if (PlayerPrefsWrapper.GetPlayerPrefsBool(PlayerPrefKeys.is_no_ads_purchased)) return false;
         return MaxSdk.IsInterstitialReady(adUnitIds.InterstitialAdId);
     }
     #endregion IAds
