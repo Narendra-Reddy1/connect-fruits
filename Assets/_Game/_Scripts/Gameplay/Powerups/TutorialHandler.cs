@@ -94,10 +94,6 @@ namespace BenStudios
             // AppLovinManager.appLovinManager.ShowBannerAds();
         }
 
-        public void SetupHandAndShowMessage(Transform position, string message)
-        {
-
-        }
         #endregion Public Methods
 
         #region Private Methods
