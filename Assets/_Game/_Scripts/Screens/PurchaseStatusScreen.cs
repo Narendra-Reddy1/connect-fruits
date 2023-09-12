@@ -19,12 +19,16 @@ public class PurchaseStatusScreen : PopupBase
         m_statusTxt.SetText(PURCHASE_INITIALIZING_TEXT);
         GlobalEventHandler.OnPurchaseSuccess += Callback_On_Purchase_Success;
         GlobalEventHandler.OnPurchaseFailed += Callback_On_Purchase_Failed;
-        Invoke(nameof(CloseScreen), 4f);//To prevent stucking at purchase loading screen.
+        GlobalEventHandler.EventOnPurchaseRestoreFail += Callback_On_Purchsase_Restore_Failed;
+        GlobalEventHandler.EventOnPurchaseRestoreSuccess += Callback_On_Purchsase_Restore_Successful;
+        Invoke(nameof(CloseScreen), 6f);//To prevent stucking at purchase loading screen.
     }
     public override void OnDisable()
     {
         GlobalEventHandler.OnPurchaseSuccess -= Callback_On_Purchase_Success;
         GlobalEventHandler.OnPurchaseFailed -= Callback_On_Purchase_Failed;
+        GlobalEventHandler.EventOnPurchaseRestoreFail -= Callback_On_Purchsase_Restore_Failed;
+        GlobalEventHandler.EventOnPurchaseRestoreSuccess -= Callback_On_Purchsase_Restore_Successful;
     }
 
     private void CloseScreen() => ScreenManager.Instance.CloseLastAdditiveScreen();
@@ -40,6 +44,18 @@ public class PurchaseStatusScreen : PopupBase
     {
         MyUtils.Log($"Purchase Success Callback_PurchaseStatusScreen...");
         m_statusTxt.SetText(PURCHASE_SUCCESS_TEXT);
+        CancelInvoke(nameof(CloseScreen));
+        Invoke(nameof(CloseScreen), 2f);
+    }
+    public void Callback_On_Purchsase_Restore_Failed()
+    {
+        m_statusTxt.SetText($"Restore Success");
+        CancelInvoke(nameof(CloseScreen));
+        Invoke(nameof(CloseScreen), 2f);
+    }
+    public void Callback_On_Purchsase_Restore_Successful()
+    {
+        m_statusTxt.SetText($"Restore Failed");
         CancelInvoke(nameof(CloseScreen));
         Invoke(nameof(CloseScreen), 2f);
     }

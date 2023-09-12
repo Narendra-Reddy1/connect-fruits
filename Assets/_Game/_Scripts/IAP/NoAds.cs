@@ -16,8 +16,10 @@ public class NoAds : BasePack
     }
     public void OnClickNoAdsBtn()
     {
-        ScreenManager.Instance.ChangeScreen(Window.PurchaseStatusScreen, ScreenType.Additive);
-        GlobalEventHandler.RequestToInitializePurchase?.Invoke(productID);
+        ScreenManager.Instance.ChangeScreen(Window.PurchaseStatusScreen, ScreenType.Additive, onComplete: () =>
+        {
+            GlobalEventHandler.RequestToInitializePurchase?.Invoke(productID);
+        });
     }
     public override void SetLocalizedPrice()
     {

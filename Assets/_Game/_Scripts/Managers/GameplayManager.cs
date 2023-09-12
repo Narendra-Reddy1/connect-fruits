@@ -172,7 +172,7 @@ namespace BenStudios
 
         private void _StartLevelTimer()
         {
-            if (GlobalVariables.highestUnlockedLevel <= Konstants.MIN_LEVEL_FOR_TIMER || GlobalVariables.isLevelCompletedSuccessfully) return;
+            if (GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_FOR_TIMER || GlobalVariables.isLevelCompletedSuccessfully) return;
             m_levelTimer.StartTimer();
         }
         private bool IsInvisibleCell(int row, int column)
@@ -776,6 +776,8 @@ namespace BenStudios
             _OnBoardPlayerIfPlayingFirstTime();
             _CheckForPowerupUnlockAndShowTutorial();
             _RestartTimerForPairHint();
+            if (GlobalVariables.highestUnlockedLevel == 1)
+                ScreenManager.Instance.ChangeScreen(Window.HowToPlayInfoPopup, ScreenType.Additive, false);
         }
 
         private void Callback_On_Level_Timer_Completed()

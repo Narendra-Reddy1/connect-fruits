@@ -146,5 +146,6 @@ namespace BenStudios
         is_support_dev_popup_shown,
         is_player_supported_dev,
         never_show_again_support_dev_popup,
+        restore_success_done,
     }
 }

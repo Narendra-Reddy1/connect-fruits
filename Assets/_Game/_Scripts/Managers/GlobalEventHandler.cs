@@ -60,6 +60,8 @@ namespace BenStudios
         public static Action<string> RequestToInitializePurchase = default;
         public static Action<PurchaseData> OnPurchaseSuccess = default;
         public static Action<PurchaseFailureDescription> OnPurchaseFailed = default;
+        public static Action EventOnPurchaseRestoreSuccess = default;
+        public static Action EventOnPurchaseRestoreFail = default;
 
         //ADS
         public static Action RequestToShowBannerAd = default;

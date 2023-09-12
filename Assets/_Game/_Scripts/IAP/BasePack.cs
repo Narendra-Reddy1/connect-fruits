@@ -11,8 +11,10 @@ namespace BenStudios.IAP
 
         public virtual void Buy()
         {
-            ScreenManager.Instance.ChangeScreen(Window.PurchaseStatusScreen, ScreenType.Additive);
-            GlobalEventHandler.RequestToInitializePurchase?.Invoke(productID);
+            ScreenManager.Instance.ChangeScreen(Window.PurchaseStatusScreen, ScreenType.Additive, onComplete: () =>
+            {
+                GlobalEventHandler.RequestToInitializePurchase?.Invoke(productID);
+            });
         }
         public virtual void AssignProductID(BundleType bundleType)
         {

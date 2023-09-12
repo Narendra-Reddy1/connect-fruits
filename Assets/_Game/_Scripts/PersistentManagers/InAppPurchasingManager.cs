@@ -1,5 +1,4 @@
 using BenStudios.Economy;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -80,6 +79,27 @@ namespace BenStudios.IAP
         {
             return m_storeCatalogue.bundlePacks.Find(x => x.bundleType == bundleType);
         }
+        public void RestorePurchases()
+        {
+            if (!PlayerPrefsWrapper.HasKey(PlayerPrefKeys.restore_success_done))
+            {
+                m_extensionProvider.GetExtension<IGooglePlayStoreExtensions>().RestoreTransactions((result, str) =>
+                {
+                    if (result)
+                    {
+                        PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.restore_success_done, true);
+                        MyUtils.Log("RestoreTransactions Successful");
+                        GlobalEventHandler.EventOnPurchaseRestoreSuccess?.Invoke();
+                    }
+                    else
+                    {
+                        MyUtils.Log($"RestoreTransactions Failed::{str}", LogType.Error);
+                        GlobalEventHandler.EventOnPurchaseRestoreFail?.Invoke();
+                    }
+                });
+            }
+        }
+
 
         #region IDetailedStoreListner Callbacks
         public void OnInitialized(IStoreController controller, IExtensionProvider extensions)

@@ -73,8 +73,10 @@ public class PowerupPurchasingPopup : PopupBase
     }
     public void OnClickPowerupBuyBtn()
     {
-        ScreenManager.Instance.ChangeScreen(Window.PurchaseStatusScreen, ScreenType.Additive, false);
-        GlobalEventHandler.RequestToInitializePurchase?.Invoke(m_productID);
+        ScreenManager.Instance.ChangeScreen(Window.PurchaseStatusScreen, ScreenType.Additive, false, () =>
+        {
+            GlobalEventHandler.RequestToInitializePurchase?.Invoke(m_productID);
+        });
     }
     public void OnClickStoreBtn()
     {

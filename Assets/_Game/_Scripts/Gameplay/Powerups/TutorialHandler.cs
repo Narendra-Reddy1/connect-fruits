@@ -45,10 +45,6 @@ namespace BenStudios
 
         #region Public Methods
 
-        public void ShowLevelOnBoardingTutorial()
-        {
-
-        }
         public void ShowPlayerStuckMessageToUsePowerup(PowerupType powerupType)
         {
             float extraSpacingToAvoidOverlap = 150f;
@@ -96,6 +92,11 @@ namespace BenStudios
             handRectTransfrom.gameObject.SetActive(false);
             powerupMessagePanel.gameObject.SetActive(false);
             // AppLovinManager.appLovinManager.ShowBannerAds();
+        }
+
+        public void SetupHandAndShowMessage(Transform position, string message)
+        {
+
         }
         #endregion Public Methods
 

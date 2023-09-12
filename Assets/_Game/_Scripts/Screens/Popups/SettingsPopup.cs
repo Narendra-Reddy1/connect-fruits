@@ -2,6 +2,7 @@ using UnityEngine;
 using BenStudios.ScreenManagement;
 using UnityEngine.UI;
 using BenStudios;
+using BenStudios.IAP;
 
 public class SettingsPopup : PopupBase
 {
@@ -46,6 +47,17 @@ public class SettingsPopup : PopupBase
     public void OnClickPrivacyPolicyUrl()
     {
         Application.OpenURL("https://sites.google.com/view/benstudios/privacy-policy");
+    }
+    public void OnClickHowToPlay()
+    {
+        ScreenManager.Instance.ChangeScreen(Window.HowToPlayInfoPopup, ScreenType.Additive, false);
+    }
+    public void OnClickRestorePurchase()
+    {
+        ScreenManager.Instance.ChangeScreen(Window.PurchaseStatusScreen, ScreenType.Additive, false, () =>
+        {
+            InAppPurchasingManager.instance.RestorePurchases();
+        });
     }
     #endregion Public Methods
 

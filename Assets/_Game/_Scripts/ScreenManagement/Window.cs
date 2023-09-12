@@ -25,6 +25,7 @@ namespace BenStudios.ScreenManagement
         SupportDevAskScreen,
         Console,
         OutOfTimePopup,
+        HowToPlayInfoPopup,
     }
 
     [System.Serializable]
