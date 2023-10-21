@@ -63,10 +63,16 @@ public static class Konstants
     //Ads
     public const int MIN_LEVEL_TO_SHOW_INTERSTITIAL = 7;
 
+    //TimerData
+    public const int HARD_LEVEL_TIMER = 150;
+    public const int NORMAL_LEVEL_TIMER = 120;
+    public const int EASY_LEVEL_TIMER = 90;
+
     ///Default data
     public static int DEFAULT_FRUIT_BOMB_POWERUP_BALANCE = 1;
     public static int DEFAULT_TRIPLE_BOMB_POWERUP_BALANCE = 1;
     public static int DEFAULT_HINT_POWERUP_BALANCE = 1;
+
 
 
     //IAP Product IDs
@@ -90,6 +96,8 @@ public static class Konstants
     public const string MINI_STORE_FRUIT_BOMB_NANO_PACK = "ms_fruit_bomb_nano";
     //No Ads
     public const string NO_ADS = "no_ads";
+    
     //Miscelleneous
     public const string SUPPORT_DEV_PACK = "support_dev";
+
 }

@@ -55,10 +55,15 @@ namespace BenStudios
         }
         public void OnClickSubmit()
         {
-            if (!(bool)GlobalEventHandler.Request_Interstitial_Availability?.Invoke() || GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_TO_SHOW_INTERSTITIAL)
+            if (CanShowAd())
                 _SubmitAction();
             else
                 GlobalEventHandler.RequestToShowInterstitial?.Invoke();
+
+            bool CanShowAd()
+            {
+                return !(bool)GlobalEventHandler.Request_Interstitial_Availability?.Invoke() || GlobalVariables.highestUnlockedLevel < Konstants.MIN_LEVEL_TO_SHOW_INTERSTITIAL || GlobalVariables.highestUnlockedLevel % 3 != 0;
+            }
         }
         private void _SubmitAction()
         {

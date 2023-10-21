@@ -24,7 +24,6 @@ namespace BenStudios
         [SerializeField] private FruitEntity m_fruitEntityTemplate;
         [SerializeField] private UILineRenderer m_uiLineRenderer;
         [SerializeField] private LevelTimer m_levelTimer;
-        [SerializeField] private TimerData m_timerData;
         [SerializeField] private FruitCallManager m_fruitCallManager;
         //[SerializeField] private Transform m_blastEffect_1;
         //[SerializeField] private Transform m_blastEffect_2;
@@ -109,7 +108,8 @@ namespace BenStudios
             GlobalVariables.currentGameState = GameState.Gameplay;
             GlobalVariables.isLevelCompletedSuccessfully = false;
             _InitLevel();
-            m_levelTimer.InitTimer(m_timerData.GetTimerData(TimerType.LevelTimer).timeInSeconds);
+            m_levelTimer.InitTimer(_GetTimeBasedOnTheAvailableMatches());
+            MyUtils.Log($"Total Matches:: {_GetMatchingPairList().Count / 2} :: Timer=  {_GetTimeBasedOnTheAvailableMatches()}");
         }
 
         #endregion Unity Methods
@@ -705,6 +705,21 @@ namespace BenStudios
             return autoMatchData;
         }
 
+        private List<AutoMatchData> _GetMatchingPairList()
+        {
+            int id;
+            AutoMatchData autoMatchData;
+            List<AutoMatchData> autoMatchDataList = new List<AutoMatchData>();
+            for (int i = 0, count = m_fruitEnityList.Count; i < count; i++)
+            {
+                id = m_fruitEnityList[i].ID;
+                autoMatchData = _GetAutoMatchDataForID(id);
+                if (!autoMatchData.Equals(default(AutoMatchData)))
+                    autoMatchDataList.Add(autoMatchData);
+            }
+            return autoMatchDataList;
+        }
+
         private AutoMatchData _GetAutoMatchDataForID(int id)
         {
             AutoMatchData autoMatchData = default;
@@ -736,11 +751,18 @@ namespace BenStudios
             return autoMatchData;
         }
 
-        public struct AutoMatchData
+        private int _GetTimeBasedOnTheAvailableMatches()
         {
-            public List<Vector2Int> path;
-            public FruitEntity startCell;
-            public FruitEntity endCell;
+            int matchCount = _GetMatchingPairList().Count / 2;
+            if (matchCount >= 12)
+                return Konstants.EASY_LEVEL_TIMER;
+            else if (matchCount >= 8)
+                return Konstants.NORMAL_LEVEL_TIMER;
+            else if (matchCount >= 1)
+                return Konstants.HARD_LEVEL_TIMER;
+
+            //default:
+            return Konstants.EASY_LEVEL_TIMER;
         }
 
 
@@ -938,7 +960,12 @@ namespace BenStudios
 
     }
 
-
+    public struct AutoMatchData
+    {
+        public List<Vector2Int> path;
+        public FruitEntity startCell;
+        public FruitEntity endCell;
+    }
 
     public enum MatchFailedCause
     {

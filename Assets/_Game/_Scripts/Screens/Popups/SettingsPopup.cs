@@ -48,6 +48,10 @@ public class SettingsPopup : PopupBase
     {
         Application.OpenURL("https://sites.google.com/view/benstudios/privacy-policy");
     }
+    public void OnClickFeedbackBtn()
+    {
+        Application.OpenURL("https://play.google.com/store/apps/details?id=com.ben.studios");
+    }
     public void OnClickHowToPlay()
     {
         ScreenManager.Instance.ChangeScreen(Window.HowToPlayInfoPopup, ScreenType.Additive, false);
