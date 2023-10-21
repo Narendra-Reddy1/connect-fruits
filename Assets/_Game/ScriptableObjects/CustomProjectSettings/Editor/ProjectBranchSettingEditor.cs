@@ -62,6 +62,10 @@ public class ProjectBranchSettingEditor : Editor
         projectSettingAsset.thirdPartySdkKeys = (ThirdPartySdkKeys)EditorGUILayout.ObjectField(projectSettingAsset.thirdPartySdkKeys, typeof(ThirdPartySdkKeys), false);
         GUILayout.EndHorizontal();
 
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Game Analytics SDK Settings", GUILayout.Width(labelWidth));
+        projectSettingAsset.gameAnalyticsSettings = (GameAnalyticsSDK.Setup.Settings)EditorGUILayout.ObjectField(projectSettingAsset.gameAnalyticsSettings, typeof(GameAnalyticsSDK.Setup.Settings), false);
+        GUILayout.EndHorizontal();
 
         if (!projectSettingAsset.EditEnablePlayerSetting)
         {
@@ -212,7 +216,7 @@ public class ProjectBranchSettingEditor : Editor
             //GUILayout.Label($"Quality Service Enabled: { projectSettingAsset.thirdPartySdkKeys.applovinSettings.QualityServiceEnabled.ToString()} ");
             //GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUILayout.Label($"Applovin SDK key: {projectSettingAsset.thirdPartySdkKeys.applovinSDKKey} ");
+            GUILayout.Label($"Applovin SDK key: {projectSettingAsset.thirdPartySdkKeys.ApplovingSDK} ");
             GUILayout.EndHorizontal();
 
 
@@ -245,7 +249,7 @@ public class ProjectBranchSettingEditor : Editor
 
         if (GUILayout.Button("SETUP", GUILayout.Height(25)))
         {
-
+            UpdateAnalyticsKeys(ref projectSettingAsset);
             UpdateProjectSetting(ref projectSettingAsset);
             projectSettingAsset.ViewPlayerSetting = true;
 
@@ -290,6 +294,7 @@ public class ProjectBranchSettingEditor : Editor
             "Build",
             "Cancel"))
         {
+            UpdateAnalyticsKeys(ref projectSettingAsset);
             UpdateProjectSetting(ref projectSettingAsset);
             BuildAddresable(true);
             BuildAndroid(ref projectSettingAsset);
@@ -397,6 +402,25 @@ public class ProjectBranchSettingEditor : Editor
     static string GetVersion()
     {
         return Application.version;
+    }
+    static void UpdateAnalyticsKeys(ref ProjectSettingAssets projectSettingAsset)
+    {
+        switch (projectSettingAsset.CurrentProjectBranch)
+        {
+            case ProjectBranch.DEVELOPMENT_BUILD:
+                projectSettingAsset.gameAnalyticsSettings.UpdateGameKey(0, projectSettingAsset.thirdPartySdkKeys.DevelopmentGameKey);
+
+                projectSettingAsset.gameAnalyticsSettings.UpdateSecretKey(0, projectSettingAsset.thirdPartySdkKeys.DevelopmentSecretKey);
+
+                break;
+            case ProjectBranch.UPLOAD_BUILD:
+                projectSettingAsset.gameAnalyticsSettings.UpdateGameKey(0, projectSettingAsset.thirdPartySdkKeys.ProductionGameKey);
+
+                projectSettingAsset.gameAnalyticsSettings.UpdateSecretKey(0, projectSettingAsset.thirdPartySdkKeys.ProductionSecretKey);
+
+                break;
+        }
+        projectSettingAsset.gameAnalyticsSettings.Build[0] = projectSettingAsset.Version.ToString();
     }
     static void UpdateProjectSetting(ref ProjectSettingAssets projectSettingAsset)
     {
@@ -727,5 +751,3 @@ public class ProjectBranchSettingEditor : Editor
         //manifestWriter.Close();
     }
 }
-
-

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ProjectAssetManager
   m_EditorClassIdentifier: 
   projectSettingAssets: {fileID: 11400000, guid: 486071a57ceec9b44abe0136a55b6a3c, type: 2}
-  assetSecurity: {fileID: 11400000, guid: 9e5ec8836344a164aaba0fcaed470c70, type: 2}
+  gameAnalyticsSettings: {fileID: 11400000, guid: 40d9a2d183b545e47be8d874b9d08503, type: 2}

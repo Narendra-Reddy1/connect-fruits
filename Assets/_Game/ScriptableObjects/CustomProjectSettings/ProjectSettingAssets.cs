@@ -23,6 +23,7 @@ public class ProjectSettingAssets : ScriptableObject
     public string Version;
     public string PackageName;
     public ThirdPartySdkKeys thirdPartySdkKeys;
+    public GameAnalyticsSDK.Setup.Settings gameAnalyticsSettings;
     //public MixpanelSettings mixpanelSettings;
 
     public string GetVersion()

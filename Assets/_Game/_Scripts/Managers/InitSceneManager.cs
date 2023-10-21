@@ -26,7 +26,7 @@ public class InitSceneManager : MonoBehaviour
     private void Start()
     {
         Input.multiTouchEnabled = false;
-        MaxSdk.SetSdkKey(m_projectAssetManager.projectSettingAssets.thirdPartySdkKeys.applovinSDKKey);
+        MaxSdk.SetSdkKey(m_projectAssetManager.projectSettingAssets.thirdPartySdkKeys.ApplovingSDK);
         MaxSdk.InitializeSdk();
         MaxSdkCallbacks.OnSdkInitializedEvent += (config) =>
         {

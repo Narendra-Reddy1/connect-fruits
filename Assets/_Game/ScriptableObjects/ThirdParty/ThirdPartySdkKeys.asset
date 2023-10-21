@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a843fb4651f8a45b38c3e49d31e6e8, type: 3}
   m_Name: ThirdPartySdkKeys
   m_EditorClassIdentifier: 
-  applovinSDKKey: FqTmN2rtMlfIKODFsX9UiUE9s4bEWR6vshptki1WFvJFe3KpMRnqdTi_TnS3HalSQ2xtRkRccG5Ryv8Ti6n6St
+  _applovinSDKKey: FqTmN2rtMlfIKODFsX9UiUE9s4bEWR6vshptki1WFvJFe3KpMRnqdTi_TnS3HalSQ2xtRkRccG5Ryv8Ti6n6St
+  _developmentGameKey: 267918cf73979dd866234bf1b63c9e0c
+  _developmentSecretKey: e6fe922e88d4aad4f2a413bc7b8bd2ea169bd988
+  _productionGameKey: 2d4de93427487bf2cf33f1d2fef001c6
+  _productionSecretKey: 8a63e812784d4e089273320df37d9f2f3c1b2448
