@@ -3,6 +3,7 @@ using BenStudios.ScreenManagement;
 using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
+using GameAnalyticsSDK;
 
 namespace BenStudios
 {
@@ -79,6 +80,7 @@ namespace BenStudios
 
         private void _SetupPopup()
         {
+            int timer = (int)GlobalEventHandler.RequestRemainingTimer?.Invoke();
             switch (m_popupType)
             {
                 case PopupType.LevelCompleted:
@@ -90,12 +92,84 @@ namespace BenStudios
                             PlayerPrefsWrapper.SetPlayerPrefsBool(PlayerPrefKeys.is_support_dev_popup_shown, false);
                         PlayerDataManager.instance.SaveData();
                     }
+                    #region Analytics
+
+                    //GlobalEventHandler.RequestRecordEvent(AnalyticsEvent.LevelComplete, new ParameterBlock()
+                    //{
+                    //    parameters = new System.Collections.Generic.Dictionary<string, object>()
+                    //    {
+                    //        {"status",LevelCompleteStatus.Success },
+                    //        {"level",GlobalVariables.highestUnlockedLevel },
+                    //        {"remainingTime",timer},
+                    //        //{"fruitBombsUsed",?? }
+                    //        //{"tripleBombsUsed",?? }
+                    //        //{"hintPowerupsUsed",?? }
+                    //    }
+                    //});
+
+                    AnalyticsManager.instance.RecordLevelComplete(new ParameterBlock()
+                    {
+                        parameters = new System.Collections.Generic.Dictionary<string, object>()
+                        {
+                            {"status",LevelCompleteStatus.Success },
+                            {"level",GlobalVariables.highestUnlockedLevel },
+                            {"remainingTime",timer},
+                            //{"fruitBombsUsed",?? }
+                            //{"tripleBombsUsed",?? }
+                            //{"hintPowerupsUsed",?? }
+                        }
+                    });
+
+
+                    #endregion Analytics
                     break;
                 case PopupType.GameOver:
                     m_headerTxt.SetText(GAME_OVER_TEXT);
+                    #region Analytics
+                    //GlobalEventHandler.RequestRecordEvent(AnalyticsEvent.LevelComplete, new ParameterBlock()
+                    //{
+                    //    parameters = new System.Collections.Generic.Dictionary<string, object>()
+                    //    {
+                    //        {"status",LevelCompleteStatus.Exited},
+                    //        {"level",GlobalVariables.highestUnlockedLevel},
+                    //        {"remainingTime",timer},
+                    //    }
+                    //});
+                    AnalyticsManager.instance.RecordLevelComplete(new ParameterBlock()
+                    {
+                        parameters = new System.Collections.Generic.Dictionary<string, object>()
+                        {
+                            {"status",LevelCompleteStatus.Exited},
+                            {"level",GlobalVariables.highestUnlockedLevel},
+                            {"remainingTime",timer},
+                        }
+                    });
+                    #endregion Analytics
                     break;
                 case PopupType.TimeUp:
                     m_headerTxt.SetText(TIME_UP_TEXT);
+                    #region Analytics
+
+                    //GlobalEventHandler.RequestRecordEvent(AnalyticsEvent.LevelComplete, new ParameterBlock()
+                    //{
+                    //    parameters = new System.Collections.Generic.Dictionary<string, object>()
+                    //    {
+                    //        {"status",LevelCompleteStatus.TimeUp},
+                    //        {"level",GlobalVariables.highestUnlockedLevel},
+                    //        {"remainingTime",timer},
+                    //    }
+                    //});
+
+                    AnalyticsManager.instance.RecordLevelComplete(new ParameterBlock()
+                    {
+                        parameters = new System.Collections.Generic.Dictionary<string, object>()
+                        {
+                            {"status",LevelCompleteStatus.TimeUp},
+                            {"level",GlobalVariables.highestUnlockedLevel},
+                            {"remainingTime",timer},
+                        }
+                    });
+                    #endregion Analytics
                     break;
             }
 

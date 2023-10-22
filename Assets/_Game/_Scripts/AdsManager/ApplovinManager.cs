@@ -49,16 +49,18 @@ public enum AdState
 public class AdEventData
 {
     public AdState adState;
-    public double revenue;
+    public string revenue;
+    public string adRevenuePrecision;
     public string networkName;
     public string adFormat;
     public MaxSdkBase.ErrorInfo errorInfo;
-    public AdEventData(AdState adState, double revenue = 0, string networkName = "", string adFormat = "", MaxSdkBase.ErrorInfo errorInfo = null)
+    public AdEventData(AdState adState, double revenue = 0, string adRevenuePrecision = "", string networkName = "", string adFormat = "", MaxSdkBase.ErrorInfo errorInfo = null)
     {
         this.adState = adState;
-        this.revenue = revenue;
-        this.networkName = networkName;
-        this.adFormat = adFormat;
+        this.revenue = revenue.ToString("0.######").Replace(",", ".").Replace("/", ".");
+        this.adRevenuePrecision = adRevenuePrecision;
+        this.networkName = networkName.ToLower();
+        this.adFormat = adFormat.ToLower();
         this.errorInfo = errorInfo;
     }
 }
@@ -125,7 +127,7 @@ public class ApplovinManager : IAds
 
     private void OnBannerAdRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
-        GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.BANNER_AD_REVENUE_PAID, adInfo.Revenue, adInfo.NetworkName, adInfo.AdFormat));
+        GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.BANNER_AD_REVENUE_PAID, adInfo.Revenue,adInfo.RevenuePrecision, adInfo.NetworkName, adInfo.AdFormat));
     }
 
     private void OnBannerAdExpandedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) { }
@@ -225,7 +227,7 @@ public class ApplovinManager : IAds
     }
     private void OnInterstitialRevenuePaidEvent(string adId, MaxSdkBase.AdInfo adInfo)
     {
-        GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.INTERSTITIAL_REVENUE_PAID, adInfo.Revenue, networkName: adInfo.NetworkName, adFormat: adInfo.AdFormat));
+        GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.INTERSTITIAL_REVENUE_PAID, adInfo.Revenue,adInfo.RevenuePrecision, networkName: adInfo.NetworkName, adFormat: adInfo.AdFormat));
     }
     private void OnInterstitialDismissedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
@@ -311,7 +313,7 @@ public class ApplovinManager : IAds
     private void OnRewardedAdRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
     {
         // Ad revenue paid. Use this callback to track user revenue.
-        GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.REWARDED_REVENUE_PAID, adInfo.Revenue, networkName: adInfo.NetworkName, adFormat: adInfo.AdFormat));
+        GlobalEventHandler.EventOnAdStateChanged?.Invoke(new AdEventData(AdState.REWARDED_REVENUE_PAID, adInfo.Revenue,adInfo.RevenuePrecision, networkName: adInfo.NetworkName, adFormat: adInfo.AdFormat));
     }
     #endregion Rewarded Ads
 

@@ -34,11 +34,11 @@ public class MyUtils
 
 
     }
-    public static string GetJsonStringForTheObject<T>(T data)
+    public static string ObjectToJson<T>(T data)
     {
         return JsonUtility.ToJson(data);
     }
-    public static T GetObjectFromJsonString<T>(string key)
+    public static T JsonToObject<T>(string key)
     {
         return JsonUtility.FromJson<T>(key);
     }

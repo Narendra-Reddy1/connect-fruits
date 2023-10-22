@@ -163,8 +163,15 @@ namespace BenStudios
             void SetAsColumAndRowCleared(Sprite starSprite)
             {
                 m_starImage.sprite = starSprite;
-                Canvas starCanvas = m_starImage.AddComponent<Canvas>();
-                Canvas fruitCanvas = m_fruitOutline.AddComponent<Canvas>();
+
+                Canvas starCanvas = m_starImage.GetComponent<Canvas>();
+                if (starCanvas == null)
+                    starCanvas = m_starImage.AddComponent<Canvas>();
+
+                Canvas fruitCanvas = m_fruitOutline.GetComponent<Canvas>();
+                if (fruitCanvas == null)
+                    fruitCanvas = m_fruitOutline.AddComponent<Canvas>();
+
                 if (starCanvas)
                 {
                     starCanvas.overrideSorting = true;

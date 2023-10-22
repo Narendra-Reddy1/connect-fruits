@@ -6,6 +6,7 @@ using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using UnityEngine.UI;
 using DG.Tweening;
+using GameAnalyticsSDK;
 
 public class InitSceneManager : MonoBehaviour
 {
@@ -28,6 +29,11 @@ public class InitSceneManager : MonoBehaviour
         Input.multiTouchEnabled = false;
         MaxSdk.SetSdkKey(m_projectAssetManager.projectSettingAssets.thirdPartySdkKeys.ApplovingSDK);
         MaxSdk.InitializeSdk();
+        GameAnalytics.Initialize();
+        GameAnalytics.onInitialize += (sender, args) =>
+        {
+            MyUtils.Log($"GameAnalytics Initialized:::{sender} :: {args}");
+        };
         MaxSdkCallbacks.OnSdkInitializedEvent += (config) =>
         {
             MyUtils.Log($"Applovin SDK Initialized? {config.IsSuccessfullyInitialized}");
@@ -70,5 +76,10 @@ public class InitSceneManager : MonoBehaviour
        };
 
 
+    }
+
+    private void GameAnalytics_onInitialize(object sender, bool e)
+    {
+        throw new System.NotImplementedException();
     }
 }

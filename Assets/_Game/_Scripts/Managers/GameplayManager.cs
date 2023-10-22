@@ -25,10 +25,7 @@ namespace BenStudios
         [SerializeField] private UILineRenderer m_uiLineRenderer;
         [SerializeField] private LevelTimer m_levelTimer;
         [SerializeField] private FruitCallManager m_fruitCallManager;
-        //[SerializeField] private Transform m_blastEffect_1;
-        //[SerializeField] private Transform m_blastEffect_2;
-        //[SerializeField] private ParticleSystem m_blastEffectParticleSystem_1;
-        //[SerializeField] private ParticleSystem m_blastEffectParticleSystem_2;
+
         [SerializeField] private List<ParticleSystem> m_blastParticleSystemList;
         [Space(15)]
         [Header("Streak")]
@@ -108,8 +105,27 @@ namespace BenStudios
             GlobalVariables.currentGameState = GameState.Gameplay;
             GlobalVariables.isLevelCompletedSuccessfully = false;
             _InitLevel();
-            m_levelTimer.InitTimer(_GetTimeBasedOnTheAvailableMatches());
-            MyUtils.Log($"Total Matches:: {_GetMatchingPairList().Count / 2} :: Timer=  {_GetTimeBasedOnTheAvailableMatches()}");
+            int timer = _GetTimeBasedOnTheAvailableMatches();
+            m_levelTimer.InitTimer(timer);
+            #region  Analytics
+            //GlobalEventHandler.RequestRecordEvent(AnalyticsEvent.LevelStart, new ParameterBlock()
+            //{
+            //    parameters = new Dictionary<string, object>()
+            //    {
+            //        { "level",GlobalVariables.highestUnlockedLevel },
+            //        {"timer",timer },
+            //    }
+
+            //});
+            AnalyticsManager.instance.RecordLevelStart(new ParameterBlock()
+            {
+                parameters = new Dictionary<string, object>()
+                {
+                    { "level", GlobalVariables.highestUnlockedLevel },
+                    { "timer", timer },
+                }
+            });
+            #endregion  Analytics
         }
 
         #endregion Unity Methods
