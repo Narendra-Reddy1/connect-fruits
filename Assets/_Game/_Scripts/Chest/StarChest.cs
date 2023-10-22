@@ -50,6 +50,8 @@ public class StarChest : MonoBehaviour
             StartCoroutine(WaitForStarAnimation());
             GlobalVariables.isLevelCompletedSuccessfully = false;
         }
+        else
+            UpdateUI();
         if (CheckChestNotClaimed())
         {
             ChestImageHolder.sprite = Open_Close_Chest[0];

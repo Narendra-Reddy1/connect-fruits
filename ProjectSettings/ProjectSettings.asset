@@ -137,7 +137,7 @@ PlayerSettings:
   vulkanEnableLateAcquireNextImage: 0
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
-  bundleVersion: 0.0.1
+  bundleVersion: 0.0.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -793,7 +793,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: gameanalytics_max_enabled;DEVLOPMENT_BUILD;ENABLE_REPORTER;DEBUG_DEFINE;ENABLE_LOG_WRITE
+    Android: gameanalytics_max_enabled;UPLOAD_BUILD
     iPhone: gameanalytics_max_enabled
   additionalCompilerArguments: {}
   platformArchitecture: {}
