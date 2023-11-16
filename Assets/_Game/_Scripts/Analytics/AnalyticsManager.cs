@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameAnalyticsSDK;
+using Facebook.Unity;
 
 namespace BenStudios
 {
@@ -55,7 +56,7 @@ namespace BenStudios
         }
         private void OnEnable()
         {
-          //  GlobalEventHandler.RequestRecordEvent += RecordEvent;
+            //  GlobalEventHandler.RequestRecordEvent += RecordEvent;
             GlobalEventHandler.EventOnAdStateChanged += Callback_On_Ad_State_Changed;
         }
         private void OnDisable()
@@ -63,6 +64,34 @@ namespace BenStudios
             //GlobalEventHandler.RequestRecordEvent -= RecordEvent;
             GlobalEventHandler.EventOnAdStateChanged -= Callback_On_Ad_State_Changed;
         }
+
+        #region Facebook App Events
+        // Unity will call OnApplicationPause(false) when an app is resumed
+        // from the background
+        void OnApplicationPause(bool pauseStatus)
+        {
+            // Check the pauseStatus to see if we are in the foreground
+            // or background
+            if (!pauseStatus)
+            {
+                //app resume
+                if (FB.IsInitialized)
+                {
+                    FB.ActivateApp();
+                }
+                else
+                {
+                    //Handle FB.Init
+                    FB.Init(() =>
+                    {
+                        FB.ActivateApp();
+                    });
+                }
+            }
+        }
+        #endregion Facebook App Events
+
+
         #endregion Unity Methods
 
         #region Public Methods

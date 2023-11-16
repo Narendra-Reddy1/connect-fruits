@@ -7,6 +7,7 @@ using Unity.Services.Core.Environments;
 using UnityEngine.UI;
 using DG.Tweening;
 using GameAnalyticsSDK;
+using Facebook.Unity;
 
 public class InitSceneManager : MonoBehaviour
 {
@@ -30,6 +31,17 @@ public class InitSceneManager : MonoBehaviour
         MaxSdk.SetSdkKey(m_projectAssetManager.projectSettingAssets.thirdPartySdkKeys.ApplovingSDK);
         MaxSdk.InitializeSdk();
         GameAnalytics.Initialize();
+        if (FB.IsInitialized)
+        {
+            FB.ActivateApp();
+        }
+        else
+        {
+            //Handle FB.Init
+            FB.Init(() => {
+                FB.ActivateApp();
+            });
+        }
         GameAnalytics.onInitialize += (sender, args) =>
         {
             MyUtils.Log($"GameAnalytics Initialized:::{sender} :: {args}");
