@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 namespace BenStudios.IAP
 {
     public class SingleItemPack : BasePack
@@ -24,7 +23,6 @@ namespace BenStudios.IAP
             else
                 m_itemCount.SetText(singlePackData.itemCount.ToString());
         }
-
         public override void Buy()
         {
             base.Buy();
@@ -33,6 +31,5 @@ namespace BenStudios.IAP
         {
             m_itemPriceTxt.SetText(InAppPurchasingManager.instance.GetLocalizedPrice(productID));
         }
-
     }
 }
