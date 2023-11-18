@@ -20,13 +20,13 @@ MonoBehaviour:
     resourcesDictionary:
       _serializedList:
       - Key: 0
-        Value: 2000
+        Value: 5000
       - Key: 1
-        Value: 15
+        Value: 10
       - Key: 2
         Value: 10
       - Key: 4
-        Value: 15
+        Value: 10
   - bundleType: 1
     dontListInStore: 0
     bundleTitle: Master Bundle
@@ -34,13 +34,13 @@ MonoBehaviour:
     resourcesDictionary:
       _serializedList:
       - Key: 0
-        Value: 4000
+        Value: 10000
       - Key: 1
-        Value: 25
+        Value: 30
       - Key: 2
-        Value: 15
+        Value: 30
       - Key: 4
-        Value: 25
+        Value: 30
   - bundleType: 13
     dontListInStore: 1
     bundleTitle: Support Developer
@@ -48,7 +48,7 @@ MonoBehaviour:
     resourcesDictionary:
       _serializedList:
       - Key: 0
-        Value: 50
+        Value: 150
       - Key: 1
         Value: 2
       - Key: 2
@@ -59,35 +59,35 @@ MonoBehaviour:
   - bundleType: 3
     dontListInStore: 0
     resourceType: 0
-    itemCount: 150
+    itemCount: 300
   - bundleType: 4
     dontListInStore: 0
     resourceType: 0
-    itemCount: 800
+    itemCount: 2000
   - bundleType: 5
     dontListInStore: 0
     resourceType: 0
-    itemCount: 1500
+    itemCount: 3000
   - bundleType: 6
     dontListInStore: 0
     resourceType: 0
-    itemCount: 2500
+    itemCount: 5000
   - bundleType: 7
     dontListInStore: 0
     resourceType: 0
-    itemCount: 4000
+    itemCount: 8000
   - bundleType: 8
     dontListInStore: 0
     resourceType: 1
-    itemCount: 25
+    itemCount: 40
   - bundleType: 9
     dontListInStore: 0
     resourceType: 2
-    itemCount: 20
+    itemCount: 30
   - bundleType: 10
     dontListInStore: 0
     resourceType: 4
-    itemCount: 25
+    itemCount: 40
   - bundleType: 11
     dontListInStore: 1
     resourceType: 1

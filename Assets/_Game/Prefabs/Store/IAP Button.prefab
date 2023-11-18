@@ -283,8 +283,9 @@ GameObject:
   - component: {fileID: 7071920480972895827}
   - component: {fileID: 6141523679297269068}
   - component: {fileID: 8125850198039849543}
+  - component: {fileID: 4988229934455008671}
   m_Layer: 5
-  m_Name: PackPriceHolder
+  m_Name: IAP Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -421,3 +422,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_button: {fileID: 6141523679297269068}
   m_coolDownTimer: 0.75
+--- !u!114 &4988229934455008671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241775712410025199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7661abc1fb1688f4cac515b0a99f58c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioID: 2

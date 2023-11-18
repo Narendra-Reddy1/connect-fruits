@@ -220,6 +220,7 @@ namespace BenStudios
              */
 
             ResetLineRenderer();
+
             bool pathFound = false;
             List<Vector2Int> optimizedPath = new List<Vector2Int>();
             FruitEntity entity2 = m_selectedEntityStack.Pop();
@@ -227,11 +228,13 @@ namespace BenStudios
             if (entity1.ID == entity2.ID)
                 if (GlobalVariables.isFruitBombInAction)
                 {
+                    GlobalVariables.isFruitBombInAction = false;
                     GlobalEventHandler.RequestToPerformFruitBombPowerupAction?.Invoke(entity1, entity2);
                     return;
                 }
                 else if (GlobalVariables.isTripleBombInAction)
                 {
+                    GlobalVariables.isTripleBombInAction = false;
                     GlobalEventHandler.RequestToPerformTripleBombPowerupAction.Invoke(entity1, entity2);
                     return;
                 }
@@ -791,11 +794,17 @@ namespace BenStudios
         #region Gameplay
         private void Callback_On_Fruit_Entity_Selected(FruitEntity selectedEntity)
         {
+
+            if (m_selectedEntityStack.Count > 0)
+                if (selectedEntity.ID != m_selectedEntityStack.Peek().ID)
+                    m_selectedEntityStack.Pop().UnSelectEntity();
             m_selectedEntityStack.Push(selectedEntity);
+
             if (m_selectedEntityStack.Count == 1 && (GlobalVariables.isFruitBombInAction || GlobalVariables.isTripleBombInAction))
             {
                 _HighlightThePossibleFruitsForFruitBomb(selectedEntity, true);
             }
+
             if (m_selectedEntityStack?.Count >= Konstants.MIN_FRUITS_TO_MATCH)
                 _CheckForMatch();
         }

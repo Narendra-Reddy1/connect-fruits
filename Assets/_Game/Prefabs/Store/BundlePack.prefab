@@ -420,7 +420,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4241775712410025199, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
       propertyPath: m_Name
-      value: PackPriceHolder
+      value: IAP Button
       objectReference: {fileID: 0}
     - target: {fileID: 6141523679297269068, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

@@ -3,8 +3,11 @@ using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
+using Cysharp.Threading.Tasks.Linq;
+using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine.UI;
-
 namespace BenStudios
 {
     public class InGameUIManager : MonoBehaviour
@@ -210,13 +213,13 @@ namespace BenStudios
             CanvasGroup cg = textObj.GetComponent<CanvasGroup>();
             textComponent.color = _GetRandomColor();
             textComponent.SetText(text);
-            textObj.transform.DOMove(m_praiseTxtsEndPose.position, 1).onComplete += () =>
+            textObj.transform.DOMove(m_praiseTxtsEndPose.position, .5f).onComplete += () =>
             {
                 textObj.transform.position = m_praiseTxtsStartPose.position;
                 textObj.SetActive(false);
                 cg.alpha = 1;
+                cg.DOFade(0, .25f).SetDelay(0.1f);
             };
-            cg.DOFade(0, 1f);
         }
         private void _UpdateStarsCountText(short totalStars)
         {
@@ -242,14 +245,17 @@ namespace BenStudios
         {
             GameObject item = ObjectPoolManager.instance.GetObjectFromPool(GOOD_MATCH_TEXT_POOL);
             item.SetActive(true);
-            _AnimateTxt(item, _GetRandomMatchTxt());
+            MyUtils.DelayedCallback(Random.Range(0.1f, .25f), _AnimateTxt, item, _GetRandomMatchTxt());
+
+
         }
+
         private void Callback_On_Row_Cleared()
         {
             GameObject item = ObjectPoolManager.instance.GetObjectFromPool(ROW_COL_CLEARED_TEXT_POOL);
             item.SetActive(true);
-            _AnimateTxt(item, ROW_CLEARED);
-
+            MyUtils.DelayedCallback(Random.Range(0.1f, .15f), _AnimateTxt, item, ROW_CLEARED);
+            //_AnimateTxt(item, ROW_CLEARED);
         }
         private void Callback_On_Column_Cleared()
         {

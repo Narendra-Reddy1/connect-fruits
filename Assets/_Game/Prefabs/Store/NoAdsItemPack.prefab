@@ -302,12 +302,16 @@ PrefabInstance:
       value: PackPriceHolder
       objectReference: {fileID: 0}
     - target: {fileID: 6141523679297269068, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6141523679297269068, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1701043396057650226}
     - target: {fileID: 6141523679297269068, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnClickNoAdsBtn
+      value: OnClickBuy
       objectReference: {fileID: 0}
     - target: {fileID: 6141523679297269068, guid: 373c32e85d836f543b27bfa00969012d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

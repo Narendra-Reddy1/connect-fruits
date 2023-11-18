@@ -47,7 +47,10 @@ public class DashboardScreen : ScreenBase
     {
         _StartGameplay();
     }
-
+    public void OnClickNoAdsBtn()
+    {
+        ScreenManager.Instance.ChangeScreen(Window.NoAdsPopup, ScreenType.Additive, false);
+    }
     public void OnClickStarChest()
     {
         ChestManager.Instance.StarChestReward();

@@ -122,8 +122,15 @@ public class MyUtils
     /// </summary>
     public static void DelayedCallback<type>(float delay, Action<type, type> callBack, type t1, type t2)
     {
-        _Delayed_Callback(delay, callBack, t1, t2).Forget();
+        _Delayed_Callback<type>(delay, callBack, t1, t2).Forget();
 
+    }
+    /// <summary>
+    /// For executing all Coroutines in which EXACTLY TWO argument needs to be passed, call this method
+    /// </summary>
+    public static void DelayedCallback<type1, type2>(float delay, Action<type1, type2> callBack, type1 t1, type2 t2)
+    {
+        _Delayed_Callback<type1, type2>(delay, callBack, t1, t2).Forget();
     }
 
 
@@ -133,6 +140,11 @@ public class MyUtils
         callBack();
     }
     private static async UniTaskVoid _Delayed_Callback<type>(float delay, Action<type, type> callBack, type t1, type t2)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(delay), ignoreTimeScale: false);
+        callBack(t1, t2);
+    }
+    private static async UniTaskVoid _Delayed_Callback<type1, type2>(float delay, Action<type1, type2> callBack, type1 t1, type2 t2)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(delay), ignoreTimeScale: false);
         callBack(t1, t2);

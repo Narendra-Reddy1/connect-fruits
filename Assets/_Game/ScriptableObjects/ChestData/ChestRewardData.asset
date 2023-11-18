@@ -21,66 +21,46 @@ MonoBehaviour:
   - rewardData:
     - resourceType: 0
       rewardCount: 10
-    - resourceType: 1
-      rewardCount: 1
   - rewardData:
     - resourceType: 0
       rewardCount: 10
-    - resourceType: 2
-      rewardCount: 1
-  - rewardData:
-    - resourceType: 0
-      rewardCount: 20
     - resourceType: 1
       rewardCount: 1
   - rewardData:
     - resourceType: 0
       rewardCount: 20
-    - resourceType: 2
-      rewardCount: 1
   - rewardData:
     - resourceType: 0
-      rewardCount: 10
-    - resourceType: 1
-      rewardCount: 1
+      rewardCount: 20
   - rewardData:
     - resourceType: 0
-      rewardCount: 10
+      rewardCount: 15
+  - rewardData:
     - resourceType: 1
       rewardCount: 1
   starReward:
   - rewardData:
     - resourceType: 0
-      rewardCount: 15
+      rewardCount: 10
     - resourceType: 1
       rewardCount: 1
   - rewardData:
-    - resourceType: 0
-      rewardCount: 15
     - resourceType: 2
       rewardCount: 1
+  - rewardData:
+    - resourceType: 0
+      rewardCount: 20
+  - rewardData:
+    - resourceType: 0
+      rewardCount: 20
   - rewardData:
     - resourceType: 0
       rewardCount: 20
     - resourceType: 1
       rewardCount: 1
   - rewardData:
-    - resourceType: 0
-      rewardCount: 20
-    - resourceType: 2
-      rewardCount: 1
-  - rewardData:
-    - resourceType: 0
-      rewardCount: 20
     - resourceType: 1
       rewardCount: 1
   - rewardData:
     - resourceType: 0
-      rewardCount: 30
-    - resourceType: 2
-      rewardCount: 1
-  - rewardData:
-    - resourceType: 0
-      rewardCount: 30
-    - resourceType: 1
-      rewardCount: 1
+      rewardCount: 25

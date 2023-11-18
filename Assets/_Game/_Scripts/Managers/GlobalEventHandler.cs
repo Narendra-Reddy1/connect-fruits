@@ -79,13 +79,15 @@ namespace BenStudios
 
         /////////////////////////////////////////////////////////////////////////
 
+        //ReturnType Callbacks
+
+
         //ADS
         public static Func<bool> Request_Interstitial_Availability = default;
         public static Func<bool> Request_Rewarded_Ad_Availability = default;
 
 
 
-        //ReturnType Callbacks
         public static Func<int> RequestRemainingTimer = default;
         public static Func<int> RequestTotalMatchedFruits = default;
         public static Func<Vector2Int> RequestClearedRowAndColumnCount = default;

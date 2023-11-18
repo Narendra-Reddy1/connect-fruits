@@ -502,6 +502,15 @@ MonoBehaviour:
           m_EditorAssetChanged: 0
         gameObject: {fileID: 0}
         IsObjectExist: 0
+    - Key: 19
+      Value:
+        assetRefObj:
+          m_AssetGUID: 89790c4e3a5ca23459dbd552db57332c
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+        gameObject: {fileID: 0}
+        IsObjectExist: 0
     - Key: 12
       Value:
         assetRefObj:

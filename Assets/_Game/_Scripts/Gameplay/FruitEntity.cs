@@ -57,9 +57,6 @@ namespace BenStudios
             {
                 m_isInVisibleEntity = isInvisibleCell;
                 m_entityCanvasGroup.alpha = 0;
-                //m_fruitImage.gameObject.SetActive(false);
-                //m_fruitOutline.gameObject.SetActive(false);
-                //m_gridCellBG.gameObject.SetActive(false);
                 m_isDestroyed = true;
                 return;
             }
@@ -95,19 +92,19 @@ namespace BenStudios
         {
             if (m_isDestroyed || m_isInVisibleEntity) return;
             if (m_isSelected)
-                UnSelectThisFruit();
+                UnSelectEntity();
             else
-                SelectThisFruit();
+                SelectEntity();
             GlobalEventHandler.RequestToPlaySFX?.Invoke(AudioID.FruitTileClickSFX);
         }
-        public void SelectThisFruit()
+        public void SelectEntity()
         {
             m_isSelected = true;
             CanShowSelectedEffect(true);
             //Trigger Fruit Selected Event here.
             GlobalEventHandler.OnFruitEntitySelected?.Invoke(this);
         }
-        public void UnSelectThisFruit()
+        public void UnSelectEntity()
         {
             m_isSelected = false;
             CanShowSelectedEffect(false);

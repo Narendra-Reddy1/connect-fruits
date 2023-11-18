@@ -121,11 +121,6 @@ namespace BenStudios
         #endregion Public Methods
 
         #region Private Methods
-        private void RecordEvent(AnalyticsEvent analyticsEvent, ParameterBlock parameterBlock)
-        {
-            GameAnalytics.NewDesignEvent(analyticsEvent.ToString(), parameterBlock.parameters);
-        }
-
         #endregion Private Methods
 
         #region Callbacks
@@ -142,7 +137,8 @@ namespace BenStudios
                     parameterBlock.parameters.Add("adType", adEventData.adFormat);
                     parameterBlock.parameters.Add("revenu", adEventData.revenue);
                     parameterBlock.parameters.Add("network", adEventData.networkName);
-                    parameterBlock.parameters.Add("revenuPrecision", adEventData.adRevenuePrecision);
+                    parameterBlock.parameters.Add("revenuPrecision", !string.IsNullOrEmpty(adEventData.adRevenuePrecision) ? adEventData.adRevenuePrecision : "0");
+
 
                     GameAnalytics.NewDesignEvent(nameof(AnalyticsEvent.AdRevenueReceived), parameterBlock.parameters);
                     break;
